@@ -85,9 +85,9 @@
             type:"POST",
             success:function(JSON){
                 if(JSON.toString()=="[ROLE_STUDENT]")
-                    window.location.href="/student/index";
+                    window.location.href="/studentpc/index";
                 if (JSON.toString()=="[ROLE_TEACHER]")
-                    window.location.href="/teacher/index";
+                    window.location.href="/teacherpc/index";
             },
             error:function (data) {
                 document.getElementById("tipBar").innerText="用户名或密码错误";

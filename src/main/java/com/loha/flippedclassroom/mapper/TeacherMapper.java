@@ -13,10 +13,9 @@ import org.springframework.stereotype.Repository;
 public interface TeacherMapper {
 
     /**
-     * fetch student
-     * @param teacherNum student's number
-     * @return a student
-     * @throws Exception
+     * fetch teacher
+     * @param teacherNum teacher's number
+     * @return a teacher
      */
     Teacher selectTeacherByNum(String teacherNum);
 }

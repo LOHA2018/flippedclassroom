@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loha.flippedclassroom.mapper.SeminarMapper">
+    <resultMap id="seminarMap" type="Seminar">
+        <id column="id" property="id"/>
+        <result column="course_id" property="courseId"/>
+        <result column="round_id" property="roundId"/>
+        <result column="seminar_name" property="seminarName"/>
+        <result column="introduction" property="introduction"/>
+        <result column="max_team" property="teamLimit"/>
+        <result column="is_visible" property="isVisible"/>
+        <result column="seminar_serial" property="seminarSerial"/>
+        <result column="enroll_start_time" property="enrollStartTime"/>
+        <result column="enroll_end_time" property="enrollEndTime"/>
+    </resultMap>
+
+    <select id="selectSeminarByRoundId" parameterType="Integer" resultMap="seminarMap">
+        select * from seminar where round_id=#{value}
+    </select>
+
+
+</mapper>
