@@ -14,4 +14,8 @@
         select * from klass where course_id=#{value}
     </select>
 
+    <select id="selectKlassById" parameterType="Integer" resultMap="klassMap">
+        select * from klass where id=#{value}
+    </select>
+
 </mapper>

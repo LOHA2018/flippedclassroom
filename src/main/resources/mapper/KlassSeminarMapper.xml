@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loha.flippedclassroom.mapper.KlassSeminarMapper">
+    <resultMap id="klassSeminarMap" type="KlassSeminar">
+        <id column="id" property="id"/>
+        <result column="klass_id" property="classId"/>
+        <result column="seminar_id" property="seminarId"/>
+        <result column="report_ddl" property="reportDdl"/>
+        <result column="status" property="status"/>
+        <association property="klass" select="selectKlassById" column="klass_id"></association>
+        <association property="seminar" select="selectSeminarById" column="seminar_id"></association>
+    </resultMap>
+
+    <select id="selectKlassSeminarById" parameterType="Integer" resultMap="klassSeminarMap">
+        select * from klass_seminar where id=#{value}
+    </select>
+
+
+</mapper>

@@ -15,10 +15,10 @@ import java.util.List;
 public interface SeminarMapper {
 
     /**
-     * fetch a round's seminar
-     * @param roundId round's Id
-     * @return a List of seminar
+     * fetch a seminar
+     * @param seminarId round's Id
+     * @return a seminar
      * @throws Exception
      */
-    List<Seminar> selectSeminarByRoundId(Integer roundId) throws Exception;
+    Seminar selectSeminarById(Integer seminarId) throws Exception;
 }

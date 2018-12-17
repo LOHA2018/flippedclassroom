@@ -21,4 +21,12 @@ public interface KlassMapper {
      * @throws Exception
      */
     List<Klass> selectKlassByCourseId(Integer courseId) throws Exception;
+
+    /**
+     * fetch classe by id
+     * @param klassId klass's id
+     * @return a Klass
+     * @throws Exception
+     */
+    Klass selectKlassById(Integer klassId) throws Exception;
 }

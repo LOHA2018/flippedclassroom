@@ -14,8 +14,8 @@
         <result column="enroll_end_time" property="enrollEndTime"/>
     </resultMap>
 
-    <select id="selectSeminarByRoundId" parameterType="Integer" resultMap="seminarMap">
-        select * from seminar where round_id=#{value}
+    <select id="selectSeminarById" parameterType="Integer" resultMap="seminarMap">
+        select * from seminar where id=#{value}
     </select>
 
 

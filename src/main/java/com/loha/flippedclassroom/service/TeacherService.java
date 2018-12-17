@@ -2,10 +2,7 @@ package com.loha.flippedclassroom.service;
 
 import com.loha.flippedclassroom.dao.CourseDao;
 import com.loha.flippedclassroom.dao.TeacherDao;
-import com.loha.flippedclassroom.entity.Course;
-import com.loha.flippedclassroom.entity.Klass;
-import com.loha.flippedclassroom.entity.Round;
-import com.loha.flippedclassroom.entity.Teacher;
+import com.loha.flippedclassroom.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -52,5 +49,9 @@ public class TeacherService {
 
     public List<Round> getRoundAndSeminar(Integer courseId) throws Exception{
         return courseDao.getRoundAndSeminar(courseId);
+    }
+
+    public List<List<SeminarScore>> getTeamAndScore(Integer courseId) throws Exception{
+        return courseDao.getTeamAndScore(courseId);
     }
 }

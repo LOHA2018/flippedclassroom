@@ -11,4 +11,13 @@
         <result column="status" property="status"/>
     </resultMap>
 
+    <select id="selectTeamById" parameterType="Integer" resultMap="teamMap">
+        select * from team where id=#{value}
+    </select>
+
+    <select id="selectTeamByCourseId" parameterType="Integer" resultMap="teamMap">
+        select * from team where course_id=#{value}
+    </select>
+
+
 </mapper>
