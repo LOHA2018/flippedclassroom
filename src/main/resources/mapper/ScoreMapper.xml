@@ -8,7 +8,6 @@
         <result column="presentaton_score" property="presentationScore"/>
         <result column="question_score" property="questionScore"/>
         <result column="report_score" property="reportScore"/>
-
         <association property="team" select="com.loha.flippedclassroom.mapper.TeamMapper.selectTeamById" column="team_id"></association>
     </resultMap>
 
@@ -19,7 +18,7 @@
         <result column="presentation_score" property="presentationScore"/>
         <result column="question_score" property="questionScore"/>
         <result column="report_score" property="reportScore"/>
-
+        <association property="round" select="com.loha.flippedclassroom.mapper.RoundMapper.selectRoundById" column="round_id"></association>
         <association property="team" select="com.loha.flippedclassroom.mapper.TeamMapper.selectTeamById" column="team_id"></association>
     </resultMap>
     
@@ -27,8 +26,9 @@
         select * from round_score where round_id=#{roundId} and team_id=#{teamId}
     </select>
 
-    <select id="selectSeminarScore" parameterType="Map" resultMap="SeminarScore">
-        select seminar_score.* from seminar_score,klass_seminar
+    <select id="selectSeminarScore" parameterType="Map" resultMap="seminarScoreMap">
+        select seminar_score.*
+        from seminar_score,klass_seminar
         where klass_id=#{klassId} and seminar_id=#{seminarId}
         and id=klass_seminar_id and team_id=#{teamId}
     </select>

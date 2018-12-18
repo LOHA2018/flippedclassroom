@@ -58,7 +58,7 @@
                     <ul class="nav navbar-nav navbar-right pull-right">
                         <li class="dropdown">
                             <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img
-                                    src="/img/users/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
+                                    src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
                                 <li><a><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
                                 <li><a><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
@@ -94,44 +94,44 @@
 
 
 
-                            <#list scoreList as list>
-                                <#list list?keys as map1>
+                            <#list scoreList as list1>
+
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion-test" href="#collapse${map1}"
+                                        <a data-toggle="collapse" data-parent="#accordion-test" href="#collapse${list1.roundScore.round.roundSerial}"
                                            class="collapsed">
-                                            第${roundList.roundSerial}轮
+                                            第${list1.roundScore.round.roundSerial}轮——总分:${list1.roundScore.totalScore}
                                         </a>
                                     </h4>
                                 </div>
 
 
-                                <div id="collapse${rouundList.roundId}" class="panel-collapse collapse">
+                                <div id="collapse${list1.roundScore.round.roundSerial}" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <div class="panel-group panel-group-joined" id="accordion-test1">
                                             <div class="panel panel-default">
 
 
 
-                                            <#list roundList.seminarList as Seminar>
+                                            <#list list1.seminarScores as seminarScoreList>
 
 
                                                 <div class="panel-heading">
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" data-parent="#accordion-test1"
-                                                           href="#collapse${seminar.seminarId}" class="collapsed">
-                                                            <label>用例分析</label>
+                                                           href="#collapse${seminarScoreList.seminar.id}" class="collapsed">
+                                                            <label>${seminarScoreList.seminar.seminarName}</label>
                                                         </a>
                                                     </h4>
                                                 </div>
-                                                <div id="collapse${seminar.seminarId}" class="panel-collapse collapse">
+                                                <div id="collapse${seminarScoreList.seminar.id}" class="panel-collapse collapse">
                                                     <div class="panel-body">
                                                         <table class="table" style="border: none">
                                                             <tbody>
                                                             <tr>
-                                                                <td>展示：${seminar.presentatonScore}</td>
-                                                                <td>提问：${seminar.questionScore}</td>
-                                                                <td>报告：${seminar.reportScore}</td>
+                                                                <td>展示：${seminarScoreList.presentationScore}</td>
+                                                                <td>提问：${seminarScoreList.questionScore}</td>
+                                                                <td>报告：${seminarScoreList.reportScore}</td>
                                                             </tr>
                                                             </tbody>
                                                         </table>
@@ -142,7 +142,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </#list>
 
                         </div>

@@ -3,7 +3,7 @@
 <mapper namespace="com.loha.flippedclassroom.mapper.KlassSeminarMapper">
     <resultMap id="klassSeminarMap" type="KlassSeminar">
         <id column="id" property="id"/>
-        <result column="klass_id" property="classId"/>
+        <result column="klass_id" property="klassId"/>
         <result column="seminar_id" property="seminarId"/>
         <result column="report_ddl" property="reportDdl"/>
         <result column="status" property="status"/>

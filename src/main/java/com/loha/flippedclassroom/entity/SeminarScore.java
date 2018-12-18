@@ -21,4 +21,5 @@ public class SeminarScore {
     private BigDecimal reportScore;
 
     private Team team;
+    private Seminar seminar;
 }

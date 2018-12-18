@@ -24,6 +24,4 @@ public class Seminar {
     private Integer seminarSerial;
     private Date enrollStartTime;
     private Date enrollEndTime;
-
-    private Round round;
 }

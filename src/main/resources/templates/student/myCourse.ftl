@@ -109,8 +109,7 @@
                                         <tr>
                                             <td>
                                                 <form action="/student/course/info" method="post">
-                                                    <input type="hidden" name="courseId"
-                                                           value=${list.courseId}>
+                                                    <input type="hidden" name="courseId" value=${list.courseId}>
                                                     <button style="border: transparent"
                                                             class="btn-lg btn-default btn-block  waves-effect waves-light "
                                                             type="submit">
@@ -123,12 +122,9 @@
                                         <tr>
                                             <td>
                                                 <form action="/student/course/score" method="post">
-                                                    <input type="hidden" name="courseId"
-                                                           value=${list.courseId}>
-                                                    <input type="hidden" name="klassId"
-                                                           value=${list.klassId}>
-                                                    <button style="border: transparent"
-                                                            class="  btn-lg btn-default btn-block  waves-effect waves-light ">
+                                                    <input type="hidden" name="courseId" value=${list.courseId}>
+                                                    <input type="hidden" name="klassId" value=${list.klassId}>
+                                                    <button style="border: transparent" class="  btn-lg btn-default btn-block  waves-effect waves-light " type="submit">
                                                         我的成绩
                                                     </button>
                                                 </form>

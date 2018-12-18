@@ -4,6 +4,7 @@ import com.loha.flippedclassroom.dao.CourseDao;
 import com.loha.flippedclassroom.dao.ScoreDao;
 import com.loha.flippedclassroom.dao.StudentDao;
 import com.loha.flippedclassroom.entity.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,7 @@ import java.util.Map;
  * @date 2018/12/16
  */
 @Service
+@Slf4j
 public class StudentService {
     private final StudentDao studentDao;
     private final CourseDao courseDao;
@@ -69,7 +71,7 @@ public class StudentService {
         return courseDao.getCourseById(courseId);
     }
 
-    public List<Map> getMyScore(Integer klassId, Integer courseId, Integer studentId) throws Exception{
+    public List<ScoreInfo> getMyScore(Integer klassId, Integer courseId, Integer studentId) throws Exception{
         //获得所有轮(同时也获得了所有的讨论课)，对每一轮遍历
         List<Round> rounds=courseDao.getRoundAndSeminar(courseId);
         //获得当前所在的team
@@ -78,7 +80,7 @@ public class StudentService {
         klassStudent.setStudentId(studentId);
         Team team=studentDao.getTeamByKlassAndStudentId(klassStudent);
 
-        List<Map> list=new LinkedList<>();
+        List<ScoreInfo> list=new LinkedList<>();
         for(Round round:rounds){
             list.add(scoreDao.getOneTeamScoreUnderOneRound(klassId,round,team.getId()));
         }

@@ -57,7 +57,6 @@ public class TeacherPcController {
     @GetMapping(value = "/course/exportScore")
     public String exportScore(Integer courseId,Model model) throws Exception{
         model.addAttribute("courseName",teacherService.getCourseById(courseId).getCourseName());
-        model.addAttribute("teamAndSeminarList",teacherService.getTeamAndScore(courseId));
         return "pc/exportScore";
     }
 
