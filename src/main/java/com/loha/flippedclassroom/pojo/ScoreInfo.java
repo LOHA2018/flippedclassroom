@@ -1,5 +1,7 @@
-package com.loha.flippedclassroom.entity;
+package com.loha.flippedclassroom.pojo;
 
+import com.loha.flippedclassroom.entity.RoundScore;
+import com.loha.flippedclassroom.entity.SeminarScore;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -4,6 +4,7 @@ import com.loha.flippedclassroom.entity.*;
 import com.loha.flippedclassroom.mapper.KlassSeminarMapper;
 import com.loha.flippedclassroom.mapper.RoundMapper;
 import com.loha.flippedclassroom.mapper.ScoreMapper;
+import com.loha.flippedclassroom.pojo.ScoreInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

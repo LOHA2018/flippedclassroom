@@ -98,7 +98,7 @@
 
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion-test" href="#collapse${list1.roundScore.round.roundSerial}"
+                                        <a data-toggle="collapse" data-parent="#accordion-test" href="#round${list1.roundScore.round.roundSerial}"
                                            class="collapsed">
                                             第${list1.roundScore.round.roundSerial}轮——总分:${list1.roundScore.totalScore}
                                         </a>
@@ -106,7 +106,7 @@
                                 </div>
 
 
-                                <div id="collapse${list1.roundScore.round.roundSerial}" class="panel-collapse collapse">
+                                <div id="round${list1.roundScore.round.roundSerial}" class="panel-collapse collapse">
                                     <div class="panel-body">
                                         <div class="panel-group panel-group-joined" id="accordion-test1">
                                             <div class="panel panel-default">
@@ -119,19 +119,24 @@
                                                 <div class="panel-heading">
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" data-parent="#accordion-test1"
-                                                           href="#collapse${seminarScoreList.seminar.id}" class="collapsed">
+                                                           href="#seminar${seminarScoreList.seminar.id}" class="collapsed">
                                                             <label>${seminarScoreList.seminar.seminarName}</label>
                                                         </a>
                                                     </h4>
                                                 </div>
-                                                <div id="collapse${seminarScoreList.seminar.id}" class="panel-collapse collapse">
+                                                <div id="seminar${seminarScoreList.seminar.id}" class="panel-collapse collapse">
                                                     <div class="panel-body">
                                                         <table class="table" style="border: none">
                                                             <tbody>
                                                             <tr>
-                                                                <td>展示：${seminarScoreList.presentationScore}</td>
-                                                                <td>提问：${seminarScoreList.questionScore}</td>
-                                                                <td>报告：${seminarScoreList.reportScore}</td>
+                                                                <td>展示:${seminarScoreList.presentationScore}</td>
+                                                                <td>提问:${seminarScoreList.questionScore}</td>
+                                                                <td>报告:${seminarScoreList.reportScore}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td>该次讨论课总分:${seminarScoreList.totalScore}</td>
+                                                                <td></td>
                                                             </tr>
                                                             </tbody>
                                                         </table>
@@ -154,8 +159,8 @@
     <!-- END wrapper -->
     <!-- jQuery  -->
 </div>
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 
 </body>
 </html>
