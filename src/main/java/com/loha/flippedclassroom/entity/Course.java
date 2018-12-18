@@ -25,4 +25,6 @@ public class Course {
     private Date teamEndTime;
     private Integer teamMainCourseId;
     private Integer seminarMainCourseId;
+
+    private Teacher teacher;
 }

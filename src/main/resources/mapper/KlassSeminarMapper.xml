@@ -7,8 +7,8 @@
         <result column="seminar_id" property="seminarId"/>
         <result column="report_ddl" property="reportDdl"/>
         <result column="status" property="status"/>
-        <association property="klass" select="selectKlassById" column="klass_id"></association>
-        <association property="seminar" select="selectSeminarById" column="seminar_id"></association>
+        <association property="klass" select="com.loha.flippedclassroom.mapper.KlassMapper.selectKlassById" column="klass_id"></association>
+        <association property="seminar" select="com.loha.flippedclassroom.mapper.SeminarMapper.selectSeminarById" column="seminar_id"></association>
     </resultMap>
 
     <select id="selectKlassSeminarById" parameterType="Integer" resultMap="klassSeminarMap">

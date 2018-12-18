@@ -41,7 +41,7 @@ public class TeacherPcController {
     }
 
     @GetMapping(value = "/course/importStudent")
-    public String importStudent(Integer courseId,Model model) throws Exception{
+    public String importStudentPage(Integer courseId,Model model) throws Exception{
         model.addAttribute("courseName",teacherService.getCourseById(courseId).getCourseName());
         model.addAttribute("klassList",teacherService.getKlassByCourseId(courseId));
         return "pc/importStudent";

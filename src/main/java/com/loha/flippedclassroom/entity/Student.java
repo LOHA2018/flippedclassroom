@@ -18,5 +18,4 @@ public class Student {
     private boolean isActive;
     private String studentName;
     private String email;
-    private String sex;
 }

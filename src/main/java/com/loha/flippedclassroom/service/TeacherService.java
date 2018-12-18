@@ -50,8 +50,4 @@ public class TeacherService {
     public List<Round> getRoundAndSeminar(Integer courseId) throws Exception{
         return courseDao.getRoundAndSeminar(courseId);
     }
-
-    public List<List<SeminarScore>> getTeamAndScore(Integer courseId) throws Exception{
-        return courseDao.getTeamAndScore(courseId);
-    }
 }

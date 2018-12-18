@@ -50,9 +50,9 @@
                                     <label class="control-label col-lg-2 ">轮数</label>
                                     <div class="col-lg-10">
                                         <select class="select2 form-control" onclick="findGrade()">
-                                            <#list roundList as r>
-                                                <option>${r}</option>
-                                            </#list>
+                                            <#--<#list roundList as r>-->
+                                                <#--<option>${r}</option>-->
+                                            <#--</#list>-->
                                         </select>
 
                                     </div>
@@ -78,23 +78,17 @@
                                                 </thead>
                                                 <tbody>
 
-                                                <#list roundList as list>
+                                                <#list teamAndSeminarList as list>
+                                                    <#list list as list2>
                                                 <tr>
-                                                    <td rowspan="2">1</td>
-                                                    <td>fsd</td>
-                                                    <td>Alex</td>
-                                                    <td>Alex</td>
-                                                    <td>Alex</td>
-                                                    <td>Alex</td>
+                                                    <td>${list2.team.teamSerial}</td>
+                                                    <td>${list2.klassSeminar.seminar.seminarName}</td>
+                                                    <td>${list2.presentationScore}</td>
+                                                    <td>${list2.questionScore}</td>
+                                                    <td>${list2.reportScore}</td>
+                                                    <td>${list2.totalScore}</td>
                                                 </tr>
-
-                                                <tr>
-                                                    <td>${list}</td>
-                                                    <td>fsd</td>
-                                                    <td>Alex</td>
-                                                    <td>Alex</td>
-                                                    <td>Alex</td>
-                                                </tr>
+                                                    </#list >
                                                 </#list>
 
 

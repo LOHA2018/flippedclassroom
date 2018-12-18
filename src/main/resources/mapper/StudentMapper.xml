@@ -8,11 +8,26 @@
         <result column="student_name" property="studentName"/>
         <result column="is_active" property="isActive"/>
         <result column="email" property="email"/>
-        <result column="sex" property="sex"/>
     </resultMap>
 
     <select id="selectStudentByNum" parameterType="String" resultMap="studentMap">
         select * from student where account=#{studentNum}
     </select>
+
+    <select id="selectStudentById" parameterType="Integer" resultMap="studentMap">
+        select * from student where id=#{value}
+    </select>
+
+    <update id="updatePwdAndEmailById" parameterType="Student">
+        update student set password=#{password},email=#{email},is_active=1 where id=#{id}
+    </update>
+
+    <update id="modifyPwdById" parameterType="Student">
+        update student set password=#{password} where id=#{id}
+    </update>
+
+    <update id="modifyEmailById" parameterType="Student">
+        update student set email=#{email} where id=#{id}
+    </update>
 
 </mapper>

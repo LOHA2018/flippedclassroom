@@ -19,7 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * @date 2018/12/15
  */
 @Configuration
-@Order(2)
+@Order(1)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsServiceImpl userDetailsServiceImp;
     private final IdentityCheckSuccessHandler identityCheckSuccessHandler;
@@ -49,7 +49,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/css/**","/static/**", "/js/**","/img/**","/fonts/**").permitAll()
+                .antMatchers("/css/**","/static/**", "/js/**","/img/**","/fonts/**","/plugins/**").permitAll()
+                .antMatchers("/login").permitAll()
+                .anyRequest()
+                .authenticated()
                 .antMatchers( "/student").hasRole("STUDENT")
                 .antMatchers("/teacher").hasRole("TEACHER")
                 .and().formLogin().loginPage("/login")

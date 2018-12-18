@@ -20,7 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * @date 2018/12/15
  */
 @Configuration
-@Order(1)
+@Order(2)
 public class PcWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsServiceImpl userDetailsServiceImp;
     private final IdentityCheckSuccessHandler identityCheckSuccessHandler;

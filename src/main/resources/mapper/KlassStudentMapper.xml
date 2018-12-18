@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loha.flippedclassroom.mapper.KlassStudentMapper">
+    <resultMap id="klassStudentMap" type="KlassStudent">
+        <id column="klass_id" property="klassId"/>
+        <id column="student_id" property="studentId"/>
+        <result column="course_id" property="courseId"/>
+        <result column="teamId" property="teamId"/>
+        <association property="klass" select="com.loha.flippedclassroom.mapper.KlassMapper.selectKlassById" column="klass_id"></association>
+        <association property="course" select="com.loha.flippedclassroom.mapper.CourseMapper.selectCourseById" column="course_id"></association>
+        <association property="team" select="com.loha.flippedclassroom.mapper.TeamMapper.selectTeamById" column="team_id"></association>
+    </resultMap>
+
+    <select id="selectKlassStudentByStudentId" parameterType="Integer" resultMap="klassStudentMap">
+        select * from klass_student where student_id=#{value}
+    </select>
+
+    <select id="selectKlassStudentByKlassStudentId" parameterType="KlassStudent" resultMap="klassStudentMap">
+        select * from klass_student where student_id=#{studentId} and klass_id=#{klassId}
+    </select>
+
+
+</mapper>

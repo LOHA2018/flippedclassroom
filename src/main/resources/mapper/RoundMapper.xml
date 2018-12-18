@@ -17,6 +17,8 @@
         select * from round where course_id=#{value}
     </select>
 
-
+    <select id="selectRoundById" parameterType="Integer" resultMap="roundMap">
+        select * from round where id=#{value}
+    </select>
 
 </mapper>

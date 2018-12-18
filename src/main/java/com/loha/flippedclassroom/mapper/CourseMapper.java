@@ -24,9 +24,9 @@ public interface CourseMapper {
 
     /**
      * fetch course
-     * @param id course's id
+     * @param courseId course's id
      * @return Course
      * @throws Exception
      */
-    Course selectCourseById(Integer id) throws Exception;
+    Course selectCourseById(Integer courseId) throws Exception;
 }

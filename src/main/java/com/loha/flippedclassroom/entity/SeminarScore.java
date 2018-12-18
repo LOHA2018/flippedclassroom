@@ -21,5 +21,4 @@ public class SeminarScore {
     private BigDecimal reportScore;
 
     private Team team;
-    private KlassSeminar klassSeminar;
 }

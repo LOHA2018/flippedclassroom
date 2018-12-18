@@ -16,9 +16,17 @@ public interface SeminarMapper {
 
     /**
      * fetch a seminar
-     * @param seminarId round's Id
+     * @param seminarId seminar's Id
      * @return a seminar
      * @throws Exception
      */
     Seminar selectSeminarById(Integer seminarId) throws Exception;
+
+    /**
+     * fetch a seminar
+     * @param roundId round's Id
+     * @return a seminar
+     * @throws Exception
+     */
+    Seminar selectSeminarByRoundId(Integer roundId) throws Exception;
 }

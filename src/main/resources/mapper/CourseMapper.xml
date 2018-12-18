@@ -13,6 +13,7 @@
         <result column="team_end_time" property="teamEndTime"/>
         <result column="team_main_course_id" property="teamMainCourseId"/>
         <result column="seminar_main_course_id" property="seminarMainCourseId"/>
+        <association property="teacher" select="com.loha.flippedclassroom.mapper.TeacherMapper.selectTeacherById" column="teacher_id"></association>
     </resultMap>
 
     <select id="selectCourseByTeacherId" parameterType="Integer" resultMap="courseMap">

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loha.flippedclassroom.mapper.ScoreMapper">
+    <resultMap id="seminarScoreMap" type="SeminarScore">
+        <id column="klass_seminar_id" property="klassSeminarId"/>
+        <id column="team_id" property="teamId"/>
+        <result column="total_score" property="totalScore"/>
+        <result column="presentaton_score" property="presentationScore"/>
+        <result column="question_score" property="questionScore"/>
+        <result column="report_score" property="reportScore"/>
+
+        <association property="team" select="com.loha.flippedclassroom.mapper.TeamMapper.selectTeamById" column="team_id"></association>
+    </resultMap>
+
+    <resultMap id="roundScoreMap" type="RoundScore">
+        <id column="round_id" property="roundId"/>
+        <id column="team_id" property="teamId"/>
+        <result column="total_score" property="totalScore"/>
+        <result column="presentation_score" property="presentationScore"/>
+        <result column="question_score" property="questionScore"/>
+        <result column="report_score" property="reportScore"/>
+
+        <association property="team" select="com.loha.flippedclassroom.mapper.TeamMapper.selectTeamById" column="team_id"></association>
+    </resultMap>
+    
+    <select id="selectRoundScore" parameterType="RoundScore" resultMap="roundScoreMap">
+        select * from round_score where round_id=#{roundId} and team_id=#{teamId}
+    </select>
+
+    <select id="selectSeminarScore" parameterType="Map" resultMap="SeminarScore">
+        select seminar_score.* from seminar_score,klass_seminar
+        where klass_id=#{klassId} and seminar_id=#{seminarId}
+        and id=klass_seminar_id and team_id=#{teamId}
+    </select>
+
+
+</mapper>
