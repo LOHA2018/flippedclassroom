@@ -50,4 +50,10 @@ public class TeacherService {
     public List<Round> getRoundAndSeminar(Integer courseId) throws Exception{
         return courseDao.getRoundAndSeminar(courseId);
     }
+
+
+    public  void activateTeacher(String password, Integer teacherId) throws Exception{
+        Teacher teacher=teacherDao.getTeacherById(teacherId);
+        teacher.setPassword(password);
+    }
 }

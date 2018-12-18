@@ -18,4 +18,14 @@ public interface TeacherMapper {
      * @return a teacher
      */
     Teacher selectTeacherByNum(String teacherNum);
+
+
+    /**
+     * 根据id查询教师信息
+     * @param teacherId 教师的教工号
+     * @return teacher
+     * @throws Exception
+     */
+    Teacher selectTeacherById(Integer teacherId) throws Exception;
+
 }

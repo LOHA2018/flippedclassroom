@@ -48,4 +48,8 @@ public class TeacherDao {
         return teacherMapper.selectTeacherByNum(teacherNum);
     }
 
+    public Teacher getTeacherById(Integer teacherId) throws Exception{
+        return teacherMapper.selectTeacherById(teacherId);
+    }
+
 }
