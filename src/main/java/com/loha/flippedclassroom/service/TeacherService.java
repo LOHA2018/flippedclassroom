@@ -55,5 +55,10 @@ public class TeacherService {
     public  void activateTeacher(String password, Integer teacherId) throws Exception{
         Teacher teacher=teacherDao.getTeacherById(teacherId);
         teacher.setPassword(password);
+        teacherDao.activateTeacher(teacher);
+    }
+
+    public Teacher getTeacherById(Integer teacherId) throws Exception{
+        return teacherDao.getTeacherById(teacherId);
     }
 }

@@ -58,9 +58,9 @@
                             <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img
                                     src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
-                                <li><a ><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
-                                <li><a><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
-                            </ul>
+                                <li><a><h4><i class="md md-home"></i>&nbsp;待办</h4></a></li>
+                                <li><a><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
+                                <li><a><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li> </ul>
                         </li>
                     </ul>
                 </div>

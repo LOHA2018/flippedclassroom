@@ -18,4 +18,8 @@
         select * from teacher where id=#{value}
     </select>
 
+    <update id="updatePwdById" parameterType="Teacher">
+        update teacher set password=#{password},is_active=1 where id=#{id}
+    </update>
+
 </mapper>

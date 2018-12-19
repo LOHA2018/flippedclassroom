@@ -27,6 +27,7 @@ public class TeacherDao {
         this.teacherMapper=teacherMapper;
     }
 
+
     /**
      * 根据id获取教师所有课程信息
      *
@@ -48,8 +49,12 @@ public class TeacherDao {
         return teacherMapper.selectTeacherByNum(teacherNum);
     }
 
+
     public Teacher getTeacherById(Integer teacherId) throws Exception{
         return teacherMapper.selectTeacherById(teacherId);
     }
 
+    public void activateTeacher(Teacher teacher) throws  Exception{
+        teacherMapper.updatePwdById(teacher);
+    }
 }

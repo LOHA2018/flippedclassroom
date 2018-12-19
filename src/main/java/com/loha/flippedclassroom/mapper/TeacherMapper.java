@@ -6,8 +6,8 @@ import org.springframework.stereotype.Repository;
 /**
  * 与教师相关的mapper
  *
- * @author zhoujian
- * @date 2018/12/11
+ * @author sulingqi
+ * @date 2018/12/19
  */
 @Repository
 public interface TeacherMapper {
@@ -28,4 +28,11 @@ public interface TeacherMapper {
      */
     Teacher selectTeacherById(Integer teacherId) throws Exception;
 
+
+    /**
+     * 激活教师账号并修改密码
+     * @param  teacher Object
+     * @throws Exception
+     */
+    void updatePwdById(Teacher teacher) throws Exception;
 }

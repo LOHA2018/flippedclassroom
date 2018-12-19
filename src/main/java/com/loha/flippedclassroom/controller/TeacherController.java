@@ -31,7 +31,7 @@ public class TeacherController {
 
     @PostMapping(value = "/activation")
     @ResponseBody
-    public ResponseEntity activateStudent(@ModelAttribute("curTeacherId") Integer teacherId, String password) throws Exception{
+    public ResponseEntity activateTeacher(@ModelAttribute("curTeacherId") Integer teacherId, String password) throws Exception{
         teacherService.activateTeacher(password,teacherId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -43,11 +43,22 @@ public class TeacherController {
         if(!teacher.isActive()){
             return "redirect:/teacher/activation";
         }
+
         model.addAttribute("teacher",teacher);
         return "teacher/index";
-
-
     }
+
+    @GetMapping(value = "/setting")
+    public String getSetting(@ModelAttribute("curTeacherId") Integer teacherId,Model model)throws Exception{
+        model.addAttribute("teacher",teacherService.getTeacherById(teacherId));
+        return "teacher/settings";
+    }
+
+    @GetMapping(value = "/setting/modifyEmail")
+    public String modifyEmailPage(){
+        return "teacher/modifyEmailPage";
+    }
+
 
 
 
