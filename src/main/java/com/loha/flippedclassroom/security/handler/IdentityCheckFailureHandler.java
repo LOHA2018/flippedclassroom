@@ -20,6 +20,7 @@ import java.io.IOException;
 public class IdentityCheckFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication failed.");
+        //httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authentication failed.");
+        httpServletResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }

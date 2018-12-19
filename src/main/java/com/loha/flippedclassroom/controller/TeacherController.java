@@ -168,4 +168,71 @@ public class TeacherController {
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
     **/
+
+
+    @Autowired
+    private TeacherService teacherService;
+
+    @GetMapping(value = "/activation")
+    public String activation(){
+        return "teacher/activation";
+    }
+
+    @PostMapping(value = "/activation")
+    @ResponseBody
+    public ResponseEntity activateTeacher(@ModelAttribute("curTeacherId") Integer teacherId, String password) throws Exception{
+        teacherService.activateTeacher(password,teacherId);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping(value="/index")
+    public String teacherIndex(Model model){
+        Teacher teacher=teacherService.getCurTeacher();
+        model.addAttribute("curTeacherId",teacher.getId());
+        if(!teacher.isActive()){
+            return "redirect:/teacher/activation";
+        }
+
+        model.addAttribute("teacher",teacher);
+        return "teacher/index";
+    }
+
+    @GetMapping(value = "/setting")
+    public String getSetting(@ModelAttribute("curTeacherId") Integer teacherId,Model model)throws Exception{
+        model.addAttribute("teacher",teacherService.getTeacherById(teacherId));
+        return "teacher/settings";
+    }
+
+    @GetMapping(value = "/setting/modifyEmail")
+    public String modifyEmailPage(){
+        return "teacher/modifyEmailPage";
+    }
+
+    @PostMapping(value = "/setting/modifyEmail")
+    @ResponseBody
+    public ResponseEntity modifyEmail(@ModelAttribute("curTeacherId") Integer teacherId,String email) throws Exception{
+        teacherService.modifyTeacherEmail(teacherId,email);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping(value = "/setting/modifyPwd")
+    public String modifyPwdPage(){
+        return "teacher/modifyPwdPage";
+    }
+
+    @PostMapping(value = "/setting/modifyPwd")
+    @ResponseBody
+    public ResponseEntity modifyPwd(@ModelAttribute("curTeacherId") Integer teacherId,String password) throws Exception{
+        teacherService.modifyTeacherPwdById(teacherId,password);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+
+
+
+
+
+
+
+
 }
