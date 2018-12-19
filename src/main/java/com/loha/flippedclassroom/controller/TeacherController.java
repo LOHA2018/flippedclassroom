@@ -59,6 +59,13 @@ public class TeacherController {
         return "teacher/modifyEmailPage";
     }
 
+    @PostMapping(value = "/setting/modifyEmail")
+    @ResponseBody
+    public ResponseEntity modifyEmail(@ModelAttribute("curTeacherId") Integer teacherId,String email) throws Exception{
+        teacherService.modifyTeacherEmail(teacherId,email);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
 
 
 

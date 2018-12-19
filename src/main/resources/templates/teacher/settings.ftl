@@ -6,12 +6,11 @@
     <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
     <meta name="author" content="Coderthemes">
 
-    <link rel="shortcut icon" href="/img/favicon_1.ico">
+    <link rel="shortcut icon" href="img/favicon_1.ico">
 
-    <title>主页</title>
+    <title>账户与设置</title>
 
     <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
-
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/core.css" rel="stylesheet" type="text/css">
     <link href="/css/icons.css" rel="stylesheet" type="text/css">
@@ -29,6 +28,8 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+
+
 </head>
 
 
@@ -42,15 +43,17 @@
         <div class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="">
-                    <!--<div class="pull-left">-->
-                    <!--<button class="button-menu-mobile">-->
-                    <!--<div class="glyphicon glyphicon-menu-left"></div>-->
-                    <!--</button>-->
+                    <div class="pull-left">
+                        <form action="/teacher/index" method="get">
+                            <button  class="button-menu-mobile">
+                                <div class="glyphicon glyphicon-menu-left"></div>
+                            </button>
+                        </form>
 
-                    <!--</div>-->
+                    </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                            我的主页
+                            账户与设置
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
@@ -58,9 +61,10 @@
                             <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img
                                     src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
-                                <li><a><h4><i class="md md-home"></i>&nbsp;待办</h4></a></li>
+                                <li><a><h4><i class="md md-info"></i>&nbsp;待办</h4></a></li>
                                 <li><a><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
-                                <li><a><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li> </ul>
+                                <li><a><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
@@ -79,80 +83,79 @@
 
     <div class="content">
         <div class="container">
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default ">
-
                         <div class="panel-body">
-
-                            <div class="user-details">
-                                <div class="pull-left">
-                                    <img src="/img/avatar-1.jpg" alt="" class="thumb-md img-circle">
-                                </div>
-                                <div class="user-info">
-                                    <p><strong>${teacher.teacherName}</strong></p>
-                                    <p class="text-muted m-0">${teacher.account}</p>
-                                </div>
-                            </div>
 
                             <table class="table">
 
                                 <tbody>
                                 <tr>
+                                    <td><p>姓名：${teacher.teacherName}</p></td>
 
-                                    <td>
-                                        <form action="/teacher/course" method="get">
-                                            <button style="border: transparent"
-                                                    class=" btn btn-lg btn-default btn-block  waves-effect waves-light ">
-                                                我的课程
+                                </tr>
+                                <tr>
+                                    <td><p>教工号：${teacher.account}</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p>联系方式（邮箱）：${teacher.email}
+                                        <form action="/teacher/setting/modifyEmail" method="get">
+                                            <button class="md-trigger btn btn-primary waves-effect waves-light pull-right">
+                                                修改
                                             </button>
                                         </form>
-
+                                        </p>
                                     </td>
                                 </tr>
-
                                 <tr>
                                     <td>
-                                        <form action="/teacher/setting" method="get">
-                                            <button style="border: transparent"
-                                                    class=" btn btn-lg btn-default btn-block  waves-effect waves-light ">
-                                                账户与设置
+                                        <p>账户密码
+                                        <form action="/teacher/setting/modifyPwd" method="get">
+                                            <button class="md-trigger btn btn-primary waves-effect waves-light pull-right">
+                                                <div class="glyphicon glyphicon-pencil"></div>
                                             </button>
                                         </form>
+                                        </p>
                                     </td>
-
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button class="btn btn-lg btn-default btn-block waves-effect waves-light "
+                                                onclick="Quit()">退出登录
+                                        </button>
+                                    </td>
                                 </tr>
 
                                 </tbody>
                             </table>
                         </div>
+
                     </div> <!-- panel-body -->
                 </div> <!-- panel -->
             </div>
-
-            <!-- col -->
-
 
         </div> <!-- End row -->
 
     </div>
 
-
 </div>
 <!-- END wrapper -->
 
 <!-- jQuery  -->
-
 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+<script type="text/javascript">
+    function Quit() {
 
-
-<script>
-
+        if(  confirm("确认退出登陆？")==true)
+        {
+            window.location.href="/login";
+        }
+    }
 </script>
-
-
 </body>
 </html>

@@ -57,4 +57,8 @@ public class TeacherDao {
     public void activateTeacher(Teacher teacher) throws  Exception{
         teacherMapper.updatePwdById(teacher);
     }
+
+    public void modifyTeacherEmail(Teacher teacher) throws Exception{
+        teacherMapper.modifyEmailById(teacher);
+    }
 }

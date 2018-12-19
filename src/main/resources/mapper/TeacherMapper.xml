@@ -22,4 +22,10 @@
         update teacher set password=#{password},is_active=1 where id=#{id}
     </update>
 
+    <update id="modifyEmailById" parameterType="Teacher">
+        update teacher set email=#{email} where id=#{id}
+    </update>
+
+
+
 </mapper>

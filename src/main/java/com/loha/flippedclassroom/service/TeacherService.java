@@ -61,4 +61,10 @@ public class TeacherService {
     public Teacher getTeacherById(Integer teacherId) throws Exception{
         return teacherDao.getTeacherById(teacherId);
     }
+
+    public void modifyTeacherEmail(Integer teacherId, String email) throws Exception{
+        Teacher teacher=teacherDao.getTeacherById(teacherId);
+        teacher.setEmail(email);
+        teacherDao.modifyTeacherEmail(teacher);
+    }
 }
