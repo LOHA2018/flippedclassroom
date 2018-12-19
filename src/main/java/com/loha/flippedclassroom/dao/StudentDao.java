@@ -76,6 +76,4 @@ public class StudentDao {
     public Team getTeamByKlassAndStudentId(KlassStudent klassStudent) throws Exception{
         return klassStudentMapper.selectKlassStudentByKlassStudentId(klassStudent).getTeam();
     }
-
-
 }

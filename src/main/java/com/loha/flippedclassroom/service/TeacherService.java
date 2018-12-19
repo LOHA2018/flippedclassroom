@@ -29,7 +29,7 @@ public class TeacherService {
     }
 
 
-    public List<Course> getTeacherCourses(Integer teacherId) throws Exception{
+    public List<Course> getTeacherCourses(long teacherId) throws Exception{
         return teacherDao.getTeacherCourses(teacherId);
     }
 

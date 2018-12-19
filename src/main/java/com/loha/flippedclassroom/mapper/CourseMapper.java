@@ -20,7 +20,7 @@ public interface CourseMapper {
      * @return a List of Course
      * @throws Exception
      */
-    List<Course> selectCourseByTeacherId(Integer teacherId) throws Exception;
+    List<Course> selectCourseByTeacherId(long teacherId) throws Exception;
 
     /**
      * fetch course
