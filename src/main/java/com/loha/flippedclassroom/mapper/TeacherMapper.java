@@ -42,4 +42,11 @@ public interface TeacherMapper {
      * @throws Exception
      */
     void modifyEmailById(Teacher teacher) throws Exception;
+
+    /**
+     * 修改密码
+     * @param teacher Object
+     * @throws Exception
+     */
+    void modifyPsdById(Teacher teacher)throws Exception;
 }

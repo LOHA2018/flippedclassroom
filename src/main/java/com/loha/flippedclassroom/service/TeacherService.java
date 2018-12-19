@@ -67,4 +67,10 @@ public class TeacherService {
         teacher.setEmail(email);
         teacherDao.modifyTeacherEmail(teacher);
     }
+
+    public void modifyTeacherPwdById(Integer teacherId, String password) throws Exception{
+        Teacher teacher=teacherDao.getTeacherById(teacherId);
+        teacher.setPassword(password);
+        teacherDao.modifyTeacherPsd(teacher);
+    }
 }

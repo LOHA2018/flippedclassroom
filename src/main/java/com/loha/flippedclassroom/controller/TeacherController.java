@@ -66,6 +66,18 @@ public class TeacherController {
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
+    @GetMapping(value = "/setting/modifyPwd")
+    public String modifyPwdPage(){
+        return "teacher/modifyPwdPage";
+    }
+
+    @PostMapping(value = "/setting/modifyPwd")
+    @ResponseBody
+    public ResponseEntity modifyPwd(@ModelAttribute("curTeacherId") Integer teacherId,String password) throws Exception{
+        teacherService.modifyTeacherPwdById(teacherId,password);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
 
 
 
