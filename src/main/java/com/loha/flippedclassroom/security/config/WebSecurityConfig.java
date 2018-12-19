@@ -24,16 +24,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsServiceImpl userDetailsServiceImp;
     private final IdentityCheckSuccessHandler identityCheckSuccessHandler;
     private final IdentityCheckFailureHandler identityCheckFailureHandler;
-    private final LoginEntryPoint loginEntryPoint;
 
     @Autowired
     public WebSecurityConfig(UserDetailsServiceImpl userDetailsServiceImp, IdentityCheckSuccessHandler identityCheckSuccessHandler,
-                               IdentityCheckFailureHandler identityCheckFailureHandler,LoginEntryPoint loginEntryPoint)
+                               IdentityCheckFailureHandler identityCheckFailureHandler)
     {
         this.userDetailsServiceImp=userDetailsServiceImp;
         this.identityCheckSuccessHandler=identityCheckSuccessHandler;
         this.identityCheckFailureHandler=identityCheckFailureHandler;
-        this.loginEntryPoint=loginEntryPoint;
     }
 
     @Override

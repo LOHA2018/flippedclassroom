@@ -1,6 +1,8 @@
 package com.loha.flippedclassroom.service;
 
 import com.loha.flippedclassroom.dao.CourseDao;
+import com.loha.flippedclassroom.dao.KlassDao;
+import com.loha.flippedclassroom.dao.RoundDao;
 import com.loha.flippedclassroom.dao.TeacherDao;
 import com.loha.flippedclassroom.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +23,15 @@ public class TeacherService {
 
     private final TeacherDao teacherDao;
     private final CourseDao courseDao;
+    private final RoundDao roundDao;
+    private final KlassDao klassDao;
 
     @Autowired
-    TeacherService(TeacherDao teacherDao,CourseDao courseDao){
+    TeacherService(TeacherDao teacherDao,CourseDao courseDao,RoundDao roundDao,KlassDao klassDao){
         this.teacherDao=teacherDao;
         this.courseDao=courseDao;
+        this.roundDao=roundDao;
+        this.klassDao=klassDao;
     }
 
 
@@ -40,7 +46,7 @@ public class TeacherService {
     }
 
     public List<Klass> getKlassByCourseId(Integer courseId) throws Exception{
-       return courseDao.getKlassByCourseId(courseId);
+       return klassDao.getKlassByCourseId(courseId);
     }
 
     public Course getCourseById(Integer id) throws Exception{
@@ -48,7 +54,7 @@ public class TeacherService {
     }
 
     public List<Round> getRoundAndSeminar(Integer courseId) throws Exception{
-        return courseDao.getRoundAndSeminar(courseId);
+        return roundDao.getRoundAndSeminar(courseId);
     }
 
 

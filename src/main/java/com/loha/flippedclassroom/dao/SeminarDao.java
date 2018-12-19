@@ -22,24 +22,23 @@ public class SeminarDao {
 
     private final KlassSeminarMapper klassSeminarMapper;
     private final SeminarMapper seminarMapper;
-    private final AttendanceMapper attendanceMapper;
 
-    SeminarDao(KlassSeminarMapper klassSeminarMapper,SeminarMapper seminarMapper,AttendanceMapper attendanceMapper){
+    SeminarDao(KlassSeminarMapper klassSeminarMapper,SeminarMapper seminarMapper){
         this.klassSeminarMapper=klassSeminarMapper;
         this.seminarMapper=seminarMapper;
-        this.attendanceMapper=attendanceMapper;
     }
 
-    //用来获取KlassSeminar的Id
+    /**
+     * 获取KlassSeminar对象，用于后续获取KlassSeminar的id
+     */
     public KlassSeminar getKlassSeminar(KlassSeminar klassSeminar) throws Exception {
         return klassSeminarMapper.selectKlassSeminarByKlassSeminarId(klassSeminar);
     }
 
+    /**
+     * 根据Id获取当前的讨论课
+     */
     public Seminar getCurSeminar(Integer seminarId) throws Exception{
         return seminarMapper.selectSeminarById(seminarId);
-    }
-
-    public List<Attendance> getEnrollList(Integer klassSeminarId) throws Exception{
-        return attendanceMapper.selectTeamListByKlassSeminarId(klassSeminarId);
     }
 }

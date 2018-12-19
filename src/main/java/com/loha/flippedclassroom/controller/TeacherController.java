@@ -29,10 +29,6 @@ public class TeacherController {
     TeacherService teacherService;
     CourseService courseService;
 
-    @GetMapping(value = "/activation")
-    public String activation(){
-        return "teacher/activation";
-    }
 
 //    @PostMapping(value = "/activation")
 //    @ResponseBody
@@ -40,17 +36,6 @@ public class TeacherController {
 //        teacherService.activateTeacher(password,email,teacherId);
 //        return new ResponseEntity(HttpStatus.ACCEPTED);
 //    }
-
-    @GetMapping(value = "/index")
-    public String teacherIndex(Model model){
-        Teacher teacher = teacherService.getCurTeacher();
-        model.addAttribute("curTeacherId",teacher.getId());
-        if(!teacher.isActivated()){
-            return "redirect:/teacher/activation";
-        }
-        model.addAttribute("teacher",teacher);
-        return "teacher/index";
-    }
 
     /**
     @GetMapping("/setting")
@@ -170,8 +155,6 @@ public class TeacherController {
     **/
 
 
-    @Autowired
-    private TeacherService teacherService;
 
     @GetMapping(value = "/activation")
     public String activation(){
@@ -189,7 +172,7 @@ public class TeacherController {
     public String teacherIndex(Model model){
         Teacher teacher=teacherService.getCurTeacher();
         model.addAttribute("curTeacherId",teacher.getId());
-        if(!teacher.isActive()){
+        if(!teacher.isActivated()){
             return "redirect:/teacher/activation";
         }
 
@@ -226,13 +209,5 @@ public class TeacherController {
         teacherService.modifyTeacherPwdById(teacherId,password);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
-
-
-
-
-
-
-
-
 
 }
