@@ -13,9 +13,17 @@ import org.springframework.stereotype.Repository;
 public interface KlassSeminarMapper {
     /**
      * fetch a KlassSeminar
-     * @param klassSeminarId  id
+     * @param klassSeminarId id
      * @return KlassSeminar
      * @throws Exception
      */
     KlassSeminar selectKlassSeminarById(Integer klassSeminarId) throws Exception;
+
+    /**
+     * fetch a KlassSeminar
+     * @param klassSeminar Object
+     * @return KlassSeminar
+     * @throws Exception
+     */
+    KlassSeminar selectKlassSeminarByKlassSeminarId(KlassSeminar klassSeminar) throws Exception;
 }

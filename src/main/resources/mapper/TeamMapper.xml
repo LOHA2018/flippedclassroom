@@ -9,6 +9,8 @@
         <result column="team_name" property="teamName"/>
         <result column="team_serial" property="teamSerial"/>
         <result column="status" property="status"/>
+
+        <association property="klass" select="com.loha.flippedclassroom.mapper.KlassMapper.selectKlassById" column="klass_id"></association>
     </resultMap>
 
     <select id="selectTeamById" parameterType="Integer" resultMap="teamMap">

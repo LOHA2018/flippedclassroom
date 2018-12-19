@@ -11,7 +11,16 @@
         <result column="report_url" property="reportUrl"/>
         <result column="ppt_name" property="pptName"/>
         <result column="ppt_url" property="pptUrl"/>
+
+        <association property="team" select="com.loha.flippedclassroom.mapper.TeamMapper.selectTeamById" column="team_id"></association>
     </resultMap>
     
+    <select id="selectTeamByKlassSeminarId" parameterType="Attendance" resultMap="attendanceMap">
+        select * from attendance where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}
+    </select>
+
+    <select id="selectTeamListByKlassSeminarId" parameterType="Integer" resultMap="attendanceMap">
+        select * from attendance where klass_seminar_id=#{klassSeminarId}
+    </select>
 
 </mapper>

@@ -60,13 +60,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .usernameParameter("account").passwordParameter("password")
                 .successHandler(identityCheckSuccessHandler)
                 .failureHandler(identityCheckFailureHandler)
-                .failureUrl("/login?error")
                 .permitAll()
                 .and()
                 .logout().logoutUrl("/logout").logoutSuccessUrl("/login")
                 .permitAll().and().csrf().disable()
-                .headers().frameOptions().sameOrigin()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(loginEntryPoint);
+                .headers().frameOptions().sameOrigin();
+//                .and()
+//                .exceptionHandling().authenticationEntryPoint(loginEntryPoint);
     }
 }
