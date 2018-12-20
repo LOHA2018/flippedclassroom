@@ -39,38 +39,42 @@ public class TeacherService {
         return teacherDao.getCurTeacher(teacherNum);
     }
 
-    public List<Klass> getKlassByCourseId(Integer courseId) throws Exception{
+    public List<Klass> getKlassByCourseId(long courseId) throws Exception{
        return courseDao.getKlassByCourseId(courseId);
     }
 
-    public Course getCourseById(Integer id) throws Exception{
+    public Course getCourseById(long id) throws Exception{
         return courseDao.getCourseById(id);
     }
 
-    public List<Round> getRoundAndSeminar(Integer courseId) throws Exception{
+    public List<Round> getRoundAndSeminar(long courseId) throws Exception{
         return courseDao.getRoundAndSeminar(courseId);
     }
 
 
-    public  void activateTeacher(String password, Integer teacherId) throws Exception{
+    public  void activateTeacher(String password, long teacherId) throws Exception{
         Teacher teacher=teacherDao.getTeacherById(teacherId);
         teacher.setPassword(password);
         teacherDao.activateTeacher(teacher);
     }
 
-    public Teacher getTeacherById(Integer teacherId) throws Exception{
+    public Teacher getTeacherById(long teacherId) throws Exception{
         return teacherDao.getTeacherById(teacherId);
     }
 
-    public void modifyTeacherEmail(Integer teacherId, String email) throws Exception{
+    public void modifyTeacherEmail(long teacherId, String email) throws Exception{
         Teacher teacher=teacherDao.getTeacherById(teacherId);
         teacher.setEmail(email);
         teacherDao.modifyTeacherEmail(teacher);
     }
 
-    public void modifyTeacherPwdById(Integer teacherId, String password) throws Exception{
+    public void modifyTeacherPwdById(long teacherId, String password) throws Exception{
         Teacher teacher=teacherDao.getTeacherById(teacherId);
         teacher.setPassword(password);
         teacherDao.modifyTeacherPsd(teacher);
+    }
+
+    public MessageBox getTeacherMessageBox(long id){
+        return new MessageBox();
     }
 }

@@ -29,7 +29,7 @@ public class CourseService {
     @Autowired
     SeminarDao seminarDao;
 
-    public Course getCourseById(Integer courseId) throws Exception {
+    public Course getCourseById(long courseId) throws Exception {
         return courseDao.getCourseById(courseId);
     }
 
@@ -81,7 +81,8 @@ public class CourseService {
      * @Date:13:12 2018/12/20
      */
     public void updateSeminar(SeminarDTO seminarDTO)throws Exception {
-        seminarDao.updateSeminar(seminarDTO);
+
+        seminarDao.updateSeminar(seminarDTO.convertToSeminar());
     }
 
     /**

@@ -12,11 +12,11 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Team {
-    private Integer id;
-    private Integer klassId;
-    private Integer courseId;
-    private Integer leaderId;
+    private long id;
+    private long klassId;
+    private long courseId;
+    private long leaderId;
     private String teamName;
-    private Integer teamSerial;
-    private Integer status;
+    private long teamSerial;
+    private long status;
 }

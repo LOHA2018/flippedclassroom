@@ -1,6 +1,7 @@
 package com.loha.flippedclassroom.mapper;
 
 import com.loha.flippedclassroom.entity.KlassSeminar;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,13 +18,15 @@ public interface KlassSeminarMapper {
      * @return KlassSeminar
      * @throws Exception
      */
-    KlassSeminar selectKlassSeminarById(Integer klassSeminarId) throws Exception;
+    KlassSeminar selectKlassSeminarById(long klassSeminarId) throws Exception;
     
     /**
-     *fetch data by klassid, seminarId
+     *fetch data by
      *
-     * @param klassId and seminarId
-     * @return klassSeminar
+     * @param klassId klass'id
+     * @param seminarId seminar'id
+     * @return KlassSeminar
+     * @throws Exception not exist
      */
-    KlassSeminar selectKlassSeminar(long klassId, long seminarId) throws Exception;
+    KlassSeminar selectKlassSeminar(@Param("klassId")long klassId,@Param("seminarId")long seminarId) throws Exception;
 }

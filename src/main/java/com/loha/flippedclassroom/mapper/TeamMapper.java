@@ -20,7 +20,7 @@ public interface TeamMapper {
      * @return a team
      * @throws Exception
      */
-    Team selectTeamById(Integer teamId) throws Exception;
+    Team selectTeamById(long teamId) throws Exception;
 
     /**
      * 查找一个课程下所有的team

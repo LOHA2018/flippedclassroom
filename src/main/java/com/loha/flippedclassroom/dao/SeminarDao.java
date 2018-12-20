@@ -15,24 +15,24 @@ public class SeminarDao {
  * @Description:创建讨论课,异常处理
  * @Date:12:42 2018/12/20
  */
-    public void createSeminar(SeminarDTO seminarDTO) throws Exception{
-        if (null!=seminarMapper.selectSeminarById(seminarDTO.getId()))
+    public void createSeminar(Seminar seminar) throws Exception{
+        if (null!=seminarMapper.selectSeminarById(seminar.getId()))
         {
             throw new Exception();
         }
-        seminarMapper.createSeminar(seminarDTO);
+        seminarMapper.createSeminar(seminar);
     }
 /**
  * @Author: birden
  * @Description: 更新讨论课 异常处理
  * @Date: 2018/12/20 13:36
  */
-    public void updateSeminar(SeminarDTO seminarDTO)throws Exception{
-        if (null==seminarMapper.selectSeminarById(seminarDTO.getId()))
+    public void updateSeminar(Seminar seminar)throws Exception{
+        if (null==seminarMapper.selectSeminarById(seminar.getId()))
         {
             throw new Exception();
         }
-        seminarMapper.updateSeminar(seminarDTO);
+        seminarMapper.updateSeminar(seminar);
     }
     /**
      * @Author: birden

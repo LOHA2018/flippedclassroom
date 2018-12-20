@@ -36,7 +36,7 @@ public class CourseDao {
      * @return List of Klass
      * @throws Exception
      */
-    public List<Klass> getKlassByCourseId(Integer courseId) throws Exception{
+    public List<Klass> getKlassByCourseId(long courseId) throws Exception{
         return klassMapper.selectKlassByCourseId(courseId);
     }
 
@@ -47,7 +47,7 @@ public class CourseDao {
      * @return Course
      * @throws Exception
      */
-    public Course getCourseById(Integer id) throws Exception{
+    public Course getCourseById(long id) throws Exception{
         return courseMapper.selectCourseById(id);
     }
 
@@ -58,7 +58,7 @@ public class CourseDao {
      * @return Course
      * @throws Exception
      */
-    public List<Round> getRoundAndSeminar(Integer courseId) throws Exception{
+    public List<Round> getRoundAndSeminar(long courseId) throws Exception{
         return roundMapper.selectRoundByCourseId(courseId);
     }
 

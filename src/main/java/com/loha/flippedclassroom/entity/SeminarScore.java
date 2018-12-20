@@ -13,8 +13,8 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class SeminarScore {
-    private Integer klassSeminarId;
-    private Integer teamId;
+    private long klassSeminarId;
+    private long teamId;
     private BigDecimal totalScore;
     private BigDecimal presentationScore;
     private BigDecimal questionScore;

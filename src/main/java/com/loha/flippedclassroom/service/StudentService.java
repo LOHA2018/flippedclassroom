@@ -40,38 +40,38 @@ public class StudentService {
         return studentDao.getCurStudent(studentNum);
     }
 
-    public Student getStudentById(Integer studentId) throws Exception{
+    public Student getStudentById(long studentId) throws Exception{
         return studentDao.getStudentById(studentId);
     }
 
-    public void activateStudent(String password,String email,Integer studentId) throws Exception{
+    public void activateStudent(String password,String email,long studentId) throws Exception{
         Student student=studentDao.getStudentById(studentId);
         student.setPassword(password);
         student.setEmail(email);
         studentDao.activateStudent(student);
     }
 
-    public List<KlassStudent> getCourseAndKlass(Integer studentId) throws Exception{
+    public List<KlassStudent> getCourseAndKlass(long studentId) throws Exception{
         return studentDao.getKlassAndCourse(studentId);
     }
 
-    public void modifyStudentPwdById(Integer studentId,String password) throws Exception{
+    public void modifyStudentPwdById(long studentId,String password) throws Exception{
         Student student=studentDao.getStudentById(studentId);
         student.setPassword(password);
         studentDao.modifyStudentPwd(student);
     }
 
-    public void modifyStudentEmail(Integer studentId,String email) throws Exception{
+    public void modifyStudentEmail(long studentId,String email) throws Exception{
         Student student=studentDao.getStudentById(studentId);
         student.setEmail(email);
         studentDao.modifyStudentEmail(student);
     }
 
-    public Course getCourseById(Integer courseId) throws Exception{
+    public Course getCourseById(long courseId) throws Exception{
         return courseDao.getCourseById(courseId);
     }
 
-    public List<ScoreInfo> getMyScore(Integer klassId, Integer courseId, Integer studentId) throws Exception{
+    public List<ScoreInfo> getMyScore(long klassId, long courseId, long studentId) throws Exception{
         //获得所有轮(同时也获得了所有的讨论课)，对每一轮遍历
         List<Round> rounds=courseDao.getRoundAndSeminar(courseId);
         //获得当前所在的team

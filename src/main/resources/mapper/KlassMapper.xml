@@ -10,11 +10,11 @@
         <result column="klass_location" property="location"/>
     </resultMap>
 
-    <select id="selectKlassByCourseId" parameterType="Integer" resultMap="klassMap">
+    <select id="selectKlassByCourseId" parameterType="long" resultMap="klassMap">
         select * from klass where course_id=#{value}
     </select>
 
-    <select id="selectKlassById" parameterType="Integer" resultMap="klassMap">
+    <select id="selectKlassById" parameterType="long" resultMap="klassMap">
         select * from klass where id=#{value}
     </select>
 

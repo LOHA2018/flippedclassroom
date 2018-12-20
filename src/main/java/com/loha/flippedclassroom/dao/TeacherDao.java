@@ -50,7 +50,7 @@ public class TeacherDao {
     }
 
 
-    public Teacher getTeacherById(Integer teacherId) throws Exception{
+    public Teacher getTeacherById(long teacherId) throws Exception{
         return teacherMapper.selectTeacherById(teacherId);
     }
 

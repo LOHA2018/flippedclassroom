@@ -38,7 +38,7 @@ public class StudentDao {
         return studentMapper.selectStudentByNum(studentNum);
     }
 
-    public Student getStudentById(Integer studentId) throws Exception{
+    public Student getStudentById(long studentId) throws Exception{
         return studentMapper.selectStudentById(studentId);
     }
 
@@ -60,7 +60,7 @@ public class StudentDao {
      * @return List
      * @throws  Exception
      */
-    public List<KlassStudent> getKlassAndCourse(Integer studentId) throws Exception{
+    public List<KlassStudent> getKlassAndCourse(long studentId) throws Exception{
         return klassStudentMapper.selectKlassStudentByStudentId(studentId);
     }
 

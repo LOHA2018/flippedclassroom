@@ -1,5 +1,8 @@
 package com.loha.flippedclassroom.pojo.DTO;
 
+import com.loha.flippedclassroom.entity.Course;
+import com.loha.flippedclassroom.entity.Seminar;
+
 import java.util.Date;
 
 /**
@@ -97,5 +100,20 @@ public class SeminarDTO {
 
     public void setEnrollEndTime(Date enrollEndTime) {
         this.enrollEndTime = enrollEndTime;
+    }
+
+    public Seminar convertToSeminar()
+    {
+        Seminar seminar=new Seminar();
+        seminar.setSeminarName(this.seminarName);
+        seminar.setSeminarSerial(this.seminarSerial);
+        seminar.setIntroduction(this.introduction);
+        seminar.setRoundId(this.roundId);
+        seminar.setEnrollStartTime(this.enrollStartTime);
+        seminar.setEnrollEndTime(this.enrollEndTime);
+        Course course=new Course();
+        course.setId(this.courseId);
+        seminar.setCourse(course);
+        return seminar;
     }
 }

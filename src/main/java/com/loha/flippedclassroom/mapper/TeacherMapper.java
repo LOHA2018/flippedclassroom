@@ -26,7 +26,7 @@ public interface TeacherMapper {
      * @return teacher
      * @throws Exception
      */
-    Teacher selectTeacherById(Integer teacherId) throws Exception;
+    Teacher selectTeacherById(long teacherId) throws Exception;
 
 
     /**

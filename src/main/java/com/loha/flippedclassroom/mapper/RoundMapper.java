@@ -20,7 +20,7 @@ public interface RoundMapper {
      * @return a List of Round
      * @throws Exception
      */
-    List<Round> selectRoundByCourseId(Integer courseId) throws Exception;
+    List<Round> selectRoundByCourseId(long courseId) throws Exception;
 
-    Round selectRoundById(Integer roundId) throws Exception;
+    Round selectRoundById(long roundId) throws Exception;
 }

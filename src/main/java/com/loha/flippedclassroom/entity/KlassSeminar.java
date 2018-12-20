@@ -13,11 +13,11 @@ import java.util.Date;
 @Getter
 @Setter
 public class KlassSeminar {
-    private Integer id;
-    private Integer klassId;
-    private Integer seminarId;
+    private long id;
+    private long klassId;
+    private long seminarId;
     private Date reportDdl;
-    private Integer status;
+    private long status;
 
     private Klass klass;
     private Seminar seminar;

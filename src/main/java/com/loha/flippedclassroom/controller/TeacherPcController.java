@@ -35,27 +35,27 @@ public class TeacherPcController {
     }
 
     @PostMapping(value = "/course")
-    public String courseInfo(Integer courseId,Model model){
+    public String courseInfo(long courseId,Model model){
         model.addAttribute("courseId",courseId);
         return "pc/coursePage";
     }
 
     @GetMapping(value = "/course/importStudent")
-    public String importStudentPage(Integer courseId,Model model) throws Exception{
+    public String importStudentPage(long courseId,Model model) throws Exception{
         model.addAttribute("courseName",teacherService.getCourseById(courseId).getCourseName());
         model.addAttribute("klassList",teacherService.getKlassByCourseId(courseId));
         return "pc/importStudent";
     }
 
     @GetMapping(value = "/course/seminar")
-    public String chooseSeminar(Integer courseId,Model model) throws Exception{
+    public String chooseSeminar(long courseId,Model model) throws Exception{
         model.addAttribute("courseName",teacherService.getCourseById(courseId).getCourseName());
         model.addAttribute("roundAndSeminarList",teacherService.getRoundAndSeminar(courseId));
         return "pc/seminarPage";
     }
 
     @GetMapping(value = "/course/exportScore")
-    public String exportScore(Integer courseId,Model model) throws Exception{
+    public String exportScore(long courseId,Model model) throws Exception{
         model.addAttribute("courseName",teacherService.getCourseById(courseId).getCourseName());
         return "pc/exportScore";
     }

@@ -14,12 +14,12 @@ import java.util.List;
 @Setter
 @Getter
 public class Round {
-    private Integer id;
-    private Integer courseId;
-    private Integer roundSerial;
-    private Integer preScoreMethod;
-    private Integer reportScoreMethod;
-    private Integer questionScoreMethod;
+    private long id;
+    private long courseId;
+    private long roundSerial;
+    private long preScoreMethod;
+    private long reportScoreMethod;
+    private long questionScoreMethod;
 
     private List<Seminar> seminars;
 }

@@ -28,5 +28,5 @@ public interface CourseMapper {
      * @return Course
      * @throws Exception
      */
-    Course selectCourseById(Integer courseId) throws Exception;
+    Course selectCourseById(long courseId) throws Exception;
 }

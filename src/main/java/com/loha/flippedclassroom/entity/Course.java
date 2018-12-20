@@ -14,17 +14,17 @@ import java.util.Date;
 @Getter
 @Setter
 public class Course {
-    private Integer id;
-    private Integer teacherId;
+    private long id;
+    private long teacherId;
     private String courseName;
     private String introduction;
-    private Integer prePercentage;
-    private Integer questionPercentage;
-    private Integer reportPercentage;
+    private long prePercentage;
+    private long questionPercentage;
+    private long reportPercentage;
     private Date teamStartTime;
     private Date teamEndTime;
-    private Integer teamMainCourseId;
-    private Integer seminarMainCourseId;
+    private long teamMainCourseId;
+    private long seminarMainCourseId;
 
     private Teacher teacher;
 }

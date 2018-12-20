@@ -26,18 +26,18 @@ public interface SeminarMapper {
     Seminar selectSeminarById(long seminarId) throws Exception;
 
     /**
-     * fetch data by seminarDTO
+     * fetch data by seminar
      *
-     * @param seminarDTO seminarDTO
+     * @param seminar seminar
      */
-    void createSeminar(SeminarDTO seminarDTO);
+    void createSeminar(Seminar seminar);
 
     /**
      *fetch data by
      *
-     * @param seminarDTO seminar
+     * @param seminar seminar
      */
-    void updateSeminar(SeminarDTO seminarDTO);
+    void updateSeminar(Seminar seminar);
 
     /**
      * fetch data by
@@ -53,5 +53,5 @@ public interface SeminarMapper {
      * @return a seminar
      * @throws Exception
      */
-    Seminar selectSeminarByRoundId(Integer roundId) throws Exception;
+    Seminar selectSeminarByRoundId(long roundId) throws Exception;
 }

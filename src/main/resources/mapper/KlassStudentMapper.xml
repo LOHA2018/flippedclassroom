@@ -11,7 +11,7 @@
         <association property="team" select="com.loha.flippedclassroom.mapper.TeamMapper.selectTeamById" column="team_id"></association>
     </resultMap>
 
-    <select id="selectKlassStudentByStudentId" parameterType="Integer" resultMap="klassStudentMap">
+    <select id="selectKlassStudentByStudentId" parameterType="long" resultMap="klassStudentMap">
         select * from klass_student where student_id=#{value}
     </select>
 
