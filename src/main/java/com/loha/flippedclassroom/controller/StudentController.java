@@ -3,6 +3,8 @@ package com.loha.flippedclassroom.controller;
 import com.loha.flippedclassroom.dao.StudentDao;
 import com.loha.flippedclassroom.entity.Seminar;
 import com.loha.flippedclassroom.entity.Student;
+import com.loha.flippedclassroom.entity.Team;
+import com.loha.flippedclassroom.service.FileService;
 import com.loha.flippedclassroom.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.util.Map;
 
 /**
  * 学生移动端controller
@@ -25,10 +31,12 @@ import org.springframework.web.bind.annotation.*;
 public class StudentController {
 
     private final StudentService studentService;
+    private final FileService fileService;
 
     @Autowired
-    StudentController(StudentService studentService){
+    StudentController(StudentService studentService,FileService fileService){
         this.studentService=studentService;
+        this.fileService=fileService;
     }
 
     @GetMapping(value = "/activation")
@@ -115,19 +123,49 @@ public class StudentController {
         return "student/seminarPage";
     }
 
-    @PostMapping(value = "/seminar/info")
+    @GetMapping(value = "/seminar/info")
     public String getSeminarInfo(@ModelAttribute("curStudentId") Integer studentId,Integer klassId,Integer seminarId,Model model) throws Exception{
         Seminar seminar=studentService.getCurSeminar(seminarId);
-        model.addAttribute("klassId",klassId);
-        model.addAttribute("round",studentService.getRoundById(seminar.getRoundId()));
+        Team myTeam=studentService.getMyTeamUnderKlass(klassId,seminarId);
         model.addAttribute("seminar",seminar);
-        log.info(studentService.getTeamSeminarStatus(studentId,klassId,seminarId));
-        return "student/"+studentService.getTeamSeminarStatus(studentId,klassId,seminarId);
+        model.addAttribute("klass",studentService.getKlassById(klassId));
+        model.addAttribute("round",studentService.getRoundById(seminar.getRoundId()));
+
+        String status=studentService.getTeamSeminarStatus(studentId,klassId,seminarId);
+        if("unOpenUnregister".equals(status))
+        {
+            return "student/unOpenUnregister";
+        }
+        else if("unOpenRegister".equals(status))
+        {
+            model.addAttribute("myTeamId",studentService.getMyTeamUnderKlass(klassId,seminarId).getId());
+            model.addAttribute("attendance",studentService.getAttendanceUnderSeminar(klassId,seminarId,myTeam.getId()));
+            return "student/unOpenRegister";
+        }
+
+        return "";
     }
 
     @PostMapping(value = "/seminar/enrollList")
     public String getEnrollListPage(Integer klassId,Integer seminarId,Model model) throws Exception{
+        model.addAttribute("klassId",klassId);
+        model.addAttribute("seminarId",seminarId);
+        model.addAttribute("myTeamId",studentService.getMyTeamUnderKlass(klassId,seminarId).getId());
         model.addAttribute("enrollList",studentService.getEnrollList(klassId,seminarId));
         return "student/enrollListPage";
+    }
+
+    @PostMapping(value = "/seminar/enrollList/enroll")
+    @ResponseBody
+    public ResponseEntity enrollSeminar(Integer klassId,Integer seminarId,Integer teamId,Integer teamOrder) throws Exception{
+        studentService.registerSeminar(klassId,seminarId,teamId,teamOrder);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/seminar/info/submitppt")
+    @ResponseBody
+    public ResponseEntity submitPpt(@RequestParam("file")MultipartFile file,Integer teamId,Integer klassId,Integer seminarId) throws Exception{
+        fileService.teamSubmitPowerPoint(file,teamId,klassId,seminarId);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 }

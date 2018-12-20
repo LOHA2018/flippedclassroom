@@ -18,4 +18,6 @@ public class Klass {
     private Integer klassSerial;
     private String time;
     private String location;
+
+    private Course course;
 }

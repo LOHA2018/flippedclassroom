@@ -23,4 +23,20 @@
         select * from attendance where klass_seminar_id=#{klassSeminarId}
     </select>
 
+    <select id="selectTeamByKlassSeminarIdAndTeamOrder" parameterType="Attendance" resultMap="attendanceMap">
+        select * from attendance where klass_seminar_id=#{klassSeminarId} and team_order=#{teamOrder}
+    </select>
+
+    <insert id="insertAttendance" parameterType="Attendance">
+        insert into attendance (klass_seminar_id,team_id,team_order,is_present)
+        values(#{klassSeminarId},#{teamId},#{teamOrder},0)
+    </insert>
+
+    <update id="updatePowerPointByKlassSeminarAndTeamId" parameterType="Attendance">
+        update attendance
+        set ppt_name=#{pptName},ppt_url=#{pptUrl}
+        where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}
+    </update>
+
+
 </mapper>

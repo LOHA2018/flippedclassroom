@@ -30,4 +30,9 @@
         update student set email=#{email} where id=#{id}
     </update>
 
+    <insert id="insertStudent" parameterType="Student">
+        insert into student(account, password, is_active, student_name)
+        values (#{account},'123456',0,#{studentName})
+    </insert>
+
 </mapper>

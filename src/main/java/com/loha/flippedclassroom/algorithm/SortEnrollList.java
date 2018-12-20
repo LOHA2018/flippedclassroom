@@ -1,4 +1,4 @@
-package com.loha.flippedclassroom.Algorithm;
+package com.loha.flippedclassroom.algorithm;
 
 import com.loha.flippedclassroom.entity.Attendance;
 

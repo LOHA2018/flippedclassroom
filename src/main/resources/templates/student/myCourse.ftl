@@ -97,7 +97,7 @@
                                 <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#accordion-test" href="#collapseOne"
                                        class="collapsed">
-                                        ${list.course.courseName}——${list.klass.grade}(${list.klass.klassSerial})
+                                        ${list.course.courseName}——${list.grade}(${list.klassSerial})
                                     </a>
                                 </h4>
                             </div>
@@ -123,7 +123,7 @@
                                             <td>
                                                 <form action="/student/course/score" method="post">
                                                     <input type="hidden" name="courseId" value=${list.courseId}>
-                                                    <input type="hidden" name="klassId" value=${list.klassId}>
+                                                    <input type="hidden" name="klassId" value=${list.id}>
                                                     <button style="border: transparent" class="  btn-lg btn-default btn-block  waves-effect waves-light " type="submit">
                                                         我的成绩
                                                     </button>

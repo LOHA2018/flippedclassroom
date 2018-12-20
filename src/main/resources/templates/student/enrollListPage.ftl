@@ -43,9 +43,9 @@
         <div class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="">
-                    <form action="/student/course/seminarList" method="post">
-                        <#--<input type="hidden" name="klassId" value="${klassId}">-->
-                        <#--<input type="hidden" name="seminarId" value="${seminarId}">-->
+                    <form action="/student/seminar/info" method="post">
+                        <input type="hidden" name="klassId" value="${klassId}">
+                        <input type="hidden" name="seminarId" value="${seminarId}">
                         <div class="pull-left">
                             <button class="button-menu-mobile">
                                 <div class="glyphicon glyphicon-menu-left"></div>
@@ -113,7 +113,7 @@
                                     <td>
                                         <p>
                                             <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"
-                                                    onclick="VerifySignGroup()">可报名
+                                                    onclick="register(${list.teamOrder})">可报名
                                             </button>
                                         </p>
                                     </td>
@@ -142,27 +142,22 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
-<script type="text/javascript">
-    function VerifySignGroup() {
-        var mag = confirm("确认报名该次讨论课？");
+<script>
+    function register(order) {
+        var msg = confirm("确认报名第"+order+"组展示?");
         if (msg == true) {
             $.ajax({
-                url: "/teacher/course/seminar/enrollList/enroll",
+                url: "/student/seminar/enrollList/enroll",
                 method: "post",
                 data: {
-                    <#--"klassSeminarId": ${klassSeminarId},-->
-                    <#--"teamId": ${teamId}-->
+                    "klassId": ${klassId},
+                    "seminarId": ${seminarId},
+                    "teamId":${myTeamId},
+                    "teamOrder":order
                 },
                 success: function (data, status) {
-                    if () {
-                        alert("报名成功!");
-                        window.location.href="/teacher/course/seminar/info";
-
-                    } else {
-                        alert("报名失败!");
-                    }
-
-
+                    alert("报名成功!");
+                    window.location.href="/student/seminar/info?klassId=${klassId}&seminarId=${seminarId}";
                 },
                 error: function () {
                     alert("报名失败!");

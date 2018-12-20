@@ -30,4 +30,26 @@ public interface AttendanceMapper {
      * @throws Exception
      */
     List<Attendance> selectTeamListByKlassSeminarId(Integer klassSeminarId) throws Exception;
+
+    /**
+     * 插入一条报名记录
+     * @param attendance Object
+     * @throws Exception
+     */
+    void insertAttendance(Attendance attendance) throws Exception;
+
+    /**
+     * 判断某次讨论课的某个展示顺序是否被其他小组占有
+     * @param attendance Object
+     * @return Attendance 对象
+     * @throws Exception
+     */
+    Attendance selectTeamByKlassSeminarIdAndTeamOrder(Attendance attendance) throws Exception;
+
+    /**
+     * 修改ppt名和路径，可用于上传ppt
+     * @param attendance Object
+     * @throws Exception
+     */
+    void updatePowerPointByKlassSeminarAndTeamId(Attendance attendance) throws Exception;
 }

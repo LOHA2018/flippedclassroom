@@ -1,9 +1,7 @@
 package com.loha.flippedclassroom.mapper;
-
-import com.loha.flippedclassroom.entity.KlassStudent;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * 与班级学生讨论课相关的mapper
@@ -15,18 +13,9 @@ import java.util.List;
 public interface KlassStudentMapper {
 
     /**
-     * 查询某学生的所有课程和班级信息
-     * @param studentId student's id
-     * @return a List of KlassStudent
+     * 插入学生记录时，同时插入该学生所在班级课程
+     * @param map 包含"klassId","teamId","courseId"
      * @throws Exception
      */
-    List<KlassStudent> selectKlassStudentByStudentId(Integer studentId) throws Exception;
-
-    /**
-     * 根据班级id和学生id查询KlassStudent对象，目的是获取team
-     * @param klassStudent Object
-     * @return KlassStudent
-     * @throws Exception
-     */
-    KlassStudent selectKlassStudentByKlassStudentId(KlassStudent klassStudent) throws Exception;
+    void insertKlassStudent(Map<String,Integer> map) throws Exception;
 }

@@ -6,7 +6,7 @@
         <result column="account" property="account"/>
         <result column="password" property="password"/>
         <result column="teacher_name" property="teacherName"/>
-        <result column="is_active" property="isActive"/>
+        <result column="is_active" property="activated"/>
         <result column="email" property="email"/>
     </resultMap>
 

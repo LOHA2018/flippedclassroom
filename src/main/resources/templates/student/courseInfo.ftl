@@ -117,7 +117,7 @@
 
                                 <tr>
                                     <td>
-                                        <p class="pull-right">课后报告：${course.reportPercentage}%</p>q
+                                        <p class="pull-right">课后报告：${course.reportPercentage}%</p>
                                     </td>
                                 </tr>
 

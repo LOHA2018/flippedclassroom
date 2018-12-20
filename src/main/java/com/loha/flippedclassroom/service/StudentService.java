@@ -1,9 +1,8 @@
 package com.loha.flippedclassroom.service;
 
-import com.loha.flippedclassroom.Algorithm.SortEnrollList;
+import com.loha.flippedclassroom.algorithm.SortEnrollList;
 import com.loha.flippedclassroom.dao.*;
 import com.loha.flippedclassroom.entity.*;
-import com.loha.flippedclassroom.mapper.SeminarMapper;
 import com.loha.flippedclassroom.pojo.ScoreInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * student service
@@ -29,25 +29,24 @@ public class StudentService {
     private final SeminarDao seminarDao;
     private final TeamDao teamDao;
     private final RoundDao roundDao;
+    private final KlassDao klassDao;
 
     @Autowired
-    StudentService(StudentDao studentDao,CourseDao courseDao,ScoreDao scoreDao,SeminarDao seminarDao,TeamDao teamDao,RoundDao roundDao){
+    StudentService(StudentDao studentDao,CourseDao courseDao,ScoreDao scoreDao,SeminarDao seminarDao,TeamDao teamDao,RoundDao roundDao,KlassDao klassDao){
         this.studentDao=studentDao;
         this.courseDao=courseDao;
         this.scoreDao=scoreDao;
         this.seminarDao=seminarDao;
         this.teamDao=teamDao;
         this.roundDao=roundDao;
+        this.klassDao=klassDao;
     }
 
     /**
      * 获取某个学生在某个班级下的队伍信息
      */
-    private Team getMyTeamUnderKlass(Integer klassId,Integer studentId)throws Exception{
-        KlassStudent klassStudent=new KlassStudent();
-        klassStudent.setKlassId(klassId);
-        klassStudent.setStudentId(studentId);
-        return teamDao.getTeamByKlassAndStudentId(klassStudent);
+    public Team getMyTeamUnderKlass(Integer klassId,Integer studentId)throws Exception{
+        return teamDao.getTeamByKlassAndStudentId(klassId,studentId);
     }
 
     /**
@@ -79,8 +78,8 @@ public class StudentService {
     /**
      * 根据该学生所有课程及所在班级信息
      */
-    public List<KlassStudent> getCourseAndKlass(Integer studentId) throws Exception{
-        return studentDao.getKlassAndCourse(studentId);
+    public List<Klass> getCourseAndKlass(Integer studentId) throws Exception{
+        return studentDao.getCourseAndKlass(studentId);
     }
 
     /**
@@ -137,24 +136,17 @@ public class StudentService {
     public String getTeamSeminarStatus(Integer studentId,Integer klassId,Integer seminarId) throws Exception{
         Team team=getMyTeamUnderKlass(klassId,studentId);
 
-        KlassSeminar temp=new KlassSeminar();
-        temp.setKlassId(klassId);
-        temp.setSeminarId(seminarId);
-        KlassSeminar klassSeminar=seminarDao.getKlassSeminar(temp);
+        KlassSeminar klassSeminar=seminarDao.getKlassSeminar(klassId,seminarId);
 
         //讨论课状态
         Integer seminarStatus=klassSeminar.getStatus();
 
-        Attendance attendance=new Attendance();
-        attendance.setTeamId(team.getId());
-        attendance.setKlassSeminarId(klassSeminar.getId());
-
         //小组参加状态
-        boolean attend=teamDao.attendSeminar(attendance);
+        Attendance attend=teamDao.attendSeminar(team.getId(),klassSeminar.getId());
 
         if (seminarStatus==0)
         {
-            if(!attend)
+            if(attend==null)
             {
                 return "unOpenUnregister";
             }
@@ -163,7 +155,7 @@ public class StudentService {
             }
         }
         else if (seminarStatus==1){
-            if(!attend)
+            if(attend==null)
             {
                 return "underwayUnregister";
             }
@@ -172,7 +164,7 @@ public class StudentService {
             }
         }
         else {
-            if(!attend)
+            if(attend==null)
             {
                 return "finishedUnregister";
             }
@@ -180,6 +172,11 @@ public class StudentService {
                 return "finishedRegister";
             }
         }
+    }
+
+    public Attendance getAttendanceUnderSeminar(Integer klassId,Integer seminarId,Integer teamId) throws Exception{
+        Integer klassSeminarId=seminarDao.getKlassSeminar(klassId,seminarId).getId();
+        return teamDao.attendSeminar(teamId,klassSeminarId);
     }
 
     /**
@@ -200,11 +197,7 @@ public class StudentService {
      * 获取某次讨论课的报名列表
      */
     public List<Attendance> getEnrollList(Integer klassId,Integer seminarId) throws Exception{
-        KlassSeminar klassSeminar=new KlassSeminar();
-        klassSeminar.setSeminarId(seminarId);
-        klassSeminar.setKlassId(klassId);
-
-        klassSeminar=seminarDao.getKlassSeminar(klassSeminar);
+        KlassSeminar klassSeminar=seminarDao.getKlassSeminar(klassId,seminarId);
 
         List<Attendance> enrollList=teamDao.getEnrollList(klassSeminar.getId());
 
@@ -212,4 +205,20 @@ public class StudentService {
 
         return SortEnrollList.sort(enrollList,teamLimit);
     }
+
+    /**
+     * 报名某一次讨论课
+     */
+    public void registerSeminar(Integer klassId,Integer seminarId,Integer teamId,Integer teamOrder) throws Exception{
+        Integer klassSeminarId=seminarDao.getKlassSeminar(klassId,seminarId).getId();
+        teamDao.registerSeminar(klassSeminarId,teamId,teamOrder);
+    }
+
+    /**
+     * 获取班级
+     */
+    public Klass getKlassById(Integer klassId) throws Exception{
+        return klassDao.getKlassById(klassId);
+    }
+
 }

@@ -49,4 +49,11 @@ public interface StudentMapper {
      * @throws Exception
      */
     void modifyEmailById(Student student) throws Exception;
+
+    /**
+     * 插入一条学生记录
+     * @param student Object
+     * @throws Exception
+     */
+    void insertStudent(Student student) throws Exception;
 }

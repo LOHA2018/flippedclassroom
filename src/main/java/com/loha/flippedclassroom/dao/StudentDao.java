@@ -1,15 +1,15 @@
 package com.loha.flippedclassroom.dao;
 
-import com.loha.flippedclassroom.entity.KlassStudent;
-import com.loha.flippedclassroom.entity.Student;
-import com.loha.flippedclassroom.entity.Teacher;
-import com.loha.flippedclassroom.entity.Team;
+import com.loha.flippedclassroom.entity.*;
+import com.loha.flippedclassroom.mapper.KlassMapper;
 import com.loha.flippedclassroom.mapper.KlassStudentMapper;
 import com.loha.flippedclassroom.mapper.StudentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 与学生相关的dao
@@ -21,11 +21,13 @@ import java.util.List;
 public class StudentDao {
     private final StudentMapper studentMapper;
     private final KlassStudentMapper klassStudentMapper;
+    private final KlassMapper klassMapper;
 
     @Autowired
-    StudentDao(StudentMapper studentMapper,KlassStudentMapper klassStudentMapper){
+    StudentDao(StudentMapper studentMapper,KlassStudentMapper klassStudentMapper,KlassMapper klassMapper){
         this.studentMapper=studentMapper;
         this.klassStudentMapper=klassStudentMapper;
+        this.klassMapper=klassMapper;
     }
 
     /**
@@ -35,6 +37,9 @@ public class StudentDao {
         return studentMapper.selectStudentByNum(studentNum);
     }
 
+    /**
+     * 根据student id来获取当前学生信息
+     */
     public Student getStudentById(Integer studentId) throws Exception{
         return studentMapper.selectStudentById(studentId);
     }
@@ -49,8 +54,8 @@ public class StudentDao {
     /**
      * 获取某个学生所有班级和课程
      */
-    public List<KlassStudent> getKlassAndCourse(Integer studentId) throws Exception{
-        return klassStudentMapper.selectKlassStudentByStudentId(studentId);
+    public List<Klass> getCourseAndKlass(Integer studentId) throws Exception{
+        return klassMapper.selectKlassAndCourseByStudentId(studentId);
     }
 
     /**
@@ -67,5 +72,28 @@ public class StudentDao {
         studentMapper.modifyEmailById(student);
     }
 
+    /**
+     * 在student表里插入一条学生记录
+     */
+    public void insertStudent(Student student) throws Exception{
+        Student temp=studentMapper.selectStudentByNum(student.getAccount());
+        if(temp==null){
+            studentMapper.insertStudent(student);
+        }
+    }
 
+    /**
+     * 在klassStudent表里插入一条学生记录
+     */
+    public void insertKlassStudent(Integer klassId,String studentNum) throws Exception{
+        Klass klass=klassMapper.selectKlassById(klassId);
+        Student student=studentMapper.selectStudentByNum(studentNum);
+
+        Map<String,Integer> map=new HashMap<>();
+        map.put("klassId",klassId);
+        map.put("courseId",klass.getCourseId());
+        map.put("studentId",student.getId());
+
+        klassStudentMapper.insertKlassStudent(map);
+    }
 }

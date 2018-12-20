@@ -1,14 +1,15 @@
 package com.loha.flippedclassroom.dao;
 
 import com.loha.flippedclassroom.entity.Attendance;
-import com.loha.flippedclassroom.entity.KlassSeminar;
-import com.loha.flippedclassroom.entity.KlassStudent;
 import com.loha.flippedclassroom.entity.Team;
 import com.loha.flippedclassroom.mapper.AttendanceMapper;
 import com.loha.flippedclassroom.mapper.KlassStudentMapper;
+import com.loha.flippedclassroom.mapper.TeamMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 与Team有关的dao
@@ -21,28 +22,32 @@ public class TeamDao {
 
     private final AttendanceMapper attendanceMapper;
     private final KlassStudentMapper klassStudentMapper;
+    private final TeamMapper teamMapper;
 
-    TeamDao(AttendanceMapper attendanceMapper,KlassStudentMapper klassStudentMapper){
+    TeamDao(AttendanceMapper attendanceMapper,KlassStudentMapper klassStudentMapper,TeamMapper teamMapper){
         this.attendanceMapper=attendanceMapper;
         this.klassStudentMapper=klassStudentMapper;
+        this.teamMapper=teamMapper;
     }
 
     /**
-     * 判断某一个组是否报名某次讨论课
+     * 根据teamId和klassSeminarId从attendance表取出相应记录，可能为空
      */
-    public boolean attendSeminar(Attendance attendance) throws Exception{
-        Attendance temp=attendanceMapper.selectTeamByKlassSeminarId(attendance);
-        if(temp==null){
-            return false;
-        }
-        return true;
+    public Attendance attendSeminar(Integer teamId,Integer klassSeminarId) throws Exception{
+        Attendance attendance=new Attendance();
+        attendance.setTeamId(teamId);
+        attendance.setKlassSeminarId(klassSeminarId);
+        return attendanceMapper.selectTeamByKlassSeminarId(attendance);
     }
 
     /**
      * 获取某个学生在某课程某班级下所属的team
      */
-    public Team getTeamByKlassAndStudentId(KlassStudent klassStudent) throws Exception{
-        return klassStudentMapper.selectKlassStudentByKlassStudentId(klassStudent).getTeam();
+    public Team getTeamByKlassAndStudentId(Integer klassId,Integer studentId) throws Exception{
+        Map<String,Integer> map=new HashMap<>();
+        map.put("klassId",klassId);
+        map.put("studentId",studentId);
+        return teamMapper.selectTeamByKlassAndStudentId(map);
     }
 
     /**
@@ -50,5 +55,37 @@ public class TeamDao {
      */
     public List<Attendance> getEnrollList(Integer klassSeminarId) throws Exception{
         return attendanceMapper.selectTeamListByKlassSeminarId(klassSeminarId);
+    }
+
+    /**
+     * 报名某一次讨论课
+     */
+    public void registerSeminar(Integer klassSeminarId,Integer teamId,Integer teamOrder) throws Exception{
+        Attendance attendance=new Attendance();
+        attendance.setKlassSeminarId(klassSeminarId);
+        attendance.setTeamId(teamId);
+        attendance.setTeamOrder(teamOrder);
+
+        //判断讨论课的某次顺序是否已经被报名
+        Attendance temp=attendanceMapper.selectTeamByKlassSeminarIdAndTeamOrder(attendance);
+        if(temp!=null)
+        {
+            //抛出异常
+        }
+        else {
+            attendanceMapper.insertAttendance(attendance);
+        }
+    }
+
+    /**
+     * 组员上传ppt
+     */
+    public void submitPowerPoint(Integer klassSeminarId,Integer teamId,String pptName,String pptUrl) throws Exception{
+        Attendance attendance=new Attendance();
+        attendance.setKlassSeminarId(klassSeminarId);
+        attendance.setTeamId(teamId);
+        attendance.setPptName(pptName);
+        attendance.setPptUrl(pptUrl);
+        attendanceMapper.updatePowerPointByKlassSeminarAndTeamId(attendance);
     }
 }

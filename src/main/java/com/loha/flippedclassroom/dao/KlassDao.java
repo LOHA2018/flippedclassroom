@@ -26,4 +26,11 @@ public class KlassDao {
     public List<Klass> getKlassByCourseId(Integer courseId) throws Exception{
         return klassMapper.selectKlassByCourseId(courseId);
     }
+
+    /**
+     * 根据id获取班级
+     */
+    public Klass getKlassById(Integer klassId) throws Exception{
+        return klassMapper.selectKlassById(klassId);
+    }
 }
