@@ -12,13 +12,14 @@
         <result column="seminar_serial" property="seminarSerial"/>
         <result column="enroll_start_time" property="enrollStartTime"/>
         <result column="enroll_end_time" property="enrollEndTime"/>
+        <association property="course" select="com.loha.flippedclassroom.mapper.CourseMapper.selectCourseById" column="course_id"></association>
     </resultMap>
 
-    <select id="selectSeminarByRoundId" parameterType="long" resultMap="seminarMap">
+    <select id="selectSeminarByRoundId" parameterType="Long" resultMap="seminarMap">
         select * from seminar where round_id=#{value}
     </select>
 
-    <select id="selectSeminarById" resultMap="seminarMap">
+    <select id="selectSeminarById" parameterType="Long" resultMap="seminarMap">
         select * from seminar where id=#{value}
     </select>
 

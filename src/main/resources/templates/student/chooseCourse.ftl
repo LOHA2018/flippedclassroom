@@ -8,7 +8,7 @@
 
     <link rel="shortcut icon" href="/img/favicon_1.ico">
 
-    <title>主页</title>
+    <title>Moltran - Responsive Admin Dashboard Template</title>
 
     <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
 
@@ -42,21 +42,20 @@
         <div class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="">
-                    <!--<div class="pull-left">-->
-                    <!--<button class="button-menu-mobile">-->
-                    <!--<div class="glyphicon glyphicon-menu-left"></div>-->
-                    <!--</button>-->
+                    <div class="pull-left">
+                        <button class="button-menu-mobile">
+                            <div class="glyphicon glyphicon-menu-left"></div>
+                        </button>
 
-                    <!--</div>-->
+                    </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                            我的主页
+                            讨论课
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
                         <li class="dropdown">
-                            <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img
-                                    src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
+                            <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
                                 <li><a href="/student/index"><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
                                 <li><a href="/student/chooseCourse"><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
@@ -79,80 +78,60 @@
 
     <div class="content">
         <div class="container">
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default ">
-
+                        <div class="panel-heading"><h3 class="panel-title">我的讨论课</h3></div>
                         <div class="panel-body">
-
-                            <div class="user-details">
-                                <div class="pull-left">
-                                    <img src="/img/avatar-1.jpg" alt="" class="thumb-md img-circle">
-                                </div>
-                                <div class="user-info">
-                                    <p><strong>${student.studentName}</strong></p>
-                                    <p class="text-muted m-0">${student.account}</p>
-                                </div>
-                            </div>
 
                             <table class="table">
 
                                 <tbody>
+                                <#list courseAndKlassList as list>
                                 <tr>
-
+                                    <td>${list.course.courseName}——${list.grade}(${list.klassSerial})</td>
                                     <td>
-                                        <form action="/student/course" method="get">
-                                            <button style="border: transparent"
-                                                    class=" btn btn-lg btn-default btn-block  waves-effect waves-light ">
-                                                我的课程
-                                            </button>
+                                        <form action="/student/seminar" method="post">
+                                            <input type="hidden" name="courseId" value=${list.courseId}>
+                                            <input type="hidden" name="klassId" value=${list.id}>
+                                        <button class="md-trigger btn btn-primary waves-effect waves-light pull-right" >进入
+                                        </button></td>
                                         </form>
-
-                                    </td>
                                 </tr>
+                                </#list>
 
-                                <tr>
-                                    <td>
-                                        <form action="/student/setting" method="get">
-                                            <button style="border: transparent"
-                                                    class=" btn btn-lg btn-default btn-block  waves-effect waves-light ">
-                                                账户与设置
-                                            </button>
-                                        </form>
-                                    </td>
 
-                                </tr>
 
                                 </tbody>
                             </table>
+
+
+
                         </div>
+
                     </div> <!-- panel-body -->
                 </div> <!-- panel -->
             </div>
 
-            <!-- col -->
+
+
 
 
         </div> <!-- End row -->
 
+
+
     </div>
+
 
 
 </div>
 <!-- END wrapper -->
 
 <!-- jQuery  -->
-
-<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
-
-
-<script>
-
-</script>
-
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
 
 </body>
 </html>

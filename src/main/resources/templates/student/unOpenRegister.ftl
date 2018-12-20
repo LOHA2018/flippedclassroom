@@ -8,7 +8,7 @@
 
     <link rel="shortcut icon" href="/img/favicon_1.ico">
 
-    <title>主页</title>
+    <title>讨论课</title>
 
     <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
 
@@ -42,15 +42,16 @@
         <div class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="">
-                    <!--<div class="pull-left">-->
-                    <!--<button class="button-menu-mobile">-->
-                    <!--<div class="glyphicon glyphicon-menu-left"></div>-->
-                    <!--</button>-->
-
-                    <!--</div>-->
+                    <div class="pull-left">
+                        <form action="/student/course/seminarList" method="get">
+                            <button class="button-menu-mobile">
+                                <div class="glyphicon glyphicon-menu-left"></div>
+                            </button>
+                        </form>
+                    </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                            我的主页
+                        <#--${course.courseName}——讨论课-->
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
@@ -79,80 +80,125 @@
 
     <div class="content">
         <div class="container">
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default ">
-
+                        <div class="panel-heading"><h3 class="panel-title">讨论课</h3></div>
                         <div class="panel-body">
-
-                            <div class="user-details">
-                                <div class="pull-left">
-                                    <img src="/img/avatar-1.jpg" alt="" class="thumb-md img-circle">
-                                </div>
-                                <div class="user-info">
-                                    <p><strong>${student.studentName}</strong></p>
-                                    <p class="text-muted m-0">${student.account}</p>
-                                </div>
-                            </div>
 
                             <table class="table">
 
                                 <tbody>
                                 <tr>
+                                    <td><p>轮次：第${round.roundSerial}轮</p></td>
 
-                                    <td>
-                                        <form action="/student/course" method="get">
-                                            <button style="border: transparent"
-                                                    class=" btn btn-lg btn-default btn-block  waves-effect waves-light ">
-                                                我的课程
-                                            </button>
-                                        </form>
-
-                                    </td>
                                 </tr>
-
+                                <tr>
+                                    <td><p>主题：${seminar.seminarName}</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p>课次序号：第${seminar.seminarSerial}次</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p>要求：${seminar.introduction}</p></td>
+                                </tr>
                                 <tr>
                                     <td>
-                                        <form action="/student/setting" method="get">
-                                            <button style="border: transparent"
-                                                    class=" btn btn-lg btn-default btn-block  waves-effect waves-light ">
-                                                账户与设置
+                                        <p>报名：${klass.grade}——(${klass.klassSerial}) 第${attendance.teamOrder}组</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><p>课程情况：未开始</p>
+                                        <form action="/student/seminar/enrollList" method="get">
+                                            <#--<input type="hidden" name="klassSeminarId" value="${klassSeminarId}">-->
+                                            <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"
+                                                    type="submit">
+                                                报名情况
                                             </button>
                                         </form>
                                     </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p id="submitStatus">PPT：<#if attendance.pptName??>已提交<#else>未提交</#if></p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <#if attendance.PPTName??>
+                                        <td>${attendance.pptName}</td>
+                                    <#else>
+                                    <td>
+                                        <div class="col-xs-6 col-sm-4"><input id="file" type="file" name="file"></div>
+                                        <div class="col-xs-6 col-sm-4">
+                                            <button id="submitPPT"
+                                                    class="md-trigger btn btn-default waves-effect waves-light pull-right no-border"
+                                                    onclick="submitFile()">
+                                                提交
+                                            </button>
+                                        </div>
+                                    </td>
+                                    </#if>
 
                                 </tr>
 
                                 </tbody>
                             </table>
                         </div>
+
                     </div> <!-- panel-body -->
                 </div> <!-- panel -->
             </div>
-
-            <!-- col -->
-
 
         </div> <!-- End row -->
 
     </div>
 
-
 </div>
 <!-- END wrapper -->
 
 <!-- jQuery  -->
-
 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
-
-
 <script>
+    function submitFile() {
+        var fileObj = document.getElementById("file").files[0];
 
+        if (!fileObj) {
+            alert("请选择文件!");
+            return false;
+        }
+        else {
+
+
+            var formData = new FormData();
+
+            formData.append('file', fileObj);
+            formData.append('teamId', ${myTeamId});
+            formData.append('klassId',${klass.id});
+            formData.append('seminarId',${seminar.id});
+
+
+            $.ajax({
+                url: "/student/seminar/info/submitppt",
+                type: "POST",
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function (data, status) {
+                    alert("上传成功");
+                    document.getElementById("submitStatus").innerText="已提交";
+                },
+                error: function (data, status) {
+                    alert("上传失败");
+                }
+            });
+        }
+
+    }
 </script>
-
-
 </body>
 </html>

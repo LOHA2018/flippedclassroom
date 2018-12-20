@@ -8,7 +8,7 @@
 
     <link rel="shortcut icon" href="/img/favicon_1.ico">
 
-    <title>主页</title>
+    <title>讨论课</title>
 
     <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
 
@@ -29,6 +29,8 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+
+
 </head>
 
 
@@ -42,15 +44,19 @@
         <div class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="">
-                    <!--<div class="pull-left">-->
-                    <!--<button class="button-menu-mobile">-->
-                    <!--<div class="glyphicon glyphicon-menu-left"></div>-->
-                    <!--</button>-->
+                    <div class="pull-left">
+                        <form action="/student/seminar" method="post">
+                            <input type="hidden" name="klassId" value="${klass.id}">
+                            <input type="hidden" name="courseId" value="${seminar.courseId}">
+                            <button class="button-menu-mobile">
+                                <div class="glyphicon glyphicon-menu-left"></div>
+                            </button>
+                        </form>
 
-                    <!--</div>-->
+                    </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                            我的主页
+                        ${seminar.course.courseName}————讨论课
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
@@ -79,80 +85,71 @@
 
     <div class="content">
         <div class="container">
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default ">
-
+                        <div class="panel-heading"><h3 class="panel-title">讨论课</h3></div>
                         <div class="panel-body">
-
-                            <div class="user-details">
-                                <div class="pull-left">
-                                    <img src="/img/avatar-1.jpg" alt="" class="thumb-md img-circle">
-                                </div>
-                                <div class="user-info">
-                                    <p><strong>${student.studentName}</strong></p>
-                                    <p class="text-muted m-0">${student.account}</p>
-                                </div>
-                            </div>
 
                             <table class="table">
 
                                 <tbody>
                                 <tr>
+                                    <td><p>轮次：第${round.roundSerial}轮</p></td>
 
-                                    <td>
-                                        <form action="/student/course" method="get">
-                                            <button style="border: transparent"
-                                                    class=" btn btn-lg btn-default btn-block  waves-effect waves-light ">
-                                                我的课程
-                                            </button>
-                                        </form>
-
+                                </tr>
+                                <tr>
+                                    <td><p>主题：${seminar.seminarName}</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p>课次序号：第${seminar.seminarSerial}次</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p>要求：${seminar.introduction!}</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p>课程情况：未开始
+                                        </p>
                                     </td>
                                 </tr>
-
                                 <tr>
                                     <td>
-                                        <form action="/student/setting" method="get">
-                                            <button style="border: transparent"
-                                                    class=" btn btn-lg btn-default btn-block  waves-effect waves-light ">
-                                                账户与设置
+                                        <p>报名开始时间：${seminar.enrollStartTime?datetime!}</p>
+                                        <p>报名截止时间：${seminar.enrollEndTime?datetime!}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <form action="/student/seminar/enrollList" method="post">
+                                            <input type="hidden" name="klassId" value=${klass.id}>
+                                            <input type="hidden" name="seminarId" value="${seminar.id}">
+                                            <button class="btn btn-lg btn-default btn-block waves-effect waves-light ">
+                                                报名
                                             </button>
                                         </form>
                                     </td>
-
                                 </tr>
-
                                 </tbody>
                             </table>
                         </div>
+
                     </div> <!-- panel-body -->
                 </div> <!-- panel -->
             </div>
-
-            <!-- col -->
-
 
         </div> <!-- End row -->
 
     </div>
 
-
 </div>
 <!-- END wrapper -->
 
 <!-- jQuery  -->
-
 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
-
-
-<script>
-
-</script>
-
 
 </body>
 </html>

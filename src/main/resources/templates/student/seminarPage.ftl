@@ -9,7 +9,6 @@
     <link rel="shortcut icon" href="/img/favicon_1.ico">
 
     <title>Moltran - Responsive Admin Dashboard Template</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
     <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
 
@@ -52,7 +51,7 @@
                     </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                            我的课程
+                            讨论课
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
@@ -89,60 +88,42 @@
                     <div class="panel-group panel-group-joined" id="accordion-test">
 
 
-                        <#if courseAndKlassList?exists>
-                        <#list courseAndKlassList as list>
-
+                        <#if roundAndSeminarList??>
+                        <#list roundAndSeminarList as roundList>
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion-test" href="#collapseOne"
+                                    <a data-toggle="collapse" data-parent="#accordion-test" href="#round${roundList.roundSerial}"
                                        class="collapsed">
-                                        ${list.course.courseName}——${list.grade}(${list.klassSerial})
+                                        第${roundList.roundSerial}轮
                                     </a>
                                 </h4>
                             </div>
-                            <div id="collapseOne" class="panel-collapse collapse">
+                            <div id="round${roundList.roundSerial}" class="panel-collapse collapse">
                                 <div class="panel-body">
                                     <table class="table">
 
                                         <tbody>
+
+
+                                        <#list roundList.seminars as seminar>
+
+
                                         <tr>
                                             <td>
-                                                <form action="/student/course/info" method="post">
-                                                    <input type="hidden" name="courseId" value=${list.courseId}>
-                                                    <button style="border: transparent"
-                                                            class="btn-lg btn-default btn-block  waves-effect waves-light "
-                                                            type="submit">
-                                                        课程信息
+                                                <form action="/student/seminar/info" method="get">
+                                                    <input type="hidden" name="klassId" value="${klassId}">
+                                                    <input type="hidden" name="seminarId" value="${seminar.id}">
+                                                    <button style="border: transparent" class="btn-lg btn-default btn-block  waves-effect waves-light" type="submit" >
+                                                        ${seminar.seminarName}
                                                     </button>
                                                 </form>
                                             </td>
                                         </tr>
 
-                                        <tr>
-                                            <td>
-                                                <form action="/student/course/score" method="post">
-                                                    <input type="hidden" name="courseId" value=${list.courseId}>
-                                                    <input type="hidden" name="klassId" value=${list.id}>
-                                                    <button style="border: transparent" class="  btn-lg btn-default btn-block  waves-effect waves-light " type="submit">
-                                                        我的成绩
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
 
-                                        <tr>
-                                            <td>
-                                                <form action="/student/course/team" method="post">
-                                                    <input type="hidden" name="courseInfo"
-                                                           value="courseAndKlassMap.get(key).id">
-                                                    <button style="border: transparent"
-                                                            class="  btn-lg btn-default btn-block  waves-effect waves-light ">
-                                                        我的组队
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
+                                        </#list>
+
 
                                         </tbody>
                                     </table>
@@ -162,7 +143,9 @@
 
         </div> <!-- End row -->
 
+
     </div>
+
 
 </div>
 <!-- END wrapper -->
@@ -172,6 +155,5 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
-
 </body>
 </html>

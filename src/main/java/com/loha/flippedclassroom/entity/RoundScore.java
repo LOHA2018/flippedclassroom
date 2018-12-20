@@ -14,8 +14,8 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class RoundScore {
-    private long roundId;
-    private long teamId;
+    private Long roundId;
+    private Long teamId;
     private BigDecimal totalScore;
     private BigDecimal presentationScore;
     private BigDecimal questionScore;

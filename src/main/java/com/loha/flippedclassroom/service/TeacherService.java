@@ -1,6 +1,8 @@
 package com.loha.flippedclassroom.service;
 
 import com.loha.flippedclassroom.dao.CourseDao;
+import com.loha.flippedclassroom.dao.KlassDao;
+import com.loha.flippedclassroom.dao.RoundDao;
 import com.loha.flippedclassroom.dao.TeacherDao;
 import com.loha.flippedclassroom.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +23,19 @@ public class TeacherService {
 
     private final TeacherDao teacherDao;
     private final CourseDao courseDao;
+    private final RoundDao roundDao;
+    private final KlassDao klassDao;
 
     @Autowired
-    TeacherService(TeacherDao teacherDao,CourseDao courseDao){
+    TeacherService(TeacherDao teacherDao,CourseDao courseDao,RoundDao roundDao,KlassDao klassDao){
         this.teacherDao=teacherDao;
         this.courseDao=courseDao;
+        this.roundDao=roundDao;
+        this.klassDao=klassDao;
     }
 
 
-    public List<Course> getTeacherCourses(long teacherId) throws Exception{
+    public List<Course> getTeacherCourses(Long teacherId) throws Exception{
         return teacherDao.getTeacherCourses(teacherId);
     }
 
@@ -39,42 +45,42 @@ public class TeacherService {
         return teacherDao.getCurTeacher(teacherNum);
     }
 
-    public List<Klass> getKlassByCourseId(long courseId) throws Exception{
-       return courseDao.getKlassByCourseId(courseId);
+    public List<Klass> getKlassByCourseId(Long courseId) throws Exception{
+       return klassDao.getKlassByCourseId(courseId);
     }
 
-    public Course getCourseById(long id) throws Exception{
+    public Course getCourseById(Long id) throws Exception{
         return courseDao.getCourseById(id);
     }
 
-    public List<Round> getRoundAndSeminar(long courseId) throws Exception{
-        return courseDao.getRoundAndSeminar(courseId);
+    public List<Round> getRoundAndSeminar(Long courseId) throws Exception{
+        return roundDao.getRoundAndSeminar(courseId);
     }
 
 
-    public  void activateTeacher(String password, long teacherId) throws Exception{
+    public  void activateTeacher(String password, Long teacherId) throws Exception{
         Teacher teacher=teacherDao.getTeacherById(teacherId);
         teacher.setPassword(password);
         teacherDao.activateTeacher(teacher);
     }
 
-    public Teacher getTeacherById(long teacherId) throws Exception{
+    public Teacher getTeacherById(Long teacherId) throws Exception{
         return teacherDao.getTeacherById(teacherId);
     }
 
-    public void modifyTeacherEmail(long teacherId, String email) throws Exception{
+    public void modifyTeacherEmail(Long teacherId, String email) throws Exception{
         Teacher teacher=teacherDao.getTeacherById(teacherId);
         teacher.setEmail(email);
         teacherDao.modifyTeacherEmail(teacher);
     }
 
-    public void modifyTeacherPwdById(long teacherId, String password) throws Exception{
+    public void modifyTeacherPwdById(Long teacherId, String password) throws Exception{
         Teacher teacher=teacherDao.getTeacherById(teacherId);
         teacher.setPassword(password);
         teacherDao.modifyTeacherPsd(teacher);
     }
 
-    public MessageBox getTeacherMessageBox(long id){
+    public MessageBox getTeacherMessageBox(Long id){
         return new MessageBox();
     }
 }

@@ -14,7 +14,7 @@
         select * from student where account=#{studentNum}
     </select>
 
-    <select id="selectStudentById" parameterType="long" resultMap="studentMap">
+    <select id="selectStudentById" parameterType="Long" resultMap="studentMap">
         select * from student where id=#{value}
     </select>
 
@@ -29,5 +29,10 @@
     <update id="modifyEmailById" parameterType="Student">
         update student set email=#{email} where id=#{id}
     </update>
+
+    <insert id="insertStudent" parameterType="Student">
+        insert into student(account, password, is_active, student_name)
+        values (#{account},'123456',0,#{studentName})
+    </insert>
 
 </mapper>

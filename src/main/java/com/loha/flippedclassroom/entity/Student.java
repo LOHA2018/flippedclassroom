@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Student {
-    private long id;
+    private Long id;
     private String account;
     private String password;
     private boolean isActive;

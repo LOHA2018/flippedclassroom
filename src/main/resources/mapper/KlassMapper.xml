@@ -8,14 +8,21 @@
         <result column="klass_serial" property="klassSerial"/>
         <result column="klass_time" property="time"/>
         <result column="klass_location" property="location"/>
+
+        <association property="course" select="com.loha.flippedclassroom.mapper.CourseMapper.selectCourseById" column="course_id"></association>
     </resultMap>
 
-    <select id="selectKlassByCourseId" parameterType="long" resultMap="klassMap">
+    <select id="selectKlassByCourseId" parameterType="Long" resultMap="klassMap">
         select * from klass where course_id=#{value}
     </select>
 
-    <select id="selectKlassById" parameterType="long" resultMap="klassMap">
+    <select id="selectKlassById" parameterType="Long" resultMap="klassMap">
         select * from klass where id=#{value}
+    </select>
+
+    <select id="selectKlassAndCourseByStudentId" parameterType="Long" resultMap="klassMap">
+        select klass.* from klass,klass_student
+        where student_id=#{values} and klass_id=id
     </select>
 
 </mapper>

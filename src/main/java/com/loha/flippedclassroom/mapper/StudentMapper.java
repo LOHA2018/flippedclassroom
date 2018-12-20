@@ -26,7 +26,7 @@ public interface StudentMapper {
      * @return Student
      * @throws Exception
      */
-    Student selectStudentById(long studentId) throws Exception;
+    Student selectStudentById(Long studentId) throws Exception;
 
     /**
      * 激活学生账号并修改密码邮箱
@@ -49,4 +49,11 @@ public interface StudentMapper {
      * @throws Exception
      */
     void modifyEmailById(Student student) throws Exception;
+
+    /**
+     * 插入一条学生记录
+     * @param student Object
+     * @throws Exception
+     */
+    void insertStudent(Student student) throws Exception;
 }

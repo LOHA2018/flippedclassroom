@@ -23,7 +23,7 @@ public interface SeminarMapper {
      * @return a seminar
      * @throws Exception
      */
-    Seminar selectSeminarById(long seminarId) throws Exception;
+    Seminar selectSeminarById(Long seminarId) throws Exception;
 
     /**
      * fetch data by seminar
@@ -44,7 +44,7 @@ public interface SeminarMapper {
      *
      * @param seminarId seminar's id
      */
-    void deleteSeminar(long seminarId);
+    void deleteSeminar(Long seminarId);
 
     /**
      * fetch a seminar
@@ -53,5 +53,5 @@ public interface SeminarMapper {
      * @return a seminar
      * @throws Exception
      */
-    Seminar selectSeminarByRoundId(long roundId) throws Exception;
+    Seminar selectSeminarByRoundId(Long roundId) throws Exception;
 }

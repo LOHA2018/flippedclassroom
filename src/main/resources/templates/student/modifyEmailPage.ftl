@@ -84,7 +84,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-2">新邮箱</label>
                                         <div class="col-md-10">
-                                            <input id="newEmail" type="email" name="email" value="">
+                                            <input class="form-control" id="newEmail" type="email" name="email" value="">
                                         </div>
                                     </div>
 

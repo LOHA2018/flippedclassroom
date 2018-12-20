@@ -10,11 +10,11 @@
         <result column="email" property="email"/>
     </resultMap>
 
-    <select id="selectTeacherByNum" resultMap="teacherMap">
+    <select id="selectTeacherByNum" parameterType="String" resultMap="teacherMap">
         select * from teacher where account=#{teacherNum}
     </select>
 
-    <select id="selectTeacherById" resultMap="teacherMap">
+    <select id="selectTeacherById" parameterType="Long" resultMap="teacherMap">
         select * from teacher where id=#{value}
     </select>
 
@@ -29,4 +29,7 @@
     <update id="modifyPsdById" parameterType="Teacher">
         update teacher set password=#{password} where id=#{id}
     </update>
+
+
+
 </mapper>

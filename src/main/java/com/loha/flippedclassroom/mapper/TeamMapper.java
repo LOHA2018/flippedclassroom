@@ -4,6 +4,7 @@ import com.loha.flippedclassroom.entity.Team;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 与小组相关的mapper
@@ -20,7 +21,7 @@ public interface TeamMapper {
      * @return a team
      * @throws Exception
      */
-    Team selectTeamById(long teamId) throws Exception;
+    Team selectTeamById(Long teamId) throws Exception;
 
     /**
      * 查找一个课程下所有的team
@@ -28,5 +29,13 @@ public interface TeamMapper {
      * @return team list
      * @throws Exception
      */
-    List<Team> selectTeamByCourseId(long courseId) throws Exception;
+    List<Team> selectTeamByCourseId(Long courseId) throws Exception;
+
+    /**
+     * 查找某个同学在某个班级下所属的team
+     * @param map 其中包含了studentId和klassId
+     * @return team
+     * @throws Exception
+     */
+    Team selectTeamByKlassAndStudentId(Map<String,Long> map) throws Exception;
 }

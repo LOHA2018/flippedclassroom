@@ -60,8 +60,9 @@
                             <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img
                                     src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
-                                <li><a><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
-                                <li><a><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
+                                <li><a href="/student/index"><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
+                                <li><a href="/student/chooseCourse"><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -98,7 +99,8 @@
 
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        <a data-toggle="collapse" data-parent="#accordion-test" href="#round${list1.roundScore.round.roundSerial}"
+                                        <a data-toggle="collapse" data-parent="#accordion-test"
+                                           href="#round${list1.roundScore.round.roundSerial}"
                                            class="collapsed">
                                             第${list1.roundScore.round.roundSerial}轮——总分:${list1.roundScore.totalScore}
                                         </a>
@@ -115,31 +117,29 @@
 
                                             <#list list1.seminarScores as seminarScoreList>
 
-
                                                 <div class="panel-heading">
                                                     <h4 class="panel-title">
                                                         <a data-toggle="collapse" data-parent="#accordion-test1"
-                                                           href="#seminar${seminarScoreList.seminar.id}" class="collapsed">
-                                                            <label>${seminarScoreList.seminar.seminarName}</label>
+                                                           href="#seminar${seminarScoreList.seminar.id}"
+                                                           class="collapsed">
+                                                            <label>${seminarScoreList.seminar.seminarName} 本次总成绩:${seminarScoreList.totalScore}</label>
                                                         </a>
                                                     </h4>
                                                 </div>
-                                                <div id="seminar${seminarScoreList.seminar.id}" class="panel-collapse collapse">
+                                                <div id="seminar${seminarScoreList.seminar.id}"
+                                                     class="panel-collapse collapse">
+
+
                                                     <div class="panel-body">
-                                                        <table class="table" style="border: none">
-                                                            <tbody>
-                                                            <tr>
-                                                                <td>展示:${seminarScoreList.presentationScore}</td>
-                                                                <td>提问:${seminarScoreList.questionScore}</td>
-                                                                <td>报告:${seminarScoreList.reportScore}</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td></td>
-                                                                <td>该次讨论课总分:${seminarScoreList.totalScore}</td>
-                                                                <td></td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
+                                                        <div class="row">
+                                                            <div class="col-xs-4 col-md-1.3">
+                                                                展示:${seminarScoreList.presentationScore}</div>
+                                                            <div class="col-xs-4 col-md-1.3">
+                                                                提问:${seminarScoreList.questionScore}</div>
+                                                            <div class="col-xs-4 col-md-1.3">
+                                                                报告:${seminarScoreList.reportScore}</div>
+                                                        </div>
+
                                                     </div>
                                                 </div>
                                             </#list>

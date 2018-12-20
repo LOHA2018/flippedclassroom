@@ -35,7 +35,7 @@ public class TeacherDao {
      * @return List of Course
      * @throws Exception
      */
-    public List<Course> getTeacherCourses(long teacherId) throws Exception{
+    public List<Course> getTeacherCourses(Long teacherId) throws Exception{
         return courseMapper.selectCourseByTeacherId(teacherId);
     }
 
@@ -50,7 +50,7 @@ public class TeacherDao {
     }
 
 
-    public Teacher getTeacherById(long teacherId) throws Exception{
+    public Teacher getTeacherById(Long teacherId) throws Exception{
         return teacherMapper.selectTeacherById(teacherId);
     }
 
