@@ -19,4 +19,6 @@ public class Team {
     private String teamName;
     private Integer teamSerial;
     private Integer status;
+
+    private Klass klass;
 }

@@ -83,10 +83,10 @@
                 "password":password
             },
             type:"POST",
-            success:function(JSON){
+            success:function(JSON,status){
                 if(JSON.toString()=="[ROLE_STUDENT]")
                     window.location.href="/student/index";
-                if (JSON.toString()=="[ROLE_TEACHER]")
+                if(JSON.toString()=="[ROLE_TEACHER]")
                     window.location.href="/teacher/index";
             },
             error:function (data) {

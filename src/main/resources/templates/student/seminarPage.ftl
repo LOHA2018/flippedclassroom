@@ -8,7 +8,7 @@
 
     <link rel="shortcut icon" href="/img/favicon_1.ico">
 
-    <title>主页</title>
+    <title>Moltran - Responsive Admin Dashboard Template</title>
 
     <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
 
@@ -42,15 +42,16 @@
         <div class="navbar navbar-default" role="navigation">
             <div class="container">
                 <div class="">
-                    <!--<div class="pull-left">-->
-                    <!--<button class="button-menu-mobile">-->
-                    <!--<div class="glyphicon glyphicon-menu-left"></div>-->
-                    <!--</button>-->
-
-                    <!--</div>-->
+                    <div class="pull-left">
+                        <form action="/student/index" method="get">
+                            <button class="button-menu-mobile">
+                                <div class="glyphicon glyphicon-menu-left"></div>
+                            </button>
+                        </form>
+                    </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                            我的主页
+                            讨论课
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
@@ -79,61 +80,69 @@
 
     <div class="content">
         <div class="container">
+            <!-- col -->
+
             <div class="row">
-                <div class="col-md-12">
-                    <div class="panel panel-default ">
 
-                        <div class="panel-body">
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                    <div class="panel-group panel-group-joined" id="accordion-test">
 
-                            <div class="user-details">
-                                <div class="pull-left">
-                                    <img src="/img/avatar-1.jpg" alt="" class="thumb-md img-circle">
-                                </div>
-                                <div class="user-info">
-                                    <p><strong>${student.studentName}</strong></p>
-                                    <p class="text-muted m-0">${student.account}</p>
+
+                        <#if roundAndSeminarList??>
+                        <#list roundAndSeminarList as roundList>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion-test" href="#round${roundList.roundSerial}"
+                                       class="collapsed">
+                                        第${roundList.roundSerial}轮
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="round${roundList.roundSerial}" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <table class="table">
+
+                                        <tbody>
+
+
+                                        <#list roundList.seminars as seminar>
+
+
+                                        <tr>
+                                            <td>
+                                                <form action="/student/seminar/info" method="post">
+                                                    <input type="hidden" name="klassId" value="${klassId}">
+                                                    <input type="hidden" name="seminarId" value="${seminar.id}">
+                                                    <button style="border: transparent" class="btn-lg btn-default btn-block  waves-effect waves-light" type="submit" >
+                                                        ${seminar.seminarName}
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+
+
+                                        </#list>
+
+
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-
-                            <table class="table">
-
-                                <tbody>
-                                <tr>
-
-                                    <td>
-                                        <form action="/student/course" method="get">
-                                            <button style="border: transparent"
-                                                    class=" btn btn-lg btn-default btn-block  waves-effect waves-light ">
-                                                我的课程
-                                            </button>
-                                        </form>
-
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <form action="/student/setting" method="get">
-                                            <button style="border: transparent"
-                                                    class=" btn btn-lg btn-default btn-block  waves-effect waves-light ">
-                                                账户与设置
-                                            </button>
-                                        </form>
-                                    </td>
-
-                                </tr>
-
-                                </tbody>
-                            </table>
                         </div>
-                    </div> <!-- panel-body -->
-                </div> <!-- panel -->
-            </div>
 
-            <!-- col -->
+
+                        </#list>
+                        </#if>
+
+
+                    </div>
+                </div>
+            </div> <!-- end row -->
 
 
         </div> <!-- End row -->
+
 
     </div>
 
@@ -142,17 +151,9 @@
 <!-- END wrapper -->
 
 <!-- jQuery  -->
-
 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
-
-
-<script>
-
-</script>
-
-
 </body>
 </html>

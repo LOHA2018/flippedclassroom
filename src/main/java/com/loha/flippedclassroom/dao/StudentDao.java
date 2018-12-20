@@ -30,9 +30,6 @@ public class StudentDao {
 
     /**
      * 根据studentNum来获取当前学生信息
-     *
-     * @param studentNum student's account
-     * @return Teacher
      */
     public Student getCurStudent(String studentNum){
         return studentMapper.selectStudentByNum(studentNum);
@@ -44,36 +41,31 @@ public class StudentDao {
 
     /**
      * 激活学生账号
-     *
-     * @param student object
-     * @throws  Exception
      */
     public void activateStudent(Student student) throws Exception{
         studentMapper.updatePwdAndEmailById(student);
     }
 
-
     /**
      * 获取某个学生所有班级和课程
-     *
-     * @param studentId id
-     * @return List
-     * @throws  Exception
      */
     public List<KlassStudent> getKlassAndCourse(Integer studentId) throws Exception{
         return klassStudentMapper.selectKlassStudentByStudentId(studentId);
     }
 
+    /**
+     * 修改学生密码
+     */
     public void modifyStudentPwd(Student student) throws Exception{
         studentMapper.modifyPwdById(student);
     }
 
+    /**
+     * 修改学生邮件
+     */
     public void modifyStudentEmail(Student student) throws Exception{
         studentMapper.modifyEmailById(student);
     }
 
-    //获取某个学生在某个课程某个班级下所属的team
-    public Team getTeamByKlassAndStudentId(KlassStudent klassStudent) throws Exception{
-        return klassStudentMapper.selectKlassStudentByKlassStudentId(klassStudent).getTeam();
-    }
+
 }

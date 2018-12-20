@@ -1,11 +1,9 @@
 package com.loha.flippedclassroom.controller;
 
-import com.loha.flippedclassroom.dao.ScoreDao;
 import com.loha.flippedclassroom.entity.Course;
-import com.loha.flippedclassroom.entity.KlassSeminar;
-import com.loha.flippedclassroom.entity.Seminar;
 import com.loha.flippedclassroom.entity.Teacher;
-import com.loha.flippedclassroom.service.*;
+import com.loha.flippedclassroom.service.CourseService;
+import com.loha.flippedclassroom.service.TeacherService;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,89 +25,55 @@ public class TeacherController {
 
 //重复的代码太多了，可以考虑在service合并相同操作
 //异常处理需要确定
-
     @Autowired
     TeacherService teacherService;
-    @Autowired
     CourseService courseService;
-    @Autowired
-    KlassSeminarService klassSeminarService;
-    @Autowired
-    ScoreService scoreService;
-    @Autowired
-    TeamService teamService;
-/**
- * @Author: birden
- * @Description:
- * @Date:20:04 2018/12/19
- */
-    @GetMapping(value = "/activation")
-    public String activation(){
-        return "teacher/activation";
+
+
+//    @PostMapping(value = "/activation")
+//    @ResponseBody
+//    public ResponseEntity activateTeacher(@ModelAttribute("curteacherId") Integer teacherId, String password, String email) throws Exception{
+//        teacherService.activateTeacher(password,email,teacherId);
+//        return new ResponseEntity(HttpStatus.ACCEPTED);
+//    }
+
+    /**
+    @GetMapping("/setting")
+    public String teacherSetting(@ModelAttribute("curTeacherId") long teacherId, Model model){
+        model.addAttribute("teacher", teacherService.getCurTeacher());
+        return "setting";
     }
 
-    @PostMapping(value = "/activation")
+    @GetMapping("/modifyEmail")
+    public String teacherEmailModify()
+    {
+        return "modifyEmail";
+    }
+
+    @PostMapping("/modifyEmail")
     @ResponseBody
-    public ResponseEntity activateTeacher(@ModelAttribute("curTeacherId") Integer teacherId, String password) throws Exception{
-        teacherService.activateTeacher(password,teacherId);
+    public ResponseEntity teacherSubmitEmailModify(@ModelAttribute("curTeacherId") long teacherId, String email)throws Exception{
+        teacherService.modifyTeacherEmail(teacherId, email);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
-    @GetMapping(value="/index")
-    public String teacherIndex(Model model){
-        Teacher teacher=teacherService.getCurTeacher();
-        model.addAttribute("curTeacherId",teacher.getId());
-        if(!teacher.isActivated()){
-            return "redirect:/teacher/activation";
-        }
+    @GetMapping("/modifyPassword")
+    public String teacherPasswordModify(){return "modifyPassword";}
 
-        model.addAttribute("teacher",teacher);
-        return "teacher/index";
-    }
-
-    @GetMapping(value = "/setting")
-    public String getSetting(@ModelAttribute("curTeacherId") Integer teacherId,Model model)throws Exception{
-        model.addAttribute("teacher",teacherService.getTeacherById(teacherId));
-        return "teacher/settings";
-    }
-
-    @GetMapping(value = "/setting/modifyEmail")
-    public String modifyEmailPage(){
-        return "teacher/modifyEmailPage";
-    }
-
-    @PostMapping(value = "/setting/modifyEmail")
+    @PostMapping("/modifyPassword")
     @ResponseBody
-    public ResponseEntity modifyEmail(@ModelAttribute("curTeacherId") Integer teacherId,String email) throws Exception{
-        teacherService.modifyTeacherEmail(teacherId,email);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
-    }
-
-    @GetMapping(value = "/setting/modifyPwd")
-    public String modifyPwdPage(){
-        return "teacher/modifyPwdPage";
-    }
-
-    @PostMapping(value = "/setting/modifyPwd")
-    @ResponseBody
-    public ResponseEntity modifyPwd(@ModelAttribute("curTeacherId") Integer teacherId,String password) throws Exception{
-        teacherService.modifyTeacherPwdById(teacherId,password);
+    public ResponseEntity teacherSubmitPasswordModify(@ModelAttribute("curTeacherId") long teacherId, String password)throws Exception{
+        teacherService.modifyTeacherPassword(teacherId, password);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/notification")
     public String teacherNotification(@ModelAttribute("curTeacherId")long teacherId, Model model)
     {
-        model.addAttribute("messageBox", messageService.getTeacherMessageBox(teacherId));
+        model.addAttribute("messageBox", teacherService.getTeacherMessageBox(teacherId));
         return "notification";
     }
 
-    @GetMapping("/courseList")
-    public String teacherCourseList(@ModelAttribute("curTeacherId")long teacherId, Model model)
-    {
-        model.addAttribute("courses",teacherService.getTeacherCourses(teacherId));
-        return "course";
-    }
 
     @GetMapping("/course/info")
     public String courseInfo(long courseId,Model model)
@@ -182,64 +146,73 @@ public class TeacherController {
         courseService.addRoundByCourseId(courseId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
+    **/
 
-    @GetMapping("course/seminar/create")
-    public String createSeminar(){return "seminarCreate";}
 
-    @PutMapping("course/seminar/create")
+
+    @GetMapping(value = "/activation")
+    public String activation(){
+        return "teacher/activation";
+    }
+
+    @PostMapping(value = "/activation")
     @ResponseBody
-    public  ResponseEntity submitSeminarCreate(SeminarDTO seminarDTO)
-    {
-        courseService.createSeminar(seminarDTO);
+    public ResponseEntity activateTeacher(@ModelAttribute("curTeacherId") Integer teacherId, String password) throws Exception{
+        teacherService.activateTeacher(password,teacherId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("course/seminar/info")
-    public String seminarInfo(@RequestParam("klassId") long klassId, @RequestParam("seminarId") long seminarId,Model model)
-    {
-        model.addAttribute("klassSeminar", klassSeminarService.getKlassSeminar(klassId, seminarId));
-        return "seminarInfo";
+    @GetMapping(value="/index")
+    public String teacherIndex(Model model){
+        Teacher teacher=teacherService.getCurTeacher();
+        model.addAttribute("curTeacherId",teacher.getId());
+        if(!teacher.isActivated()){
+            return "redirect:/teacher/activation";
+        }
+
+        model.addAttribute("teacher",teacher);
+        return "teacher/index";
     }
 
-    @GetMapping("course/seminar/enrollList")
-    public String seminarEnrollList(@RequestParam long klassSeminarId, Model model)
-    {
-        model.addAttribute("enrollList",klassSeminarService.getAttendance(klassSeminarId));
-        return "enrollList";
+    @GetMapping(value = "/setting")
+    public String getSetting(@ModelAttribute("curTeacherId") Integer teacherId,Model model)throws Exception{
+        model.addAttribute("teacher",teacherService.getTeacherById(teacherId));
+        return "teacher/settings";
     }
 
-    @GetMapping("course/seminar/reportList")
-    public String seminarReportList(long klassSeminarId,Model model)
-    {
-        model.addAttribute("reportList",klassSeminarService.getAttendance(klassSeminarId));
-        return "reportList";
+    @GetMapping(value = "/setting/modifyEmail")
+    public String modifyEmailPage(){
+        return "teacher/modifyEmailPage";
     }
 
-    @GetMapping("course/seminar/grade")
-    public String seminarGrade(long klassSeminarId,Model model)
-    {
-        model.addAttribute("attendenceScoreList",scoreService.getAttendenceScore(klassSeminarId));
-        return "enrollList";
+    @PostMapping(value = "/setting/modifyEmail")
+    @ResponseBody
+    public ResponseEntity modifyEmail(@ModelAttribute("curTeacherId") Integer teacherId,String email) throws Exception{
+        teacherService.modifyTeacherEmail(teacherId,email);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("course/seminar/progressing")
-    public String seminarProcessing(long klassSeminarId,Model model)
-    {
-        //complex
-        return "processing";
+    @GetMapping(value = "/setting/modifyPwd")
+    public String modifyPwdPage(){
+        return "teacher/modifyPwdPage";
     }
 
-    @GetMapping("course/teamList")
-    public String courseTeamList(long courseId, Model model)
-    {
-        model.addAttribute(teamService.getTeamByCourseId(courseId));
-        return "teamList";
+    @PostMapping(value = "/setting/modifyPwd")
+    @ResponseBody
+    public ResponseEntity modifyPwd(@ModelAttribute("curTeacherId") Integer teacherId,String password) throws Exception{
+        teacherService.modifyTeacherPwdById(teacherId,password);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("course/grade")
-    public String courseGrade(long courseId, Model model)
+
+    @GetMapping("/course")
+    public String teacherCourseList(@ModelAttribute("curTeacherId")Integer teacherId, Model model) throws Exception
     {
-        //complex
-        return "courseGrade";
+
+        model.addAttribute("courseList",teacherService.getTeacherCourses(teacherId));
+        return "teacher/course";
     }
+
+
+
 }

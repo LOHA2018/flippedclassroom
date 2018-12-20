@@ -8,10 +8,9 @@
 
     <link rel="shortcut icon" href="/img/favicon_1.ico">
 
-    <title>Moltran - Responsive Admin Dashboard Template</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <title>课程管理</title>
 
-    <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
+    <link href="/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/core.css" rel="stylesheet" type="text/css">
@@ -44,11 +43,12 @@
             <div class="container">
                 <div class="">
                     <div class="pull-left">
-                        <form action="/student/index" method="get">
-                            <button class="button-menu-mobile">
+                        <form action="/teacher/index" method="get">
+                            <button  class="button-menu-mobile">
                                 <div class="glyphicon glyphicon-menu-left"></div>
                             </button>
                         </form>
+
                     </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
@@ -60,8 +60,9 @@
                             <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img
                                     src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
-                                <li><a href="/student/index"><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
-                                <li><a href="/student/chooseCourse"><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
+                                <li><a><h4><i class="md md-info"></i>&nbsp;待办</h4></a></li>
+                                <li><a><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
+                                <li><a><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -89,30 +90,52 @@
                     <div class="panel-group panel-group-joined" id="accordion-test">
 
 
-                        <#if courseAndKlassList?exists>
-                        <#list courseAndKlassList as list>
-
+                        <#list courseList as course>
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion-test" href="#collapseOne"
+                                    <a data-toggle="collapse" data-parent="#accordion-test" href="#course${course.id}"
                                        class="collapsed">
-                                        ${list.course.courseName}——${list.klass.grade}(${list.klass.klassSerial})
+                                        ${course.courseName}
                                     </a>
                                 </h4>
                             </div>
-                            <div id="collapseOne" class="panel-collapse collapse">
+                            <div id="course${course.id}" class="panel-collapse collapse">
                                 <div class="panel-body">
+
                                     <table class="table">
 
                                         <tbody>
                                         <tr>
                                             <td>
-                                                <form action="/student/course/info" method="post">
-                                                    <input type="hidden" name="courseId" value=${list.courseId}>
+                                                <form action="/teacher/course/grade" method="post">
+                                                    <input type="hidden" name="courseId" value=${course.id}>
                                                     <button style="border: transparent"
-                                                            class="btn-lg btn-default btn-block  waves-effect waves-light "
-                                                            type="submit">
+                                                            class="btn-lg btn-default btn-block  waves-effect waves-light ">
+                                                        学生成绩
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <form action="/teacher/course/teamList" method="post">
+                                                    <input type="hidden" name="courseId" value=${course.id}>
+                                                    <button style="border: transparent"
+                                                            class="  btn-lg btn-default btn-block  waves-effect waves-light ">
+                                                        学生组队
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <form action="/teacher/course/info" method="post">
+                                                    <input type="hidden" name="courseId" value=${course.id}>
+                                                    <button style="border: transparent"
+                                                            class="  btn-lg btn-default btn-block  waves-effect waves-light ">
                                                         课程信息
                                                     </button>
                                                 </form>
@@ -121,11 +144,11 @@
 
                                         <tr>
                                             <td>
-                                                <form action="/student/course/score" method="post">
-                                                    <input type="hidden" name="courseId" value=${list.courseId}>
-                                                    <input type="hidden" name="klassId" value=${list.klassId}>
-                                                    <button style="border: transparent" class="  btn-lg btn-default btn-block  waves-effect waves-light " type="submit">
-                                                        我的成绩
+                                                <form action="/teacher/course/klassList" method="post">
+                                                    <input type="hidden" name="courseId" value=${course.id}>
+                                                    <button style="border: transparent"
+                                                            class="btn-lg btn-default btn-block  waves-effect waves-light ">
+                                                        班级信息
                                                     </button>
                                                 </form>
                                             </td>
@@ -133,41 +156,58 @@
 
                                         <tr>
                                             <td>
-                                                <form action="/student/course/team" method="post">
-                                                    <input type="hidden" name="courseInfo"
-                                                           value="courseAndKlassMap.get(key).id">
+                                                <form action="/teacher/course/seminar/setting" method="post">
+                                                    <input type="hidden" name="courseId" value=${course.id}>
                                                     <button style="border: transparent"
                                                             class="  btn-lg btn-default btn-block  waves-effect waves-light ">
-                                                        我的组队
+                                                        讨论课设置
                                                     </button>
                                                 </form>
                                             </td>
                                         </tr>
 
+                                        <tr>
+                                            <td>
+                                                <form action="/teacher/course/grade" method="post">
+                                                    <input type="hidden" name="courseId" value=${course.id}>
+                                                    <button style="border: transparent"
+                                                            class="  btn-lg btn-default btn-block  waves-effect waves-light ">
+                                                        共享设置
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         </div>
 
-
                         </#list>
-                        </#if>
 
 
-                    </div>
                 </div>
-            </div> <!-- end row -->
+            </div>
+        </div> <!-- end row -->
+
+            <div class="row">
+                <form action=""
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                    <button  class="btn btn-lg btn-default btn-block waves-effect waves-light ">创建讨论课
+                    </button>
+
+                </div>
+            </div>
+    </div> <!-- End row -->
 
 
-        </div> <!-- End row -->
-
-    </div>
+</div>
 
 </div>
 <!-- END wrapper -->
 
 <!-- jQuery  -->
+
 <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>

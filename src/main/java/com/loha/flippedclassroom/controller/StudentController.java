@@ -1,6 +1,7 @@
 package com.loha.flippedclassroom.controller;
 
 import com.loha.flippedclassroom.dao.StudentDao;
+import com.loha.flippedclassroom.entity.Seminar;
 import com.loha.flippedclassroom.entity.Student;
 import com.loha.flippedclassroom.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping(value = "/student")
 @SessionAttributes("curStudentId")
+@Slf4j
 public class StudentController {
 
     private final StudentService studentService;
@@ -98,5 +100,34 @@ public class StudentController {
     public String getMyScoreInfo(@ModelAttribute("curStudentId") Integer studentId,Integer klassId,Integer courseId,Model model) throws Exception{
         model.addAttribute("scoreList",studentService.getMyScore(klassId,courseId,studentId));
         return "student/scoreInfo";
+    }
+
+    @GetMapping(value = "/chooseCourse")
+    public String chooseCoursePage(@ModelAttribute("curStudentId") Integer studentId,Model model) throws Exception{
+        model.addAttribute("courseAndKlassList",studentService.getCourseAndKlass(studentId));
+        return "student/chooseCourse";
+    }
+
+    @PostMapping(value = "/seminar")
+    public String gerSeminarList(Integer courseId,Integer klassId,Model model) throws Exception{
+        model.addAttribute("klassId",klassId);
+        model.addAttribute("roundAndSeminarList",studentService.getRoundAndSeminars(courseId));
+        return "student/seminarPage";
+    }
+
+    @PostMapping(value = "/seminar/info")
+    public String getSeminarInfo(@ModelAttribute("curStudentId") Integer studentId,Integer klassId,Integer seminarId,Model model) throws Exception{
+        Seminar seminar=studentService.getCurSeminar(seminarId);
+        model.addAttribute("klassId",klassId);
+        model.addAttribute("round",studentService.getRoundById(seminar.getRoundId()));
+        model.addAttribute("seminar",seminar);
+        log.info(studentService.getTeamSeminarStatus(studentId,klassId,seminarId));
+        return "student/"+studentService.getTeamSeminarStatus(studentId,klassId,seminarId);
+    }
+
+    @PostMapping(value = "/seminar/enrollList")
+    public String getEnrollListPage(Integer klassId,Integer seminarId,Model model) throws Exception{
+        model.addAttribute("enrollList",studentService.getEnrollList(klassId,seminarId));
+        return "student/enrollListPage";
     }
 }
