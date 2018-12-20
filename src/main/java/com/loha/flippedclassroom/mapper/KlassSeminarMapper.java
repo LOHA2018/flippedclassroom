@@ -18,4 +18,12 @@ public interface KlassSeminarMapper {
      * @throws Exception
      */
     KlassSeminar selectKlassSeminarById(Integer klassSeminarId) throws Exception;
+    
+    /**
+     *fetch data by klassid, seminarId
+     *
+     * @param klassId and seminarId
+     * @return klassSeminar
+     */
+    KlassSeminar selectKlassSeminar(long klassId, long seminarId) throws Exception;
 }

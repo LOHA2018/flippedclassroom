@@ -31,4 +31,12 @@ public interface ScoreMapper {
      * @throws Exception
      */
     SeminarScore selectSeminarScore(Map map) throws Exception;
+
+    /**
+     *fetch data by
+     *
+     * @param klassSeminarId 班级讨论课id
+     * @return SeminarScore List
+     */
+    List<SeminarScore> selectSeminarScoreByKlassSeminarId(long klassSeminarId);
 }

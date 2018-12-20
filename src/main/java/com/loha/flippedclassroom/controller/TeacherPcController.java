@@ -28,7 +28,7 @@ public class TeacherPcController {
 
     @GetMapping(value = "/index")
     public String index(Model model) throws Exception{
-        Integer id=teacherService.getCurTeacher().getId();
+        long id=teacherService.getCurTeacher().getId();
         model.addAttribute("curTeacherId",id);
         model.addAttribute("courseList",teacherService.getTeacherCourses(id));
         return "pc/TeacherIndex";

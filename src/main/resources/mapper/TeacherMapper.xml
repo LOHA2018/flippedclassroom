@@ -6,15 +6,15 @@
         <result column="account" property="account"/>
         <result column="password" property="password"/>
         <result column="teacher_name" property="teacherName"/>
-        <result column="is_active" property="isActive"/>
+        <result column="is_active" property="activated"/>
         <result column="email" property="email"/>
     </resultMap>
 
-    <select id="selectTeacherByNum" parameterType="String" resultMap="teacherMap">
+    <select id="selectTeacherByNum" resultMap="teacherMap">
         select * from teacher where account=#{teacherNum}
     </select>
 
-    <select id="selectTeacherById" parameterType="Integer" resultMap="teacherMap">
+    <select id="selectTeacherById" resultMap="teacherMap">
         select * from teacher where id=#{value}
     </select>
 
@@ -29,7 +29,4 @@
     <update id="modifyPsdById" parameterType="Teacher">
         update teacher set password=#{password} where id=#{id}
     </update>
-
-
-
 </mapper>

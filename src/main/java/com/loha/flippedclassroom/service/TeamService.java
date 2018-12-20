@@ -1,6 +1,8 @@
 package com.loha.flippedclassroom.service;
 
+import com.loha.flippedclassroom.dao.TeamDao;
 import com.loha.flippedclassroom.entity.Team;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,5 +13,9 @@ import java.util.List;
  */
 @Service
 public class TeamService {
-    public List<Team> getTeamByCourseId(long courseId){}
+    @Autowired
+    TeamDao teamDao;
+    public List<Team> getTeamByCourseId(long courseId){
+        return teamDao.getTeamByCourseId(courseId);
+    }
 }

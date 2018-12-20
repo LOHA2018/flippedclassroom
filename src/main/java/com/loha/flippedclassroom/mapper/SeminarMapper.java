@@ -1,6 +1,8 @@
 package com.loha.flippedclassroom.mapper;
 
 import com.loha.flippedclassroom.entity.Seminar;
+import com.loha.flippedclassroom.pojo.DTO.SeminarDTO;
+import jdk.nashorn.internal.scripts.JD;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,14 +18,37 @@ public interface SeminarMapper {
 
     /**
      * fetch a seminar
+     *
      * @param seminarId seminar's Id
      * @return a seminar
      * @throws Exception
      */
-    Seminar selectSeminarById(Integer seminarId) throws Exception;
+    Seminar selectSeminarById(long seminarId) throws Exception;
+
+    /**
+     * fetch data by seminarDTO
+     *
+     * @param seminarDTO seminarDTO
+     */
+    void createSeminar(SeminarDTO seminarDTO);
+
+    /**
+     *fetch data by
+     *
+     * @param seminarDTO seminar
+     */
+    void updateSeminar(SeminarDTO seminarDTO);
+
+    /**
+     * fetch data by
+     *
+     * @param seminarId seminar's id
+     */
+    void deleteSeminar(long seminarId);
 
     /**
      * fetch a seminar
+     *
      * @param roundId round's Id
      * @return a seminar
      * @throws Exception

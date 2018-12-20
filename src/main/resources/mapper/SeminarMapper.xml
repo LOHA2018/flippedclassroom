@@ -18,9 +18,22 @@
         select * from seminar where round_id=#{value}
     </select>
 
-    <select id="selectSeminarById" parameterType="Integer" resultMap="seminarMap">
+    <select id="selectSeminarById" resultMap="seminarMap">
         select * from seminar where id=#{value}
     </select>
 
+    <insert id="createSeminar" parameterType="seminarDTO">
+        insert into seminar (id, course_id, round_id, seminar_name, introduction, max_team, is_visible, seminar_serial, enroll_start_time, enroll_end_time)
+        values (#{id},#{courseId},#{roundId},#{seminarName},#{introduction},#{teamLimit},#{visibility},#{seminarSerial},#{enrollStartTime},#{enrollEndTime})
+    </insert>
 
+    <update id="updateSeminar" parameterType="seminarDTO">
+        update seminar set seminar_name=#{seminarName}, introduction=#{introduction}, max_team=#{teamLimit},
+        is_visible=#{visibility}, seminar_serial=#{seminarSerial},enroll_start_time=#{enrollStartTime},
+        enroll_end_time=#{enrollEndTime} where id=#{id}
+    </update>
+
+    <delete id="deleteSeminar">
+        delete from seminar where id=#{id}
+    </delete>
 </mapper>

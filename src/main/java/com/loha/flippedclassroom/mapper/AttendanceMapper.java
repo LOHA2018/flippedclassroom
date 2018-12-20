@@ -1,6 +1,7 @@
 package com.loha.flippedclassroom.mapper;
 
 import com.loha.flippedclassroom.entity.Attendance;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,5 +14,12 @@ import java.util.List;
  */
 @Repository
 public interface AttendanceMapper {
+    /**
+     *fetch data by klassseminarid 
+     *
+     * @param klassSeminarId id
+     * @return Attendance List
+     */
+    List<Attendance> getAttendanceByKlassSeminarId(long klassSeminarId);
 
 }

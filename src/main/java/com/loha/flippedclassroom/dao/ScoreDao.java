@@ -69,4 +69,8 @@ public class ScoreDao {
         //map.put(roundScore,seminarScoreList);
         return scoreInfo;
     }
+
+    public List<SeminarScore> getSeminarScoreByKlassSeminarId(long klassSeminarId){
+        return scoreMapper.selectSeminarScoreByKlassSeminarId(klassSeminarId);
+    }
 }
