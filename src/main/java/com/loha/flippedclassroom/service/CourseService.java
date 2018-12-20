@@ -72,7 +72,7 @@ public class CourseService {
      * @Date:12:22 2018/12/20
      */
     public void createSeminar(SeminarDTO seminarDTO)throws Exception {
-        seminarDao.createSeminar(seminarDTO);
+        seminarDao.createSeminar(seminarDTO.convertToSeminar());
     }
 
     /**
