@@ -5924,8 +5924,8 @@ window.CodeMirror = (function() {
     return target < 0 || target > line.text.length ? null : target;
   }
 
-  // Bidirectional ordering algorithm
-  // See http://unicode.org/reports/tr9/tr9-13.html for the algorithm
+  // Bidirectional ordering util
+  // See http://unicode.org/reports/tr9/tr9-13.html for the util
   // that this (partially) implements.
 
   // One-char codes used for character types:
@@ -6044,11 +6044,11 @@ window.CodeMirror = (function() {
         }
       }
 
-      // Here we depart from the documented algorithm, in order to avoid
+      // Here we depart from the documented util, in order to avoid
       // building up an actual levels array. Since there are only three
       // levels (0, 1, 2) in an implementation that doesn't take
       // explicit embedding into account, we can build up the order on
-      // the fly, without following the level-based algorithm.
+      // the fly, without following the level-based util.
       var order = [], m;
       for (var i = 0; i < len;) {
         if (countsAsLeft.test(types[i])) {

@@ -172,7 +172,7 @@ API.txt for details.
 	};
 
 	// the allowed tick sizes, after 1 year we use
-	// an integer algorithm
+	// an integer util
 
 	var baseSpec = [
 		[1, "second"], [2, "second"], [5, "second"], [10, "second"],

@@ -1,6 +1,6 @@
 package com.loha.flippedclassroom.service;
 
-import com.loha.flippedclassroom.algorithm.SortEnrollList;
+import com.loha.flippedclassroom.util.SortEnrollList;
 import com.loha.flippedclassroom.dao.*;
 import com.loha.flippedclassroom.entity.*;
 import com.loha.flippedclassroom.pojo.ScoreInfo;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * student service

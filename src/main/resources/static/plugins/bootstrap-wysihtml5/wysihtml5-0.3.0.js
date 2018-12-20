@@ -1182,9 +1182,9 @@ rangy.createModule("DomUtil", function(api, module) {
                 el = el.cloneNode(false);
             }
 
-            // "If the node's document is an HTML document: Invoke the HTML fragment parsing algorithm."
-            // "If the node's document is an XML document: Invoke the XML fragment parsing algorithm."
-            // "In either case, the algorithm must be invoked with fragment as the input
+            // "If the node's document is an HTML document: Invoke the HTML fragment parsing util."
+            // "If the node's document is an XML document: Invoke the XML fragment parsing util."
+            // "In either case, the util must be invoked with fragment as the input
             // and element as the context element."
             el.innerHTML = fragmentStr;
 
