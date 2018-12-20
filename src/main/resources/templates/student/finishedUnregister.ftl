@@ -11,7 +11,6 @@
     <title>讨论课</title>
 
     <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
-
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/core.css" rel="stylesheet" type="text/css">
     <link href="/css/icons.css" rel="stylesheet" type="text/css">
@@ -48,6 +47,7 @@
                                 <div class="glyphicon glyphicon-menu-left"></div>
                             </button>
                         </form>
+
                     </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
@@ -104,42 +104,16 @@
                                     <td><p>要求：${seminar.introduction}</p></td>
                                 </tr>
                                 <tr>
-                                    <td>
-                                        <p>报名：${klass.grade}——(${klass.klassSerial}) 第${attendance.teamOrder}组</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><p>课程情况：未开始</p>
+                                    <td>课程情况：已完成
                                         <form action="/student/seminar/enrollList" method="get">
-                                            <#--<input type="hidden" name="klassSeminarId" value="${klassSeminarId}">-->
+                                            <input type="hidden" name="klassId" value="${klass.id}">
+                                            <input type="hidden" name="seminarId" value=${seminar.id}>
                                             <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"
                                                     type="submit">
                                                 报名情况
                                             </button>
                                         </form>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p id="submitStatus">PPT：<#if attendance.pptName??>已提交<#else>未提交</#if></p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <#if attendance.PPTName??>
-                                        <td>${attendance.pptName}</td>
-                                    <#else>
-                                    <td>
-                                        <div class="col-xs-6 col-sm-4"><input id="file" type="file" name="file"></div>
-                                        <div class="col-xs-6 col-sm-4">
-                                            <button id="submitPPT"
-                                                    class="md-trigger btn btn-default waves-effect waves-light pull-right no-border"
-                                                    onclick="submitFile()">
-                                                提交
-                                            </button>
-                                        </div>
-                                    </td>
-                                    </#if>
-
                                 </tr>
 
                                 </tbody>
@@ -162,43 +136,6 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
-<script>
-    function submitFile() {
-        var fileObj = document.getElementById("file").files[0];
 
-        if (!fileObj) {
-            alert("请选择文件!");
-            return false;
-        }
-        else {
-
-
-            var formData = new FormData();
-
-            formData.append('file', fileObj);
-            formData.append('teamId', ${myTeamId});
-            formData.append('klassId',${klass.id});
-            formData.append('seminarId',${seminar.id});
-
-
-            $.ajax({
-                url: "/student/seminar/info/submitppt",
-                type: "POST",
-                data: formData,
-                cache: false,
-                processData: false,
-                contentType: false,
-                success: function (data, status) {
-                    alert("上传成功");
-                    document.getElementById("submitStatus").innerText="已提交";
-                },
-                error: function (data, status) {
-                    alert("上传失败");
-                }
-            });
-        }
-
-    }
-</script>
 </body>
 </html>

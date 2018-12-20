@@ -132,6 +132,7 @@ public class StudentController {
         model.addAttribute("round",studentService.getRoundById(seminar.getRoundId()));
 
         String status=studentService.getTeamSeminarStatus(studentId,klassId,seminarId);
+        log.info(status);
         if("unOpenUnregister".equals(status))
         {
             return "student/unOpenUnregister";
@@ -141,6 +142,14 @@ public class StudentController {
             model.addAttribute("myTeamId",studentService.getMyTeamUnderKlass(klassId,seminarId).getId());
             model.addAttribute("attendance",studentService.getAttendanceUnderSeminar(klassId,seminarId,myTeam.getId()));
             return "student/unOpenRegister";
+        } else if ("finishedUnregister".equals(status)) {
+
+            return "student/finishedUnregister";
+        }
+        else if("finishedRegister".equals(status)){
+            model.addAttribute("deadline",studentService.getKlassSeminar(klassId, seminarId).getReportDdl());
+            model.addAttribute("attendance", studentService.getAttendanceUnderSeminar(klassId,seminarId,myTeam.getId()));
+            return "student/finishedRegister";
         }
 
         return "";

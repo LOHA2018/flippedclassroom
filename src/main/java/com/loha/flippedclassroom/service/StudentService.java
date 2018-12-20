@@ -130,6 +130,10 @@ public class StudentService {
         return roundDao.getRoundAndSeminar(courseId);
     }
 
+    public KlassSeminar getKlassSeminar(Long klassId,Long seminarId) throws Exception{
+        return seminarDao.getKlassSeminar(klassId,seminarId);
+    }
+
     /**
      * 获取某个team在某次讨论课的页面
      */
@@ -174,6 +178,9 @@ public class StudentService {
         }
     }
 
+    /**
+     * 某个小组在某次讨论课下的attendance对象
+     */
     public Attendance getAttendanceUnderSeminar(Long klassId,Long seminarId,Long teamId) throws Exception{
         Long klassSeminarId=seminarDao.getKlassSeminar(klassId,seminarId).getId();
         return teamDao.attendSeminar(teamId,klassSeminarId);
