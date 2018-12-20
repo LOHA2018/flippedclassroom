@@ -13,9 +13,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Attendance {
-    private Integer id;
-    private Integer klassSeminarId;
-    private Integer teamId;
+    private Long id;
+    private Long klassSeminarId;
+    private Long teamId;
     private Integer teamOrder;
     private Integer isPresent;
     private String reportName;

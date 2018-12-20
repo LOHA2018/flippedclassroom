@@ -20,7 +20,7 @@ public interface SeminarMapper {
      * @return a seminar
      * @throws Exception
      */
-    Seminar selectSeminarById(Integer seminarId) throws Exception;
+    Seminar selectSeminarById(Long seminarId) throws Exception;
 
     /**
      * fetch a seminar
@@ -28,5 +28,5 @@ public interface SeminarMapper {
      * @return a seminar
      * @throws Exception
      */
-    Seminar selectSeminarByRoundId(Integer roundId) throws Exception;
+    Seminar selectSeminarByRoundId(Long roundId) throws Exception;
 }

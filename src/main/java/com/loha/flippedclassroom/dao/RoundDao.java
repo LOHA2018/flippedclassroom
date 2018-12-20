@@ -24,14 +24,14 @@ public class RoundDao {
     /**
      * 根据轮id获取轮
      */
-    public Round getRoundById(Integer roundId) throws Exception{
+    public Round getRoundById(Long roundId) throws Exception{
         return roundMapper.selectRoundById(roundId);
     }
 
     /**
      * 根据课程id获取所有轮(轮中包含讨论课列表)
      */
-    public List<Round> getRoundAndSeminar(Integer courseId) throws Exception{
+    public List<Round> getRoundAndSeminar(Long courseId) throws Exception{
         return roundMapper.selectRoundByCourseId(courseId);
     }
 }

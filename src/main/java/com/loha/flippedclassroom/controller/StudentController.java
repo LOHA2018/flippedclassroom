@@ -38,7 +38,7 @@ public class StudentController {
 
     @PostMapping(value = "/activation")
     @ResponseBody
-    public ResponseEntity activateStudent(@ModelAttribute("curStudentId") Integer studentId, String password,String email) throws Exception{
+    public ResponseEntity activateStudent(@ModelAttribute("curStudentId") Long studentId, String password,String email) throws Exception{
         studentService.activateStudent(password,email,studentId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -55,13 +55,13 @@ public class StudentController {
     }
 
     @GetMapping(value = "/course")
-    public String getMyCourse(@ModelAttribute("curStudentId") Integer studentId,Model model) throws Exception{
+    public String getMyCourse(@ModelAttribute("curStudentId") Long studentId,Model model) throws Exception{
         model.addAttribute("courseAndKlassList",studentService.getCourseAndKlass(studentId));
         return "student/myCourse";
     }
 
     @GetMapping(value = "/setting")
-    public String getSetting(@ModelAttribute("curStudentId") Integer studentId,Model model)throws Exception{
+    public String getSetting(@ModelAttribute("curStudentId") Long studentId,Model model)throws Exception{
         model.addAttribute("student",studentService.getStudentById(studentId));
         return "student/settings";
     }
@@ -73,7 +73,7 @@ public class StudentController {
 
     @PostMapping(value = "/setting/modifyEmail")
     @ResponseBody
-    public ResponseEntity modifyEmail(@ModelAttribute("curStudentId") Integer studentId,String email) throws Exception{
+    public ResponseEntity modifyEmail(@ModelAttribute("curStudentId") Long studentId,String email) throws Exception{
         studentService.modifyStudentEmail(studentId,email);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -85,38 +85,38 @@ public class StudentController {
 
     @PostMapping(value = "/setting/modifyPwd")
     @ResponseBody
-    public ResponseEntity modifyPwd(@ModelAttribute("curStudentId") Integer studentId,String password) throws Exception{
+    public ResponseEntity modifyPwd(@ModelAttribute("curStudentId") Long studentId,String password) throws Exception{
         studentService.modifyStudentPwdById(studentId,password);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @PostMapping(value = "/course/info")
-    public String courseInfo(Integer courseId,Model model) throws Exception{
+    public String courseInfo(Long courseId,Model model) throws Exception{
         model.addAttribute("course",studentService.getCourseById(courseId));
         return "student/courseInfo";
     }
 
     @PostMapping(value = "/course/score")
-    public String getMyScoreInfo(@ModelAttribute("curStudentId") Integer studentId,Integer klassId,Integer courseId,Model model) throws Exception{
+    public String getMyScoreInfo(@ModelAttribute("curStudentId") Long studentId,Long klassId,Long courseId,Model model) throws Exception{
         model.addAttribute("scoreList",studentService.getMyScore(klassId,courseId,studentId));
         return "student/scoreInfo";
     }
 
     @GetMapping(value = "/chooseCourse")
-    public String chooseCoursePage(@ModelAttribute("curStudentId") Integer studentId,Model model) throws Exception{
+    public String chooseCoursePage(@ModelAttribute("curStudentId") Long studentId,Model model) throws Exception{
         model.addAttribute("courseAndKlassList",studentService.getCourseAndKlass(studentId));
         return "student/chooseCourse";
     }
 
     @PostMapping(value = "/seminar")
-    public String gerSeminarList(Integer courseId,Integer klassId,Model model) throws Exception{
+    public String gerSeminarList(Long courseId,Long klassId,Model model) throws Exception{
         model.addAttribute("klassId",klassId);
         model.addAttribute("roundAndSeminarList",studentService.getRoundAndSeminars(courseId));
         return "student/seminarPage";
     }
 
     @PostMapping(value = "/seminar/info")
-    public String getSeminarInfo(@ModelAttribute("curStudentId") Integer studentId,Integer klassId,Integer seminarId,Model model) throws Exception{
+    public String getSeminarInfo(@ModelAttribute("curStudentId") Long studentId,Long klassId,Long seminarId,Model model) throws Exception{
         Seminar seminar=studentService.getCurSeminar(seminarId);
         model.addAttribute("klassId",klassId);
         model.addAttribute("round",studentService.getRoundById(seminar.getRoundId()));
@@ -126,7 +126,7 @@ public class StudentController {
     }
 
     @PostMapping(value = "/seminar/enrollList")
-    public String getEnrollListPage(Integer klassId,Integer seminarId,Model model) throws Exception{
+    public String getEnrollListPage(Long klassId,Long seminarId,Model model) throws Exception{
         model.addAttribute("enrollList",studentService.getEnrollList(klassId,seminarId));
         return "student/enrollListPage";
     }

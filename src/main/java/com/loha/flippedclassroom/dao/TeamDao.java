@@ -48,7 +48,7 @@ public class TeamDao {
     /**
      * 获取某次讨论课下的Attendance对象，从而获得报名该次讨论课的小组
      */
-    public List<Attendance> getEnrollList(Integer klassSeminarId) throws Exception{
+    public List<Attendance> getEnrollList(Long klassSeminarId) throws Exception{
         return attendanceMapper.selectTeamListByKlassSeminarId(klassSeminarId);
     }
 }

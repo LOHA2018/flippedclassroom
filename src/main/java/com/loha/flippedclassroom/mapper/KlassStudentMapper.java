@@ -20,7 +20,7 @@ public interface KlassStudentMapper {
      * @return a List of KlassStudent
      * @throws Exception
      */
-    List<KlassStudent> selectKlassStudentByStudentId(Integer studentId) throws Exception;
+    List<KlassStudent> selectKlassStudentByStudentId(Long studentId) throws Exception;
 
     /**
      * 根据班级id和学生id查询KlassStudent对象，目的是获取team

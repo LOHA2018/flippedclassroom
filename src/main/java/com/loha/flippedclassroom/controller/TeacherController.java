@@ -27,6 +27,7 @@ public class TeacherController {
 //异常处理需要确定
     @Autowired
     TeacherService teacherService;
+    @Autowired
     CourseService courseService;
 
 
@@ -49,6 +50,7 @@ public class TeacherController {
     {
         return "modifyEmail";
     }
+
 
     @PostMapping("/modifyEmail")
     @ResponseBody
@@ -75,12 +77,7 @@ public class TeacherController {
     }
 
 
-    @GetMapping("/course/info")
-    public String courseInfo(long courseId,Model model)
-    {
-        model.addAttribute("course", courseService.getCourseById(courseId));
-        return "courseInfo";
-    }
+
 
     @GetMapping("/course/create")
     public String courseCreate(){return "courseCreate";}
@@ -157,7 +154,7 @@ public class TeacherController {
 
     @PostMapping(value = "/activation")
     @ResponseBody
-    public ResponseEntity activateTeacher(@ModelAttribute("curTeacherId") Integer teacherId, String password) throws Exception{
+    public ResponseEntity activateTeacher(@ModelAttribute("curTeacherId") Long teacherId, String password) throws Exception{
         teacherService.activateTeacher(password,teacherId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -175,7 +172,7 @@ public class TeacherController {
     }
 
     @GetMapping(value = "/setting")
-    public String getSetting(@ModelAttribute("curTeacherId") Integer teacherId,Model model)throws Exception{
+    public String getSetting(@ModelAttribute("curTeacherId") Long teacherId,Model model)throws Exception{
         model.addAttribute("teacher",teacherService.getTeacherById(teacherId));
         return "teacher/settings";
     }
@@ -187,7 +184,7 @@ public class TeacherController {
 
     @PostMapping(value = "/setting/modifyEmail")
     @ResponseBody
-    public ResponseEntity modifyEmail(@ModelAttribute("curTeacherId") Integer teacherId,String email) throws Exception{
+    public ResponseEntity modifyEmail(@ModelAttribute("curTeacherId") Long teacherId,String email) throws Exception{
         teacherService.modifyTeacherEmail(teacherId,email);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -199,20 +196,33 @@ public class TeacherController {
 
     @PostMapping(value = "/setting/modifyPwd")
     @ResponseBody
-    public ResponseEntity modifyPwd(@ModelAttribute("curTeacherId") Integer teacherId,String password) throws Exception{
+    public ResponseEntity modifyPwd(@ModelAttribute("curTeacherId") Long teacherId,String password) throws Exception{
         teacherService.modifyTeacherPwdById(teacherId,password);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
 
-    @GetMapping("/course")
-    public String teacherCourseList(@ModelAttribute("curTeacherId")Integer teacherId, Model model) throws Exception
+    @GetMapping(value = "/course")
+    public String teacherCourseList(@ModelAttribute("curTeacherId")Long teacherId, Model model) throws Exception
     {
 
         model.addAttribute("courseList",teacherService.getTeacherCourses(teacherId));
         return "teacher/course";
     }
 
+    @PostMapping("/course/info")
+    public String courseInfo(Long courseId,Model model) throws Exception
+    {
+        model.addAttribute("course", courseService.getCourseById(courseId));
+        return "teacher/courseInfo";
+    }
+
+    @PostMapping("course/klassList")
+    public String getCousreKlassList(Long courseId,Model model) throws Exception{
+        model.addAttribute("klassList", courseService.getKlassByCourseId(courseId));
+        model.addAttribute("course", courseService.getCourseById(courseId));
+        return "teacher/klassInfo";
+    }
 
 
 }

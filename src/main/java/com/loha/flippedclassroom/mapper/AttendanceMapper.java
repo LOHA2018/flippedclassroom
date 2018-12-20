@@ -29,5 +29,5 @@ public interface AttendanceMapper {
      * @return List<Attendance>
      * @throws Exception
      */
-    List<Attendance> selectTeamListByKlassSeminarId(Integer klassSeminarId) throws Exception;
+    List<Attendance> selectTeamListByKlassSeminarId(Long klassSeminarId) throws Exception;
 }

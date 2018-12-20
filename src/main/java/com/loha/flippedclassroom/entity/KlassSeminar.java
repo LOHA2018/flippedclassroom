@@ -13,9 +13,9 @@ import java.util.Date;
 @Getter
 @Setter
 public class KlassSeminar {
-    private Integer id;
-    private Integer klassId;
-    private Integer seminarId;
+    private Long id;
+    private Long klassId;
+    private Long seminarId;
     private Date reportDdl;
     private Integer status;
 

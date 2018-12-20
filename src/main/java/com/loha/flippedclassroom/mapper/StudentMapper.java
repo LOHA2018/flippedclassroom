@@ -26,7 +26,7 @@ public interface StudentMapper {
      * @return Student
      * @throws Exception
      */
-    Student selectStudentById(Integer studentId) throws Exception;
+    Student selectStudentById(Long studentId) throws Exception;
 
     /**
      * 激活学生账号并修改密码邮箱

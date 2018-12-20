@@ -20,7 +20,7 @@ public interface KlassMapper {
      * @return a List of class
      * @throws Exception
      */
-    List<Klass> selectKlassByCourseId(Integer courseId) throws Exception;
+    List<Klass> selectKlassByCourseId(Long courseId) throws Exception;
 
     /**
      * fetch classe by id
@@ -28,5 +28,5 @@ public interface KlassMapper {
      * @return a Klass
      * @throws Exception
      */
-    Klass selectKlassById(Integer klassId) throws Exception;
+    Klass selectKlassById(Long klassId) throws Exception;
 }

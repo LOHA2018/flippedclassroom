@@ -25,7 +25,7 @@ public class CourseDao {
     /**
      * 根据课程id获取课程信息
      */
-    public Course getCourseById(Integer id) throws Exception{
+    public Course getCourseById(Long id) throws Exception{
         return courseMapper.selectCourseById(id);
     }
 

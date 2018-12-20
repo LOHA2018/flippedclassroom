@@ -38,7 +38,7 @@ public class ScoreDao {
      * 根据team的id和round的id查询某个team在某一轮下的成绩情况
      * teamId根据klassStudent表查找，通过课程找round（round中有seminars）,再用seminarid和classid和teamid找成绩
      */
-    public ScoreInfo getOneTeamScoreUnderOneRound(Integer klassId, Round round, Integer teamId) throws Exception{
+    public ScoreInfo getOneTeamScoreUnderOneRound(Long klassId, Round round, Long teamId) throws Exception{
         RoundScore temp=new RoundScore();
         temp.setRoundId(round.getId());
         temp.setTeamId(teamId);
@@ -48,7 +48,7 @@ public class ScoreDao {
         for(Seminar seminar:round.getSeminars()){
 
             //用于查询的map
-            Map<String,Integer> findScoreMap=new HashMap(16);
+            Map<String,Long> findScoreMap=new HashMap(16);
             findScoreMap.put("klassId",klassId);
             findScoreMap.put("seminarId",seminar.getId());
             findScoreMap.put("teamId",teamId);

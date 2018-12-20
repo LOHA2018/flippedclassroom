@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Teacher {
-    private Integer id;
+    private Long id;
     private String account;
     private String password;
     private String teacherName;

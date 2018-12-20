@@ -12,10 +12,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class KlassStudent {
-    private Integer klassId;
-    private Integer studentId;
-    private Integer courseId;
-    private Integer teamId;
+    private Long klassId;
+    private Long studentId;
+    private Long courseId;
+    private Long teamId;
 
     private Klass klass;
     private Course course;
