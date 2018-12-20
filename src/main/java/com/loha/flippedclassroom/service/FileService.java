@@ -41,7 +41,7 @@ public class FileService {
     /**
      * 组员上传PPT
      */
-    public void teamSubmitPowerPoint(MultipartFile file,Integer teamId,Integer klassId,Integer seminarId) throws Exception{
+    public void teamSubmitPowerPoint(MultipartFile file,Long teamId,Long klassId,Long seminarId) throws Exception{
         String filename=file.getOriginalFilename();
         String filepath="C:\\Users\\Administrator\\Desktop\\test\\"+klassId+"\\"+teamId+"\\";
 
@@ -52,7 +52,7 @@ public class FileService {
         //需要try
         file.transferTo(dest);
 
-        Integer klassSeminarId=seminarDao.getKlassSeminar(klassId,seminarId).getId();
+        Long klassSeminarId=seminarDao.getKlassSeminar(klassId,seminarId).getId();
         teamDao.submitPowerPoint(klassSeminarId,teamId,filename,filepath);
     }
 

@@ -20,7 +20,7 @@ public interface KlassMapper {
      * @return a List of class
      * @throws Exception
      */
-    List<Klass> selectKlassByCourseId(Integer courseId) throws Exception;
+    List<Klass> selectKlassByCourseId(Long courseId) throws Exception;
 
     /**
      * fetch classe by id
@@ -28,7 +28,7 @@ public interface KlassMapper {
      * @return a Klass
      * @throws Exception
      */
-    Klass selectKlassById(Integer klassId) throws Exception;
+    Klass selectKlassById(Long klassId) throws Exception;
 
     /**
      * 根据学生的id取出对应的班级，同时包含该班级所属的课程
@@ -36,5 +36,5 @@ public interface KlassMapper {
      * @return 班级列表
      * @throws Exception
      */
-    List<Klass> selectKlassAndCourseByStudentId(Integer studentId) throws Exception;
+    List<Klass> selectKlassAndCourseByStudentId(Long studentId) throws Exception;
 }

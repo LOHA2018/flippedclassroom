@@ -33,7 +33,7 @@ public class TeamDao {
     /**
      * 根据teamId和klassSeminarId从attendance表取出相应记录，可能为空
      */
-    public Attendance attendSeminar(Integer teamId,Integer klassSeminarId) throws Exception{
+    public Attendance attendSeminar(Long teamId,Long klassSeminarId) throws Exception{
         Attendance attendance=new Attendance();
         attendance.setTeamId(teamId);
         attendance.setKlassSeminarId(klassSeminarId);
@@ -43,8 +43,8 @@ public class TeamDao {
     /**
      * 获取某个学生在某课程某班级下所属的team
      */
-    public Team getTeamByKlassAndStudentId(Integer klassId,Integer studentId) throws Exception{
-        Map<String,Integer> map=new HashMap<>();
+    public Team getTeamByKlassAndStudentId(Long klassId,Long studentId) throws Exception{
+        Map<String,Long> map=new HashMap<>();
         map.put("klassId",klassId);
         map.put("studentId",studentId);
         return teamMapper.selectTeamByKlassAndStudentId(map);
@@ -53,14 +53,14 @@ public class TeamDao {
     /**
      * 获取某次讨论课下的Attendance对象，从而获得报名该次讨论课的小组
      */
-    public List<Attendance> getEnrollList(Integer klassSeminarId) throws Exception{
+    public List<Attendance> getEnrollList(Long klassSeminarId) throws Exception{
         return attendanceMapper.selectTeamListByKlassSeminarId(klassSeminarId);
     }
 
     /**
      * 报名某一次讨论课
      */
-    public void registerSeminar(Integer klassSeminarId,Integer teamId,Integer teamOrder) throws Exception{
+    public void registerSeminar(Long klassSeminarId,Long teamId,Integer teamOrder) throws Exception{
         Attendance attendance=new Attendance();
         attendance.setKlassSeminarId(klassSeminarId);
         attendance.setTeamId(teamId);
@@ -80,7 +80,7 @@ public class TeamDao {
     /**
      * 组员上传ppt
      */
-    public void submitPowerPoint(Integer klassSeminarId,Integer teamId,String pptName,String pptUrl) throws Exception{
+    public void submitPowerPoint(Long klassSeminarId,Long teamId,String pptName,String pptUrl) throws Exception{
         Attendance attendance=new Attendance();
         attendance.setKlassSeminarId(klassSeminarId);
         attendance.setTeamId(teamId);

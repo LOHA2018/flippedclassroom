@@ -14,8 +14,8 @@ import java.util.List;
 @Setter
 @Getter
 public class Round {
-    private Integer id;
-    private Integer courseId;
+    private Long id;
+    private Long courseId;
     private Integer roundSerial;
     private Integer preScoreMethod;
     private Integer reportScoreMethod;

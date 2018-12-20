@@ -16,11 +16,11 @@
         <association property="teacher" select="com.loha.flippedclassroom.mapper.TeacherMapper.selectTeacherById" column="teacher_id"></association>
     </resultMap>
 
-    <select id="selectCourseByTeacherId" parameterType="Integer" resultMap="courseMap">
+    <select id="selectCourseByTeacherId" parameterType="Long" resultMap="courseMap">
         select * from course where teacher_id=#{value}
     </select>
 
-    <select id="selectCourseById" parameterType="Integer" resultMap="courseMap">
+    <select id="selectCourseById" parameterType="Long" resultMap="courseMap">
         select * from course where id=#{value}
     </select>
 

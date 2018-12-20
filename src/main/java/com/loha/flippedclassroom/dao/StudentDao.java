@@ -40,7 +40,7 @@ public class StudentDao {
     /**
      * 根据student id来获取当前学生信息
      */
-    public Student getStudentById(Integer studentId) throws Exception{
+    public Student getStudentById(Long studentId) throws Exception{
         return studentMapper.selectStudentById(studentId);
     }
 
@@ -54,7 +54,7 @@ public class StudentDao {
     /**
      * 获取某个学生所有班级和课程
      */
-    public List<Klass> getCourseAndKlass(Integer studentId) throws Exception{
+    public List<Klass> getCourseAndKlass(Long studentId) throws Exception{
         return klassMapper.selectKlassAndCourseByStudentId(studentId);
     }
 
@@ -85,11 +85,11 @@ public class StudentDao {
     /**
      * 在klassStudent表里插入一条学生记录
      */
-    public void insertKlassStudent(Integer klassId,String studentNum) throws Exception{
+    public void insertKlassStudent(Long klassId,String studentNum) throws Exception{
         Klass klass=klassMapper.selectKlassById(klassId);
         Student student=studentMapper.selectStudentByNum(studentNum);
 
-        Map<String,Integer> map=new HashMap<>();
+        Map<String,Long> map=new HashMap<>();
         map.put("klassId",klassId);
         map.put("courseId",klass.getCourseId());
         map.put("studentId",student.getId());

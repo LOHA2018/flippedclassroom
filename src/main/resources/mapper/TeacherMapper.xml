@@ -14,7 +14,7 @@
         select * from teacher where account=#{teacherNum}
     </select>
 
-    <select id="selectTeacherById" parameterType="Integer" resultMap="teacherMap">
+    <select id="selectTeacherById" parameterType="Long" resultMap="teacherMap">
         select * from teacher where id=#{value}
     </select>
 

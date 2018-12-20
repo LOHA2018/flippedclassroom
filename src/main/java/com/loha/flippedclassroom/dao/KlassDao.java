@@ -23,14 +23,14 @@ public class KlassDao {
     /**
      * 根据课程id获取该课程下所有班级
      */
-    public List<Klass> getKlassByCourseId(Integer courseId) throws Exception{
+    public List<Klass> getKlassByCourseId(Long courseId) throws Exception{
         return klassMapper.selectKlassByCourseId(courseId);
     }
 
     /**
      * 根据id获取班级
      */
-    public Klass getKlassById(Integer klassId) throws Exception{
+    public Klass getKlassById(Long klassId) throws Exception{
         return klassMapper.selectKlassById(klassId);
     }
 }

@@ -14,9 +14,9 @@ import java.util.Date;
 @Getter
 @Setter
 public class Seminar {
-    private Integer id;
-    private Integer courseId;
-    private Integer roundId;
+    private Long id;
+    private Long courseId;
+    private Long roundId;
     private String seminarName;
     private String introduction;
     private Integer teamLimit;

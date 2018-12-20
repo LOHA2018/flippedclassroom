@@ -45,7 +45,7 @@ public class StudentService {
     /**
      * 获取某个学生在某个班级下的队伍信息
      */
-    public Team getMyTeamUnderKlass(Integer klassId,Integer studentId)throws Exception{
+    public Team getMyTeamUnderKlass(Long klassId,Long studentId)throws Exception{
         return teamDao.getTeamByKlassAndStudentId(klassId,studentId);
     }
 
@@ -61,14 +61,14 @@ public class StudentService {
     /**
      * 根据Id获取学生信息
      */
-    public Student getStudentById(Integer studentId) throws Exception{
+    public Student getStudentById(Long studentId) throws Exception{
         return studentDao.getStudentById(studentId);
     }
 
     /**
      * 激活学生账号
      */
-    public void activateStudent(String password,String email,Integer studentId) throws Exception{
+    public void activateStudent(String password,String email,Long studentId) throws Exception{
         Student student=studentDao.getStudentById(studentId);
         student.setPassword(password);
         student.setEmail(email);
@@ -78,14 +78,14 @@ public class StudentService {
     /**
      * 根据该学生所有课程及所在班级信息
      */
-    public List<Klass> getCourseAndKlass(Integer studentId) throws Exception{
+    public List<Klass> getCourseAndKlass(Long studentId) throws Exception{
         return studentDao.getCourseAndKlass(studentId);
     }
 
     /**
      * 修改学生密码
      */
-    public void modifyStudentPwdById(Integer studentId,String password) throws Exception{
+    public void modifyStudentPwdById(Long studentId,String password) throws Exception{
         Student student=studentDao.getStudentById(studentId);
         student.setPassword(password);
         studentDao.modifyStudentPwd(student);
@@ -94,7 +94,7 @@ public class StudentService {
     /**
      * 修改学生邮箱
      */
-    public void modifyStudentEmail(Integer studentId,String email) throws Exception{
+    public void modifyStudentEmail(Long studentId,String email) throws Exception{
         Student student=studentDao.getStudentById(studentId);
         student.setEmail(email);
         studentDao.modifyStudentEmail(student);
@@ -103,14 +103,14 @@ public class StudentService {
     /**
      * 获取课程对象
      */
-    public Course getCourseById(Integer courseId) throws Exception{
+    public Course getCourseById(Long courseId) throws Exception{
         return courseDao.getCourseById(courseId);
     }
 
     /**
      * 查询所有轮及其所属的讨论课的成绩
      */
-    public List<ScoreInfo> getMyScore(Integer klassId, Integer courseId, Integer studentId) throws Exception{
+    public List<ScoreInfo> getMyScore(Long klassId, Long courseId, Long studentId) throws Exception{
         //获得所有轮(同时也获得了所有的讨论课)，对每一轮遍历
         List<Round> rounds=roundDao.getRoundAndSeminar(courseId);
         //获得当前所在的team
@@ -126,14 +126,14 @@ public class StudentService {
     /**
      * 获取所有轮及讨论课
      */
-    public List<Round> getRoundAndSeminars(Integer courseId) throws Exception{
+    public List<Round> getRoundAndSeminars(Long courseId) throws Exception{
         return roundDao.getRoundAndSeminar(courseId);
     }
 
     /**
      * 获取某个team在某次讨论课的页面
      */
-    public String getTeamSeminarStatus(Integer studentId,Integer klassId,Integer seminarId) throws Exception{
+    public String getTeamSeminarStatus(Long studentId,Long klassId,Long seminarId) throws Exception{
         Team team=getMyTeamUnderKlass(klassId,studentId);
 
         KlassSeminar klassSeminar=seminarDao.getKlassSeminar(klassId,seminarId);
@@ -174,29 +174,29 @@ public class StudentService {
         }
     }
 
-    public Attendance getAttendanceUnderSeminar(Integer klassId,Integer seminarId,Integer teamId) throws Exception{
-        Integer klassSeminarId=seminarDao.getKlassSeminar(klassId,seminarId).getId();
+    public Attendance getAttendanceUnderSeminar(Long klassId,Long seminarId,Long teamId) throws Exception{
+        Long klassSeminarId=seminarDao.getKlassSeminar(klassId,seminarId).getId();
         return teamDao.attendSeminar(teamId,klassSeminarId);
     }
 
     /**
      * 获取当前讨论课
      */
-    public Seminar getCurSeminar(Integer seminarId) throws Exception{
+    public Seminar getCurSeminar(Long seminarId) throws Exception{
         return seminarDao.getCurSeminar(seminarId);
     }
 
     /**
      * 获取当前的轮
      */
-    public Round getRoundById(Integer roundId) throws Exception{
+    public Round getRoundById(Long roundId) throws Exception{
         return roundDao.getRoundById(roundId);
     }
 
     /**
      * 获取某次讨论课的报名列表
      */
-    public List<Attendance> getEnrollList(Integer klassId,Integer seminarId) throws Exception{
+    public List<Attendance> getEnrollList(Long klassId,Long seminarId) throws Exception{
         KlassSeminar klassSeminar=seminarDao.getKlassSeminar(klassId,seminarId);
 
         List<Attendance> enrollList=teamDao.getEnrollList(klassSeminar.getId());
@@ -209,15 +209,15 @@ public class StudentService {
     /**
      * 报名某一次讨论课
      */
-    public void registerSeminar(Integer klassId,Integer seminarId,Integer teamId,Integer teamOrder) throws Exception{
-        Integer klassSeminarId=seminarDao.getKlassSeminar(klassId,seminarId).getId();
+    public void registerSeminar(Long klassId,Long seminarId,Long teamId,Integer teamOrder) throws Exception{
+        Long klassSeminarId=seminarDao.getKlassSeminar(klassId,seminarId).getId();
         teamDao.registerSeminar(klassSeminarId,teamId,teamOrder);
     }
 
     /**
      * 获取班级
      */
-    public Klass getKlassById(Integer klassId) throws Exception{
+    public Klass getKlassById(Long klassId) throws Exception{
         return klassDao.getKlassById(klassId);
     }
 

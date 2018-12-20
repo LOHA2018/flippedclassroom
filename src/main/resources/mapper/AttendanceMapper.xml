@@ -19,7 +19,7 @@
         select * from attendance where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}
     </select>
 
-    <select id="selectTeamListByKlassSeminarId" parameterType="Integer" resultMap="attendanceMap">
+    <select id="selectTeamListByKlassSeminarId" parameterType="Long" resultMap="attendanceMap">
         select * from attendance where klass_seminar_id=#{klassSeminarId}
     </select>
 

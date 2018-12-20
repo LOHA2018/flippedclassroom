@@ -17,7 +17,7 @@ public interface KlassSeminarMapper {
      * @return KlassSeminar
      * @throws Exception
      */
-    KlassSeminar selectKlassSeminarById(Integer klassSeminarId) throws Exception;
+    KlassSeminar selectKlassSeminarById(Long klassSeminarId) throws Exception;
 
     /**
      * fetch a KlassSeminar

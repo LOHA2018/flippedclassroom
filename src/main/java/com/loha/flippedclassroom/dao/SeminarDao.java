@@ -31,7 +31,7 @@ public class SeminarDao {
     /**
      * 获取KlassSeminar对象，用于后续获取KlassSeminar的id
      */
-    public KlassSeminar getKlassSeminar(Integer klassId,Integer seminarId) throws Exception {
+    public KlassSeminar getKlassSeminar(Long klassId,Long seminarId) throws Exception {
         KlassSeminar klassSeminar=new KlassSeminar();
         klassSeminar.setKlassId(klassId);
         klassSeminar.setSeminarId(seminarId);
@@ -41,7 +41,7 @@ public class SeminarDao {
     /**
      * 根据Id获取当前的讨论课
      */
-    public Seminar getCurSeminar(Integer seminarId) throws Exception{
+    public Seminar getCurSeminar(Long seminarId) throws Exception{
         return seminarMapper.selectSeminarById(seminarId);
     }
 }

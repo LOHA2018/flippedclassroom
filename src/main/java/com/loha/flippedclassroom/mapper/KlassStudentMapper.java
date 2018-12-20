@@ -17,5 +17,5 @@ public interface KlassStudentMapper {
      * @param map 包含"klassId","teamId","courseId"
      * @throws Exception
      */
-    void insertKlassStudent(Map<String,Integer> map) throws Exception;
+    void insertKlassStudent(Map<String,Long> map) throws Exception;
 }

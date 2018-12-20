@@ -14,8 +14,8 @@ import java.util.Date;
 @Getter
 @Setter
 public class Course {
-    private Integer id;
-    private Integer teacherId;
+    private Long id;
+    private Long teacherId;
     private String courseName;
     private String introduction;
     private Integer prePercentage;

@@ -163,7 +163,7 @@ public class TeacherController {
 
     @PostMapping(value = "/activation")
     @ResponseBody
-    public ResponseEntity activateTeacher(@ModelAttribute("curTeacherId") Integer teacherId, String password) throws Exception{
+    public ResponseEntity activateTeacher(@ModelAttribute("curTeacherId") Long teacherId, String password) throws Exception{
         teacherService.activateTeacher(password,teacherId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -181,7 +181,7 @@ public class TeacherController {
     }
 
     @GetMapping(value = "/setting")
-    public String getSetting(@ModelAttribute("curTeacherId") Integer teacherId,Model model)throws Exception{
+    public String getSetting(@ModelAttribute("curTeacherId") Long teacherId,Model model)throws Exception{
         model.addAttribute("teacher",teacherService.getTeacherById(teacherId));
         return "teacher/settings";
     }
@@ -193,7 +193,7 @@ public class TeacherController {
 
     @PostMapping(value = "/setting/modifyEmail")
     @ResponseBody
-    public ResponseEntity modifyEmail(@ModelAttribute("curTeacherId") Integer teacherId,String email) throws Exception{
+    public ResponseEntity modifyEmail(@ModelAttribute("curTeacherId") Long teacherId,String email) throws Exception{
         teacherService.modifyTeacherEmail(teacherId,email);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -205,7 +205,7 @@ public class TeacherController {
 
     @PostMapping(value = "/setting/modifyPwd")
     @ResponseBody
-    public ResponseEntity modifyPwd(@ModelAttribute("curTeacherId") Integer teacherId,String password) throws Exception{
+    public ResponseEntity modifyPwd(@ModelAttribute("curTeacherId") Long teacherId,String password) throws Exception{
         teacherService.modifyTeacherPwdById(teacherId,password);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }

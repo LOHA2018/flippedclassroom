@@ -35,7 +35,7 @@ public class TeacherService {
     }
 
 
-    public List<Course> getTeacherCourses(Integer teacherId) throws Exception{
+    public List<Course> getTeacherCourses(Long teacherId) throws Exception{
         return teacherDao.getTeacherCourses(teacherId);
     }
 
@@ -45,36 +45,36 @@ public class TeacherService {
         return teacherDao.getCurTeacher(teacherNum);
     }
 
-    public List<Klass> getKlassByCourseId(Integer courseId) throws Exception{
+    public List<Klass> getKlassByCourseId(Long courseId) throws Exception{
        return klassDao.getKlassByCourseId(courseId);
     }
 
-    public Course getCourseById(Integer id) throws Exception{
+    public Course getCourseById(Long id) throws Exception{
         return courseDao.getCourseById(id);
     }
 
-    public List<Round> getRoundAndSeminar(Integer courseId) throws Exception{
+    public List<Round> getRoundAndSeminar(Long courseId) throws Exception{
         return roundDao.getRoundAndSeminar(courseId);
     }
 
 
-    public  void activateTeacher(String password, Integer teacherId) throws Exception{
+    public  void activateTeacher(String password, Long teacherId) throws Exception{
         Teacher teacher=teacherDao.getTeacherById(teacherId);
         teacher.setPassword(password);
         teacherDao.activateTeacher(teacher);
     }
 
-    public Teacher getTeacherById(Integer teacherId) throws Exception{
+    public Teacher getTeacherById(Long teacherId) throws Exception{
         return teacherDao.getTeacherById(teacherId);
     }
 
-    public void modifyTeacherEmail(Integer teacherId, String email) throws Exception{
+    public void modifyTeacherEmail(Long teacherId, String email) throws Exception{
         Teacher teacher=teacherDao.getTeacherById(teacherId);
         teacher.setEmail(email);
         teacherDao.modifyTeacherEmail(teacher);
     }
 
-    public void modifyTeacherPwdById(Integer teacherId, String password) throws Exception{
+    public void modifyTeacherPwdById(Long teacherId, String password) throws Exception{
         Teacher teacher=teacherDao.getTeacherById(teacherId);
         teacher.setPassword(password);
         teacherDao.modifyTeacherPsd(teacher);

@@ -21,7 +21,7 @@ public interface TeamMapper {
      * @return a team
      * @throws Exception
      */
-    Team selectTeamById(Integer teamId) throws Exception;
+    Team selectTeamById(Long teamId) throws Exception;
 
     /**
      * 查找一个课程下所有的team
@@ -29,7 +29,7 @@ public interface TeamMapper {
      * @return team list
      * @throws Exception
      */
-    List<Team> selectTeamByCourseId(Integer courseId) throws Exception;
+    List<Team> selectTeamByCourseId(Long courseId) throws Exception;
 
     /**
      * 查找某个同学在某个班级下所属的team
@@ -37,5 +37,5 @@ public interface TeamMapper {
      * @return team
      * @throws Exception
      */
-    Team selectTeamByKlassAndStudentId(Map<String,Integer> map) throws Exception;
+    Team selectTeamByKlassAndStudentId(Map<String,Long> map) throws Exception;
 }

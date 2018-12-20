@@ -14,7 +14,7 @@
         select * from student where account=#{studentNum}
     </select>
 
-    <select id="selectStudentById" parameterType="Integer" resultMap="studentMap">
+    <select id="selectStudentById" parameterType="Long" resultMap="studentMap">
         select * from student where id=#{value}
     </select>
 

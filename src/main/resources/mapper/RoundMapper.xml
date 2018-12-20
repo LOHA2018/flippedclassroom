@@ -13,11 +13,11 @@
         </collection>
     </resultMap>
 
-    <select id="selectRoundByCourseId" parameterType="Integer" resultMap="roundMap">
+    <select id="selectRoundByCourseId" parameterType="Long" resultMap="roundMap">
         select * from round where course_id=#{value}
     </select>
 
-    <select id="selectRoundById" parameterType="Integer" resultMap="roundMap">
+    <select id="selectRoundById" parameterType="Long" resultMap="roundMap">
         select * from round where id=#{value}
     </select>
 

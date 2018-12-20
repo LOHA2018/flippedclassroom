@@ -11,7 +11,7 @@
         <association property="seminar" select="com.loha.flippedclassroom.mapper.SeminarMapper.selectSeminarById" column="seminar_id"></association>
     </resultMap>
 
-    <select id="selectKlassSeminarById" parameterType="Integer" resultMap="klassSeminarMap">
+    <select id="selectKlassSeminarById" parameterType="Long" resultMap="klassSeminarMap">
         select * from klass_seminar where id=#{value}
     </select>
     
