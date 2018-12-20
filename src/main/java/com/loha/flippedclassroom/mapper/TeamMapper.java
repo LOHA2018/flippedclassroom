@@ -28,5 +28,5 @@ public interface TeamMapper {
      * @return team list
      * @throws Exception
      */
-    List<Team> selectTeamByCourseId(Integer courseId) throws Exception;
+    List<Team> selectTeamByCourseId(long courseId) throws Exception;
 }
