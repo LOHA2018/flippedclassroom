@@ -48,7 +48,7 @@ public class TeacherController {
 
     @PostMapping(value = "/activation")
     @ResponseBody
-    public ResponseEntity activateTeacher(@ModelAttribute("curTeacherId") long teacherId, String password) throws Exception {
+    public ResponseEntity activateTeacher(@ModelAttribute("curTeacherId") Long teacherId, String password) throws Exception {
         teacherService.activateTeacher(password, teacherId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -66,7 +66,7 @@ public class TeacherController {
     }
 
     @GetMapping(value = "/setting")
-    public String getSetting(@ModelAttribute("curTeacherId") long teacherId, Model model) throws Exception {
+    public String getSetting(@ModelAttribute("curTeacherId") Long teacherId, Model model) throws Exception {
         model.addAttribute("teacher", teacherService.getTeacherById(teacherId));
         return "teacher/settings";
     }
@@ -78,7 +78,7 @@ public class TeacherController {
 
     @PostMapping(value = "/setting/modifyEmail")
     @ResponseBody
-    public ResponseEntity modifyEmail(@ModelAttribute("curTeacherId") long teacherId, String email) throws Exception {
+    public ResponseEntity modifyEmail(@ModelAttribute("curTeacherId") Long teacherId, String email) throws Exception {
         teacherService.modifyTeacherEmail(teacherId, email);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -90,25 +90,25 @@ public class TeacherController {
 
     @PostMapping(value = "/setting/modifyPwd")
     @ResponseBody
-    public ResponseEntity modifyPwd(@ModelAttribute("curTeacherId") long teacherId, String password) throws Exception {
+    public ResponseEntity modifyPwd(@ModelAttribute("curTeacherId") Long teacherId, String password) throws Exception {
         teacherService.modifyTeacherPwdById(teacherId, password);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/notification")
-    public String teacherNotification(@ModelAttribute("curTeacherId") long teacherId, Model model) {
+    public String teacherNotification(@ModelAttribute("curTeacherId") Long teacherId, Model model) {
         model.addAttribute("messageBox", teacherService.getTeacherMessageBox(teacherId));
         return "notification";
     }
 
     @GetMapping("/courseList")
-    public String teacherCourseList(@ModelAttribute("curTeacherId") long teacherId, Model model) throws Exception{
+    public String teacherCourseList(@ModelAttribute("curTeacherId") Long teacherId, Model model) throws Exception{
         model.addAttribute("courses", teacherService.getTeacherCourses(teacherId));
         return "course";
     }
 
     @GetMapping("/course/info")
-    public String courseInfo(long courseId, Model model)throws Exception {
+    public String courseInfo(Long courseId, Model model)throws Exception {
         model.addAttribute("course", courseService.getCourseById(courseId));
         return "courseInfo";
     }
@@ -121,26 +121,26 @@ public class TeacherController {
     //此处要写课程重复错误
     @PutMapping("/course")
     @ResponseBody
-    public ResponseEntity submitCourseCreate(@ModelAttribute("curTeacherId") long teacherId, @RequestParam Course courseDTO) throws Exception {
+    public ResponseEntity submitCourseCreate(@ModelAttribute("curTeacherId") Long teacherId, @RequestParam Course courseDTO) throws Exception {
         courseService.createCourse(teacherId, courseDTO);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/course/{courseId}")
     @ResponseBody
-    public ResponseEntity deleteCourse(@PathVariable long courseId) throws Exception {
+    public ResponseEntity deleteCourse(@PathVariable Long courseId) throws Exception {
         courseService.deleteCourse(courseId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @GetMapping("course/klassList")
-    public String getCousreKlassList(@RequestParam("courseId") long courseId, Model model) {
+    public String getCousreKlassList(@RequestParam("courseId") Long courseId, Model model) {
         model.addAttribute("klasses", courseService.getKlassByCourseId(courseId));
         return "klass";
     }
 
     @GetMapping("course/klass/create")
-    public String createClass(@RequestParam("courseId") long courseId, Model model) {
+    public String createClass(@RequestParam("courseId") Long courseId, Model model) {
         model.addAttribute("cousreId", courseId);
         return "klassCreate";
     }
@@ -154,7 +154,7 @@ public class TeacherController {
 
     @DeleteMapping("course/klass/{klassId}")
     @ResponseBody
-    public ResponseEntity deleteClass(@PathVariable long klassId) {
+    public ResponseEntity deleteClass(@PathVariable Long klassId) {
         courseService.deleteKlass(klassId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -165,7 +165,7 @@ public class TeacherController {
      * @Date:12:13 2018/12/20
      */
     @GetMapping("course/seminarList")
-    public String getSeminarList(@RequestParam("courseId") long courseId, Model model) {
+    public String getSeminarList(@RequestParam("courseId") Long courseId, Model model) {
         model.addAttribute("courseId", courseId);
         model.addAttribute("rounds", courseService.getRoundByCourseId(courseId));
         model.addAttribute("klasses", courseService.getKlassByCourseId(courseId));
@@ -174,7 +174,7 @@ public class TeacherController {
 
     @PostMapping("course/round/add")
     @ResponseBody
-    public ResponseEntity addRound(long courseId) {
+    public ResponseEntity addRound(Long courseId) {
         courseService.addRoundByCourseId(courseId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -201,7 +201,7 @@ public class TeacherController {
  * @Date:12:46 2018/12/20
  */
     @GetMapping("course/seminar/info")
-    public String seminarInfo(@RequestParam("klassId") long klassId, @RequestParam("seminarId") long seminarId, Model model) throws Exception{
+    public String seminarInfo(@RequestParam("klassId") Long klassId, @RequestParam("seminarId") Long seminarId, Model model) throws Exception{
         model.addAttribute("klassSeminar", klassSeminarService.getKlassSeminar(klassId, seminarId));
         return "seminarInfo";
     }
@@ -224,7 +224,7 @@ public class TeacherController {
  */
     @DeleteMapping("course/seminar/{seminarId}")
     @ResponseBody
-    public ResponseEntity deleteSeminar(@PathVariable long seminarId)throws Exception
+    public ResponseEntity deleteSeminar(@PathVariable Long seminarId)throws Exception
     {
         courseService.deleteSeminar(seminarId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
@@ -235,7 +235,7 @@ public class TeacherController {
  * @Date:12:46 2018/12/20
  */
     @GetMapping("course/seminar/enrollList")
-    public String seminarEnrollList(@RequestParam long klassSeminarId, Model model) {
+    public String seminarEnrollList(@RequestParam Long klassSeminarId, Model model) {
         model.addAttribute("enrollList", klassSeminarService.getAttendance(klassSeminarId));
         return "enrollList";
     }
@@ -245,7 +245,7 @@ public class TeacherController {
  * @Date:12:55 2018/12/20
  */
     @GetMapping("course/seminar/finished")
-    public String seminarReportList(long klassSeminarId, Model model) {
+    public String seminarReportList(Long klassSeminarId, Model model) {
         model.addAttribute("reportList", klassSeminarService.getAttendance(klassSeminarId));
         return "finished";
     }
@@ -255,25 +255,25 @@ public class TeacherController {
  * @Date:12:57 2018/12/20
  */
     @GetMapping("course/seminar/grade")
-    public String seminarGrade(long klassSeminarId, Model model) {
+    public String seminarGrade(Long klassSeminarId, Model model) {
         model.addAttribute("SeminarScoreList", scoreService.getSeminarScore(klassSeminarId));
         return "grade";
     }
 
     @GetMapping("course/seminar/progressing")
-    public String seminarProcessing(long klassSeminarId, Model model) {
+    public String seminarProcessing(Long klassSeminarId, Model model) {
         //complex
         return "processing";
     }
 
     @GetMapping("course/teamList")
-    public String courseTeamList(long courseId, Model model) {
+    public String courseTeamList(Long courseId, Model model) {
         model.addAttribute(teamService.getTeamByCourseId(courseId));
         return "teamList";
     }
 
     @GetMapping("course/grade")
-    public String courseGrade(long courseId, Model model) {
+    public String courseGrade(Long courseId, Model model) {
         //complex
         return "courseGrade";
     }
