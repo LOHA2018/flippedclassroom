@@ -66,4 +66,8 @@ public class ScoreDao {
         scoreInfo.setSeminarScores(seminarScoreList);
         return scoreInfo;
     }
+
+    public List<SeminarScore> getSeminarScoreByKlassSeminarId(long klassSeminarId){
+        return scoreMapper.selectSeminarScoreByKlassSeminarId(klassSeminarId);
+    }
 }

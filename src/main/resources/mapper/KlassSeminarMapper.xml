@@ -19,5 +19,8 @@
         select * from klass_seminar where klass_id=#{klassId} and seminar_id=#{seminarId}
     </select>
 
+    <select id="selectKlassSeminar" resultMap="klassSeminarMap">
+        select * from klass_seminar where klass_id=#{0} and seminar_id=#{1}
+    </select>
 
 </mapper>
