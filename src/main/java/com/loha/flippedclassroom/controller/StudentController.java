@@ -1,6 +1,5 @@
 package com.loha.flippedclassroom.controller;
 
-import com.loha.flippedclassroom.dao.StudentDao;
 import com.loha.flippedclassroom.entity.Seminar;
 import com.loha.flippedclassroom.entity.Student;
 import com.loha.flippedclassroom.entity.Team;
@@ -14,9 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.util.Map;
 
 /**
  * 学生移动端controller
@@ -126,24 +122,41 @@ public class StudentController {
     @GetMapping(value = "/seminar/info")
     public String getSeminarInfo(@ModelAttribute("curStudentId") Long studentId,Long klassId,Long seminarId,Model model) throws Exception{
         Seminar seminar=studentService.getCurSeminar(seminarId);
-        Team myTeam=studentService.getMyTeamUnderKlass(klassId,seminarId);
+        Team myTeam=studentService.getMyTeamUnderKlass(klassId,studentId);
         model.addAttribute("seminar",seminar);
         model.addAttribute("klass",studentService.getKlassById(klassId));
         model.addAttribute("round",studentService.getRoundById(seminar.getRoundId()));
 
         String status=studentService.getTeamSeminarStatus(studentId,klassId,seminarId);
+        log.info(status);
         if("unOpenUnregister".equals(status))
         {
-            return "student/unOpenUnregister";
+            return "student/seminar/unOpenUnregister";
         }
         else if("unOpenRegister".equals(status))
         {
-            model.addAttribute("myTeamId",studentService.getMyTeamUnderKlass(klassId,seminarId).getId());
+            model.addAttribute("myTeamId",myTeam.getId());
             model.addAttribute("attendance",studentService.getAttendanceUnderSeminar(klassId,seminarId,myTeam.getId()));
-            return "student/unOpenRegister";
+            return "student/seminar/unOpenRegister";
         }
+        else if ("finishedUnregister".equals(status)) {
 
-        return "";
+            return "student/seminar/finishedUnregister";
+        }
+        else if("finishedRegister".equals(status)){
+            log.info(studentService.getKlassSeminar(klassId, seminarId).getReportDdl());
+            model.addAttribute("deadline",studentService.getKlassSeminar(klassId, seminarId).getReportDdl());
+            model.addAttribute("attendance",studentService.getAttendanceUnderSeminar(klassId,seminarId,myTeam.getId()));
+            return "student/seminar/finishedRegister";
+        }
+        else if("underwayUnregister".equals(status)){
+            return "student/seminar/underwayUnregister";
+        }
+        else {
+            model.addAttribute("myTeamId",myTeam.getId());
+            model.addAttribute("attendance",studentService.getAttendanceUnderSeminar(klassId,seminarId,myTeam.getId()));
+            return "student/seminar/underwayRegister";
+        }
     }
 
     @PostMapping(value = "/seminar/enrollList")

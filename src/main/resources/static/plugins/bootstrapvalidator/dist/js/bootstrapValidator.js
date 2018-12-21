@@ -1943,7 +1943,7 @@ if (typeof jQuery === 'undefined') {
         },
 
         /**
-         * Implement Luhn validation algorithm
+         * Implement Luhn validation util
          * Credit to https://gist.github.com/ShirtlessKirk/2134376
          *
          * @see http://en.wikipedia.org/wiki/Luhn
@@ -1965,7 +1965,7 @@ if (typeof jQuery === 'undefined') {
         },
 
         /**
-         * Implement modulus 11, 10 (ISO 7064) algorithm
+         * Implement modulus 11, 10 (ISO 7064) util
          *
          * @param {String} value
          * @returns {Boolean}
@@ -1980,7 +1980,7 @@ if (typeof jQuery === 'undefined') {
         },
 
         /**
-         * Implements Mod 37, 36 (ISO 7064) algorithm
+         * Implements Mod 37, 36 (ISO 7064) util
          * Usages:
          * mod37And36('A12425GABC1234002M')
          * mod37And36('002006673085', '0123456789')

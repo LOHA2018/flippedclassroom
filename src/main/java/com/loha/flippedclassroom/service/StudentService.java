@@ -1,6 +1,6 @@
 package com.loha.flippedclassroom.service;
 
-import com.loha.flippedclassroom.algorithm.SortEnrollList;
+import com.loha.flippedclassroom.util.SortEnrollList;
 import com.loha.flippedclassroom.dao.*;
 import com.loha.flippedclassroom.entity.*;
 import com.loha.flippedclassroom.pojo.ScoreInfo;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * student service
@@ -130,6 +129,10 @@ public class StudentService {
         return roundDao.getRoundAndSeminar(courseId);
     }
 
+    public KlassSeminar getKlassSeminar(Long klassId,Long seminarId) throws Exception{
+        return seminarDao.getKlassSeminar(klassId,seminarId);
+    }
+
     /**
      * 获取某个team在某次讨论课的页面
      */
@@ -174,6 +177,9 @@ public class StudentService {
         }
     }
 
+    /**
+     * 某个小组在某次讨论课下的attendance对象
+     */
     public Attendance getAttendanceUnderSeminar(Long klassId,Long seminarId,Long teamId) throws Exception{
         Long klassSeminarId=seminarDao.getKlassSeminar(klassId,seminarId).getId();
         return teamDao.attendSeminar(teamId,klassSeminarId);

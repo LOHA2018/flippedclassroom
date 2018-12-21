@@ -4557,7 +4557,7 @@
 		for ( i=0, ien=aSort.length ; i<ien ; i++ ) {
 			sortCol = aSort[i];
 	
-			// Track if we can use the fast sort algorithm
+			// Track if we can use the fast sort util
 			if ( sortCol.formatter ) {
 				formatters++;
 			}
