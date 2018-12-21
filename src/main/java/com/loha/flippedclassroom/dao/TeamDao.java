@@ -21,13 +21,15 @@ import java.util.Map;
 public class TeamDao {
 
     private final AttendanceMapper attendanceMapper;
-    private final KlassStudentMapper klassStudentMapper;
     private final TeamMapper teamMapper;
 
-    TeamDao(AttendanceMapper attendanceMapper,KlassStudentMapper klassStudentMapper,TeamMapper teamMapper){
+    TeamDao(AttendanceMapper attendanceMapper,TeamMapper teamMapper){
         this.attendanceMapper=attendanceMapper;
-        this.klassStudentMapper=klassStudentMapper;
         this.teamMapper=teamMapper;
+    }
+
+    public Attendance getAttendanceById(Long attendanceId) throws Exception{
+        return attendanceMapper.selectAttendanceById(attendanceId);
     }
 
     /**
@@ -58,7 +60,7 @@ public class TeamDao {
     }
 
     /**
-     * 报名某一次讨论课
+     * 报名（或者修改报名）某一次讨论课
      */
     public void registerSeminar(Long klassSeminarId,Long teamId,Integer teamOrder) throws Exception{
         Attendance attendance=new Attendance();
@@ -67,25 +69,52 @@ public class TeamDao {
         attendance.setTeamOrder(teamOrder);
 
         //判断讨论课的某次顺序是否已经被报名
-        Attendance temp=attendanceMapper.selectTeamByKlassSeminarIdAndTeamOrder(attendance);
-        if(temp!=null)
-        {
+        Attendance temp1=attendanceMapper.selectTeamByKlassSeminarIdAndTeamOrder(attendance);
+        if(temp1!=null) {
             //抛出异常
         }
         else {
-            attendanceMapper.insertAttendance(attendance);
+            //判断该小组是否已经报名，是的话则修改报名次序
+            Attendance temp2=attendanceMapper.selectTeamByKlassSeminarId(attendance);
+            if(temp2!=null) {
+                attendanceMapper.updateTeamOrder(attendance);
+            }
+            else {
+                attendanceMapper.insertAttendance(attendance);
+            }
+        }
+    }
+
+    /**
+     * 取消报名
+     */
+    public void cancelRegister(Long klassSeminarId,Long teamId) throws Exception{
+        Attendance attendance=new Attendance();
+        attendance.setKlassSeminarId(klassSeminarId);
+        attendance.setTeamId(teamId);
+
+        Attendance temp=attendanceMapper.selectTeamByKlassSeminarId(attendance);
+        if(temp!=null){
+            attendanceMapper.deleteRegisterRecord(attendance);
         }
     }
 
     /**
      * 组员上传ppt
      */
-    public void submitPowerPoint(Long klassSeminarId,Long teamId,String pptName,String pptUrl) throws Exception{
+    public void submitPowerPoint(Long attendanceId,String pptName,String pptUrl) throws Exception{
         Attendance attendance=new Attendance();
-        attendance.setKlassSeminarId(klassSeminarId);
-        attendance.setTeamId(teamId);
+        attendance.setId(attendanceId);
         attendance.setPptName(pptName);
         attendance.setPptUrl(pptUrl);
-        attendanceMapper.updatePowerPointByKlassSeminarAndTeamId(attendance);
+        attendanceMapper.updatePowerPointByAttendanceId(attendance);
+    }
+
+    public void submitReport(Long attendanceId,String reportName,String reportUrl) throws Exception{
+        Attendance attendance=new Attendance();
+        attendance.setId(attendanceId);
+        attendance.setPptName(reportName);
+        attendance.setPptUrl(reportUrl);
+        attendanceMapper.updateReportByAttendanceId(attendance);
     }
 }

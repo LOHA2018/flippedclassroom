@@ -56,10 +56,11 @@
                     <ul class="nav navbar-nav navbar-right pull-right">
                         <li class="dropdown">
                             <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img
-                                    src="assets/images/users/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
+                                    src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
                                 <li><a href="/student/index"><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
-                                <li><a href="/student/chooseCourse"><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
+                                <li><a href="/student/chooseCourse"><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -104,12 +105,12 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p>报名：${klass.klassSerial}—(${klass.klassSerial}) ${attendance.teamOrder}</p>
+                                        <p>报名：${klass.grade}—(${klass.klassSerial}) 第${attendance.teamOrder}组</p>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td><p>课程情况：未开始</p>
-                                        <form action="/student/seminar/enrollList" method="get">
+                                    <td><p>课程情况：正在进行</p>
+                                        <form action="/student/seminar/info/registerInfo" method="post">
                                             <input type="hidden" name="klassId" value=${klass.id}>
                                             <input type="hidden" name="seminarId" value=${seminar.id}>
                                             <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"
@@ -121,27 +122,38 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <p>PPT：<#if attendance.pptName??>已提交<#else>未提交</#if></p>
+                                        <div class="col-xs-6 col-sm-6"> PPT：<#if attendance.pptName??>已提交<#else>未提交</#if></div>
+                                        <div class="col-xs-6 col-sm-6">
+                                    <#if attendance.pptName??>
+                                        ${attendance.pptName}
+                                    </#if></div>
                                     </td>
                                 </tr>
+
                                 <tr>
-                                    <#if attendance.pptName??>
-                                        <td>${attendance.pptName}</td>
-                                    <#else>
                                     <td>
-                                        <div class="col-xs-6 col-sm-4"><input id="file" type="file" name="file"></div>
-                                        <div class="col-xs-6 col-sm-4">
+                                        <div class="col-xs-6 col-sm-6"><input id="file" type="file" name="file"></div>
+
+                                        <div class="col-xs-6 col-sm-6">
                                             <button id="submitPPT"
                                                     class="md-trigger btn btn-default waves-effect waves-light pull-right no-border"
                                                     onclick="submitFile()">
-                                                提交
+                                                PPT提交
                                             </button>
                                         </div>
                                     </td>
-                                    </#if>
 
                                 </tr>
-
+                                <tr>
+                                    <td>
+                                        <form action="/student/seminar/progressing" method="post">
+                                            <input type="hidden" name="seminarId" value="${seminar.id}">
+                                            <button class="btn btn-lg btn-default btn-block waves-effect waves-light ">
+                                                进入讨论课
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -163,7 +175,7 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
 <script>
-    function submitPPT() {
+    function submitFile() {
         var fileObj = document.getElementById("file").files[0];
 
         if (!fileObj) {
@@ -176,21 +188,21 @@
             var formData = new FormData();
 
             formData.append('file', fileObj);
-            formData.append('teamId', ${myTeamId});
+            formData.append('attendanceId', ${attendance.id});
 
 
             $.ajax({
-                url: "/student/course/importStudent",
+                url: "/student/seminar/info/submitppt",
                 type: "POST",
                 data: formData,
                 cache: false,
                 processData: false,
                 contentType: false,
                 success: function (data, status) {
-                    alert(data);
+                    alert("提交成功");
                 },
                 error: function (data, status) {
-                    alert(data);
+                    alert("提交失败");
                 }
             });
         }

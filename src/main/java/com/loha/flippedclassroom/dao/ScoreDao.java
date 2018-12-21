@@ -66,4 +66,12 @@ public class ScoreDao {
         scoreInfo.setSeminarScores(seminarScoreList);
         return scoreInfo;
     }
+
+    public SeminarScore getOneSeminarScore(Long klassId,Long seminarId,Long teamId) throws Exception{
+        Map<String,Long> map=new HashMap<>();
+        map.put("klassId",klassId);
+        map.put("seminarId",seminarId);
+        map.put("teamId",teamId);
+        return scoreMapper.selectSeminarScore(map);
+    }
 }

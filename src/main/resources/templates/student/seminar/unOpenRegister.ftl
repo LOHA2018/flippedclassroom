@@ -106,17 +106,18 @@
                                 <tr>
                                     <td>
                                         <p>报名：${klass.grade}——(${klass.klassSerial}) 第${attendance.teamOrder}组</p>
+                                        <form action="/student/seminar/enrollList" method="post">
+                                            <input type="hidden" name="klassId" value=${klass.id}>
+                                            <input type="hidden" name="seminarId" value=${seminar.id}>
+                                            <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"
+                                                    type="submit">
+                                                修改
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td><p>课程情况：未开始</p>
-                                        <form action="/student/seminar/enrollList" method="get">
-                                            <#--<input type="hidden" name="klassSeminarId" value="${klassSeminarId}">-->
-                                            <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"
-                                                    type="submit">
-                                                报名情况
-                                            </button>
-                                        </form>
                                     </td>
                                 </tr>
                                 <tr>
@@ -176,9 +177,7 @@
             var formData = new FormData();
 
             formData.append('file', fileObj);
-            formData.append('teamId', ${myTeamId});
-            formData.append('klassId',${klass.id});
-            formData.append('seminarId',${seminar.id});
+            formData.append('attendanceId', ${attendance.id});
 
 
             $.ajax({

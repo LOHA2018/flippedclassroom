@@ -106,9 +106,9 @@
                                 <tr>
                                     <td>
                                         <p>课程情况：正在进行
-                                        <form action="/student/seminar/enrollList" method="get">
+                                        <form action="/student/seminar/info/registerInfo" method="post">
                                             <input type="hidden" name="klassId" value=${klass.id}>
-                                        <input type="hidden" name="seminarId" value=${seminar.id}>
+                                            <input type="hidden" name="seminarId" value=${seminar.id}>
                                             <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"
                                                     type="submit">
                                                 报名情况

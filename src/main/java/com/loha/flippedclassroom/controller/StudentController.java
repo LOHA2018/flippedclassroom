@@ -1,5 +1,6 @@
 package com.loha.flippedclassroom.controller;
 
+import com.loha.flippedclassroom.entity.Attendance;
 import com.loha.flippedclassroom.entity.Seminar;
 import com.loha.flippedclassroom.entity.Student;
 import com.loha.flippedclassroom.entity.Team;
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 学生移动端controller
@@ -145,6 +149,7 @@ public class StudentController {
         }
         else if("finishedRegister".equals(status)){
             log.info(studentService.getKlassSeminar(klassId, seminarId).getReportDdl());
+            model.addAttribute("myTeamId",myTeam.getId());
             model.addAttribute("deadline",studentService.getKlassSeminar(klassId, seminarId).getReportDdl());
             model.addAttribute("attendance",studentService.getAttendanceUnderSeminar(klassId,seminarId,myTeam.getId()));
             return "student/seminar/finishedRegister";
@@ -160,12 +165,31 @@ public class StudentController {
     }
 
     @PostMapping(value = "/seminar/enrollList")
-    public String getEnrollListPage(Long klassId,Long seminarId,Model model) throws Exception{
-        model.addAttribute("klassId",klassId);
+    public String getEnrollListPage(@ModelAttribute("curStudentId") Long studentId,Long klassId,Long seminarId,Model model) throws Exception{
+        Team team=studentService.getMyTeamUnderKlass(klassId,studentId);
+        Attendance attendance=studentService.getAttendanceUnderSeminar(klassId,seminarId,team.getId());
+        if(attendance!=null){
+            model.addAttribute("status","register");
+        }
+        model.addAttribute("klass",studentService.getKlassById(klassId));
         model.addAttribute("seminarId",seminarId);
-        model.addAttribute("myTeamId",studentService.getMyTeamUnderKlass(klassId,seminarId).getId());
+        model.addAttribute("myTeamId",team.getId());
         model.addAttribute("enrollList",studentService.getEnrollList(klassId,seminarId));
         return "student/enrollListPage";
+    }
+
+    @PostMapping(value = "/seminar/info/registerInfo")
+    public String getRegisterTeamPpt(Long klassId,Long seminarId,Model model) throws Exception{
+        model.addAttribute("klass",studentService.getKlassById(klassId));
+        model.addAttribute("enrollList",studentService.getEnrollList(klassId,seminarId));
+        return "student/enrollListPPT";
+    }
+
+    @PostMapping(value = "/seminar/info/registerInfo/download")
+    @ResponseBody
+    public ResponseEntity downPowerPoint(Long attendanceId, HttpServletResponse httpServletResponse) throws Exception{
+        fileService.teamDownloadPowerPoint(httpServletResponse,attendanceId);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @PostMapping(value = "/seminar/enrollList/enroll")
@@ -175,10 +199,33 @@ public class StudentController {
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
+    @PostMapping(value = "/seminar/enrollList/cancel")
+    @ResponseBody
+    public ResponseEntity cancelRegister(Long klassId,Long seminarId,Long teamId) throws Exception{
+        studentService.cancelRegister(klassId,seminarId,teamId);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
     @PostMapping(value = "/seminar/info/submitppt")
     @ResponseBody
-    public ResponseEntity submitPpt(@RequestParam("file")MultipartFile file,Long teamId,Long klassId,Long seminarId) throws Exception{
-        fileService.teamSubmitPowerPoint(file,teamId,klassId,seminarId);
+    public ResponseEntity submitPpt(@RequestParam("file")MultipartFile file,Long attendanceId) throws Exception{
+        fileService.teamSubmitPowerPoint(file,attendanceId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/seminar/info/submitreport")
+    @ResponseBody
+    public ResponseEntity submitReport(@RequestParam("file")MultipartFile file,Long attendanceId) throws Exception{
+        fileService.teamSubmitReport(file,attendanceId);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/seminar/info/score")
+    public String viewSeminarScore(Long attendanceId,Long klassId,Long seminarId,Long teamId,Model model) throws Exception{
+        model.addAttribute("attendance",studentService.getAttendanceById(attendanceId));
+        model.addAttribute("klass",studentService.getKlassById(klassId));
+        model.addAttribute("seminar",studentService.getCurSeminar(seminarId));
+        model.addAttribute("seminarScore",studentService.getOneSeminarScore(klassId, seminarId, teamId));
+        return "student/seminarScore";
     }
 }

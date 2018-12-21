@@ -11,6 +11,7 @@
     <title>讨论课</title>
 
     <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/core.css" rel="stylesheet" type="text/css">
     <link href="/css/icons.css" rel="stylesheet" type="text/css">
@@ -42,7 +43,9 @@
             <div class="container">
                 <div class="">
                     <div class="pull-left">
-                        <form action="/student/course/seminarList" method="get">
+                        <form action="/student/seminar/info" method="post">
+                            <input type="hidden" name="klassId" value="${klass.id}">
+                            <input type="hidden" name="seminarId" value="${seminar.id}">
                             <button class="button-menu-mobile">
                                 <div class="glyphicon glyphicon-menu-left"></div>
                             </button>
@@ -51,7 +54,7 @@
                     </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                        ${seminar.course.courseName}——讨论课
+                        ${klass.course.courseName}-讨论课
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
@@ -91,10 +94,6 @@
 
                                 <tbody>
                                 <tr>
-                                    <td><p>轮次：第${round.roundSerial}轮</p></td>
-
-                                </tr>
-                                <tr>
                                     <td><p>主题：${seminar.seminarName}</p></td>
                                 </tr>
                                 <tr>
@@ -104,18 +103,30 @@
                                     <td><p>要求：${seminar.introduction}</p></td>
                                 </tr>
                                 <tr>
-                                    <td>课程情况：已完成
-                                        <form action="/student/seminar/info/registerInfo" method="post">
-                                            <input type="hidden" name="klassId" value=${klass.id}>
-                                            <input type="hidden" name="seminarId" value=${seminar.id}>
-                                            <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"
-                                                    type="submit">
-                                                报名情况
-                                            </button>
-                                        </form>
+                                    <td>
+                                        <p>报名：${klass.grade}-(${klass.klassSerial}) 第${attendance.teamOrder}组</p>
                                     </td>
                                 </tr>
-
+                                <tr>
+                                    <td>
+                                        <p>展示成绩：${seminarScore.presentationScore}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>书面报告：${seminarScore.reportScore}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>提问：${seminarScore.questionScore}</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p>总成绩：${seminarScore.totalScore}</p>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>

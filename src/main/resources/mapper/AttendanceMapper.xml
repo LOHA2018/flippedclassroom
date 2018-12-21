@@ -14,6 +14,10 @@
 
         <association property="team" select="com.loha.flippedclassroom.mapper.TeamMapper.selectTeamById" column="team_id"></association>
     </resultMap>
+
+    <select id="selectAttendanceById" parameterType="Long" resultMap="attendanceMap">
+        select * from attendance where id=#{value}
+    </select>
     
     <select id="selectTeamByKlassSeminarId" parameterType="Attendance" resultMap="attendanceMap">
         select * from attendance where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}
@@ -32,11 +36,28 @@
         values(#{klassSeminarId},#{teamId},#{teamOrder},0)
     </insert>
 
-    <update id="updatePowerPointByKlassSeminarAndTeamId" parameterType="Attendance">
+    <update id="updateTeamOrder" parameterType="Attendance">
         update attendance
-        set ppt_name=#{pptName},ppt_url=#{pptUrl}
+        set team_order=#{teamOrder}
         where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}
     </update>
+
+    <update id="updatePowerPointByAttendanceId" parameterType="Attendance">
+        update attendance
+        set ppt_name=#{pptName},ppt_url=#{pptUrl}
+        where id=#{id}
+    </update>
+
+    <update id="updateReportByAttendanceId" parameterType="Attendance">
+        update attendance
+        set report_name=#{reportName},report_url=#{reportUrl}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteRegisterRecord" parameterType="Attendance">
+        delete from attendance
+        where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}
+    </delete>
 
 
 </mapper>

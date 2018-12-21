@@ -34,7 +34,7 @@
 </head>
 
 
-<body class="fixed-left">
+<body class="fixed-left" onload="init()">
 <!-- Begin page -->
 <div id="wrapper">
     <!-- Top Bar Start -->
@@ -56,7 +56,7 @@
                     </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                        ${seminar.course.courseName}————讨论课
+                        ${seminar.course.courseName}—讨论课
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
@@ -119,12 +119,12 @@
                                         <p>报名截止时间：${seminar.enrollEndTime?datetime!}</p>
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr id="register">
                                     <td>
                                         <form action="/student/seminar/enrollList" method="post">
                                             <input type="hidden" name="klassId" value=${klass.id}>
                                             <input type="hidden" name="seminarId" value="${seminar.id}">
-                                            <button class="btn btn-lg btn-default btn-block waves-effect waves-light ">
+                                            <button class="btn btn-lg btn-default btn-block waves-effect waves-light">
                                                 报名
                                             </button>
                                         </form>
@@ -151,5 +151,17 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
 
+<script>
+    function init() {
+            var nowDate = new Date();
+            var startTime="${seminar.enrollStartTime?string("yyyy-MM-dd HH:mm:ss")!}";
+            var endTime="${seminar.enrollEndTime?string("yyyy-MM-dd HH:mm:ss")!}";
+            var startDate=new Date(startTime);
+            var endDate = new Date(endTime);
+            if ((endDate - nowDate) < 0||(startDate-nowDate)>0) {
+                document.getElementById("register").innerText="";
+            }
+    }
+</script>
 </body>
 </html>

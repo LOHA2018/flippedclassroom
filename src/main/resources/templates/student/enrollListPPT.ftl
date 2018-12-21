@@ -12,6 +12,7 @@
 
     <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
     <link href="/css/core.css" rel="stylesheet" type="text/css">
     <link href="/css/icons.css" rel="stylesheet" type="text/css">
     <link href="/css/components.css" rel="stylesheet" type="text/css">
@@ -42,25 +43,24 @@
             <div class="container">
                 <div class="">
                     <div class="pull-left">
-                        <form action="/student/course/seminarList" method="get">
-                            <button class="button-menu-mobile">
-                                <div class="glyphicon glyphicon-menu-left"></div>
-                            </button>
-                        </form>
+                        <button class="button-menu-mobile">
+                            <div class="glyphicon glyphicon-menu-left"></div>
+                        </button>
 
                     </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                        ${seminar.course.courseName}——讨论课
+                        ${klass.course.courseName}—讨论课
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
                         <li class="dropdown">
-                            <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img
-                                    src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
+                            <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true">
+                                <img src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
                                 <li><a href="/student/index"><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
-                                <li><a href="/student/chooseCourse"><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
+                                <li><a href="/student/chooseCourse"><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -90,31 +90,37 @@
                             <table class="table">
 
                                 <tbody>
-                                <tr>
-                                    <td><p>轮次：第${round.roundSerial}轮</p></td>
 
-                                </tr>
+
+                                <#list enrollList as attendance>
                                 <tr>
-                                    <td><p>主题：${seminar.seminarName}</p></td>
-                                </tr>
-                                <tr>
-                                    <td><p>课次序号：第${seminar.seminarSerial}次</p></td>
-                                </tr>
-                                <tr>
-                                    <td><p>要求：${seminar.introduction}</p></td>
-                                </tr>
-                                <tr>
-                                    <td>课程情况：已完成
-                                        <form action="/student/seminar/info/registerInfo" method="post">
-                                            <input type="hidden" name="klassId" value=${klass.id}>
-                                            <input type="hidden" name="seminarId" value=${seminar.id}>
-                                            <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"
-                                                    type="submit">
-                                                报名情况
+                                    <td><p>第${attendance.teamOrder}组</p></td>
+
+
+                                    <td>
+                                        <p>
+                                        <button disabled="disabled" style="border: transparent;"
+                                                class="md-trigger btn btn-default waves-effect waves-light pull-right">
+
+                                                <#if attendance.teamId??>
+                                                    <#if attendance.pptName??>
+                                                    <form id="submitForm" action="/student/seminar/info/registerInfo/download" method="post">
+                                                        <input type="hidden" name="attendanceId" value=${attendance.id}>
+                                                    <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"
+                                                        onclick="downloadPPT()">
+                                                        ${attendance.pptName}</button>
+                                                    </button>
+                                                    </form>
+                                                    <#else >未提交PPT
+                                                    </#if>
+                                                <#else> —
+                                                </#if>
+
                                             </button>
-                                        </form>
+                                        </p>
                                     </td>
                                 </tr>
+                                </#list>
 
                                 </tbody>
                             </table>
@@ -136,6 +142,13 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+<script>
+    function downloadPPT() {
+        document.getElementById("submitForm").submit;
+    }
+</script>
+
+
 
 </body>
 </html>

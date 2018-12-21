@@ -118,9 +118,8 @@
                                                 <p>课程情况：已完成</p>
                                             </div>
                                             <div class="col-xs-6 col-sm-4">
-                                                <form action="/student/seminar/enrollList" method="get">
-                                                    <input type="hidden" name="klassId"
-                                                           value="${klass.id}">
+                                                <form action="/student/seminar/info/registerInfo" method="post">
+                                                    <input type="hidden" name="klassId" value=${klass.id}>
                                                     <input type="hidden" name="seminarId" value=${seminar.id}>
                                                     <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"
                                                             type="submit">
@@ -219,7 +218,12 @@
         }
         else {
             document.getElementById("changeDiv2").innerHTML =
-                    "<form action='/student/course/seminar/grade' method='post'> <input type='hidden' name=''><button class=\"md-trigger btn btn-primary waves-effect waves-light pull-left\" >" +
+                    "<form action='/student/seminar/info/score' method='post'> " +
+                    "<input type='hidden' name='attendanceId' value=${attendance.id}>" +
+                    "<input type='hidden' name='klassId' value=${klass.id}>" +
+                    "<input type='hidden' name='seminarId' value=${seminar.id}>" +
+                    "<input type='hidden' name='teamId' value=${myTeamId}>" +
+                    "<button class=\"md-trigger btn btn-primary waves-effect waves-light pull-left\" >" +
                     "查看成绩" + "</button></form>";
         }
 
@@ -241,11 +245,11 @@
 
             var formData = new FormData();
             formData.append('file', fileObj);
-            formData.append('attendanceId', attendanceId);
+            formData.append('attendanceId', ${attendance.id});
 
 
             $.ajax({
-                url: "/teacher/course/seminar/report",
+                url: "/student/seminar/info/submitreport",
                 type: "POST",
                 data: formData,
                 cache: false,

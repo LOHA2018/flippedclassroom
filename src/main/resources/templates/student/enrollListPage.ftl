@@ -33,7 +33,7 @@
 </head>
 
 
-<body class="fixed-left">
+<body class="fixed-left" onload="init()">
 <!-- Begin page -->
 <div id="wrapper">
     <!-- Top Bar Start -->
@@ -44,7 +44,7 @@
             <div class="container">
                 <div class="">
                     <form action="/student/seminar/info" method="post">
-                        <input type="hidden" name="klassId" value="${klassId}">
+                        <input type="hidden" name="klassId" value="${klass.id}">
                         <input type="hidden" name="seminarId" value="${seminarId}">
                         <div class="pull-left">
                             <button class="button-menu-mobile">
@@ -54,7 +54,7 @@
                     </form>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                        <#--${course.courseName}-讨论课-->某某讨论课
+                        ${klass.course.courseName}-讨论课
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
@@ -63,7 +63,8 @@
                                     src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
                                 <li><a href="/student/index"><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
-                                <li><a href="/student/chooseCourse"><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
+                                <li><a href="/student/chooseCourse"><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
@@ -96,16 +97,17 @@
 
                                 <#list enrollList as list>
 
-                                <#if list.teamId??>
+                                    <#if list.teamId??>
 
 
                                 <tr>
                                     <td><p>第${list.teamOrder}组</p></td>
 
-                                    <td><p class="pull-right">${list.team.klass.klassSerial}—${list.team.teamSerial}小组</p></td>
+                                    <td><p class="pull-right">
+                                        ${list.team.klass.klassSerial}—${list.team.teamSerial}小组</p></td>
                                 </tr>
 
-                                <#else>
+                                    <#else>
 
                                 <tr>
                                     <td><p>第${list.teamOrder}组</p></td>
@@ -119,8 +121,20 @@
                                     </td>
                                 </tr>
 
-                                </#if>
+                                    </#if>
                                 </#list>
+
+                                <tr>
+                                    <td id="cancelEnroll">
+                                        <button class="md-trigger btn btn-primary waves-effect waves-light pull-left"
+                                                onclick="cancelEnroll()">
+                                            取消报名
+                                        </button>
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+
 
                                 </tbody>
                             </table>
@@ -143,21 +157,57 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
 <script>
+
+
+    function init() {
+        var isCancel = false;
+    <#if status??>
+        isCancel = true;
+    </#if>
+        if (isCancel == false) {
+            document.getElementById("cancelEnroll").innerHTML = "";
+        }
+    }
+
+    function cancelEnroll() {
+        var msg = confirm("是否取消报名?");
+        if (msg == true) {
+            $.ajax({
+                url: "/student/seminar/enrollList/cancel",
+                method: "post",
+                data: {
+                    "klassId": ${klass.id},
+                    "seminarId": ${seminarId},
+                    "teamId":${myTeamId}
+                },
+                success: function () {
+                    alert("取消报名成功!");
+                    window.location.href = "/student/seminar/info?klassId=${klass.id}&seminarId=${seminarId}";
+                },
+                error: function () {
+                    alert("取消报名失败!");
+                }
+            });
+        }
+
+    }
+
+
     function register(order) {
-        var msg = confirm("确认报名第"+order+"组展示?");
+        var msg = confirm("确认报名第" + order + "组展示?");
         if (msg == true) {
             $.ajax({
                 url: "/student/seminar/enrollList/enroll",
                 method: "post",
                 data: {
-                    "klassId": ${klassId},
+                    "klassId": ${klass.id},
                     "seminarId": ${seminarId},
                     "teamId":${myTeamId},
-                    "teamOrder":order
+                    "teamOrder": order
                 },
                 success: function (data, status) {
                     alert("报名成功!");
-                    window.location.href="/student/seminar/info?klassId=${klassId}&seminarId=${seminarId}";
+                    window.location.href = "/student/seminar/info?klassId=${klass.id}&seminarId=${seminarId}";
                 },
                 error: function () {
                     alert("报名失败!");

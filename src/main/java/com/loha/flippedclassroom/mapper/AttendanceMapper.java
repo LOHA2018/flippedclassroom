@@ -16,6 +16,14 @@ import java.util.List;
 public interface AttendanceMapper {
 
     /**
+     * 根据id选择attendance对象
+     * @param attendanceId id
+     * @return Attendance
+     * @throws Exception
+     */
+    Attendance selectAttendanceById(Long attendanceId) throws Exception;
+
+    /**
      * 判断某个队伍是否在某次讨论课中
      * @param attendance Object
      * @return Attendance，若为空，则该队伍未报名该讨论课
@@ -51,5 +59,26 @@ public interface AttendanceMapper {
      * @param attendance Object
      * @throws Exception
      */
-    void updatePowerPointByKlassSeminarAndTeamId(Attendance attendance) throws Exception;
+    void updatePowerPointByAttendanceId(Attendance attendance) throws Exception;
+
+    /**
+     * 修改报告名和路径，可用于上传报告
+     * @param attendance Object
+     * @throws Exception
+     */
+    void updateReportByAttendanceId(Attendance attendance) throws Exception;
+
+    /**
+     * 修改报名顺序
+     * @param attendance Object
+     * @throws Exception
+     */
+    void updateTeamOrder(Attendance attendance) throws Exception;
+
+    /**
+     * 取消报名
+     * @param attendance Object
+     * @throws Exception
+     */
+    void deleteRegisterRecord(Attendance attendance) throws Exception;
 }

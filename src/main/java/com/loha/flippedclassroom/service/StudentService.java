@@ -213,18 +213,38 @@ public class StudentService {
     }
 
     /**
-     * 报名某一次讨论课
+     * 报名某一次讨论课，或者修改一次讨论课的报名次序
      */
     public void registerSeminar(Long klassId,Long seminarId,Long teamId,Integer teamOrder) throws Exception{
         Long klassSeminarId=seminarDao.getKlassSeminar(klassId,seminarId).getId();
         teamDao.registerSeminar(klassSeminarId,teamId,teamOrder);
     }
 
+    public void cancelRegister(Long klassId,Long seminarId,Long teamId) throws Exception{
+        Long klassSeminarId=seminarDao.getKlassSeminar(klassId,seminarId).getId();
+        teamDao.cancelRegister(klassSeminarId,teamId);
+    }
+
+
     /**
      * 获取班级
      */
     public Klass getKlassById(Long klassId) throws Exception{
         return klassDao.getKlassById(klassId);
+    }
+
+    /**
+     * 获取attendance对象
+     */
+    public Attendance getAttendanceById(Long attendanceId) throws Exception{
+        return teamDao.getAttendanceById(attendanceId);
+    }
+
+    /**
+     * 获取某一轮的成绩
+     */
+    public SeminarScore getOneSeminarScore(Long klassId,Long seminarId,Long teamId) throws Exception{
+        return scoreDao.getOneSeminarScore(klassId,seminarId,teamId);
     }
 
 }
