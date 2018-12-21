@@ -8,7 +8,7 @@
 
     <link rel="shortcut icon" href="/img/favicon_1.ico">
 
-    <title>讨论课</title>
+    <title>课程信息</title>
 
     <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
 
@@ -29,8 +29,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-
-
 </head>
 
 
@@ -45,18 +43,15 @@
             <div class="container">
                 <div class="">
                     <div class="pull-left">
-                        <form action="/student/seminar" method="post">
-                            <input type="hidden" name="klassId" value="${klassId}">
-                            <input type="hidden" name="courseId" value="${seminar.courseId}">
+                        <form action="/teacher/course" method="get">
                             <button class="button-menu-mobile">
                                 <div class="glyphicon glyphicon-menu-left"></div>
                             </button>
                         </form>
-
                     </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                        ${seminar.course.courseName}————讨论课
+                            ${course.courseName}
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
@@ -64,8 +59,9 @@
                             <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img
                                     src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
-                                <li><a href="/student/index"><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
-                                <li><a href="/student/chooseCourse"><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
+                                <li><a><h4><i class="md md-info"></i>&nbsp;待办</h4></a></li>
+                                <li><a><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
+                                <li><a><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -89,47 +85,72 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default ">
-                        <div class="panel-heading"><h3 class="panel-title">讨论课</h3></div>
                         <div class="panel-body">
 
                             <table class="table">
 
                                 <tbody>
                                 <tr>
-                                    <td><p>轮次：第${round.roundSerial}轮</p></td>
+                                    <td><p>课程简介：</p>
+                                        <p>${course.introduction}</p>
+                                    </td>
 
                                 </tr>
+
+                                </tbody>
+                            </table>
+
+                            <table class="table">
+
+                                <tbody>
+
                                 <tr>
-                                    <td><p>主题：${seminar.seminarName}</p></td>
-                                </tr>
-                                <tr>
-                                    <td><p>课次序号：第${seminar.seminarSerial}次</p></td>
-                                </tr>
-                                <tr>
-                                    <td><p>要求：${seminar.introduction!}</p></td>
-                                </tr>
-                                <tr>
-                                    <td><p>课程情况：未开始
-                                        </p>
+                                    <td rowspan="3"><p>成绩计算规则：</p></td>
+                                    <td>
+
+                                        <p class="pull-right">课堂展示：${course.prePercentage}</p>
+
                                     </td>
                                 </tr>
+
                                 <tr>
                                     <td>
-                                        <p>报名开始时间：${seminar.enrollStartTime?datetime!}</p>
-                                        <p>报名截止时间：${seminar.enrollEndTime?datetime!}</p>
+                                        <p class="pull-right">课堂提问：${course.questionPercentage}</p>
                                     </td>
                                 </tr>
+
                                 <tr>
                                     <td>
-                                        <form action="/student/seminar/enrollList" method="post">
-                                            <input type="hidden" name="klassId" value=${klassId}>
-                                            <input type="hidden" name="seminarId" value="${seminar.id}">
-                                            <button class="btn btn-lg btn-default btn-block waves-effect waves-light ">
-                                                报名
-                                            </button>
-                                        </form>
+                                        <p class="pull-right">报告分数：${course.reportPercentage}</p>
                                     </td>
                                 </tr>
+
+
+                                <tr>
+                                    <td><p>小组人数：</p></td>
+                                    <td><p class="pull-right">最少人数——最多人数</p></td>
+                                </tr>
+
+                                <tr>
+                                    <td><p>组队开始时间：</p></td>
+                                    <td><p class="pull-right">${course.teamStartTime?datetime}</p></td>
+                                </tr>
+
+                                <tr>
+                                    <td><p>组队结束时间：</p></td>
+                                    <td><p class="pull-right">${course.teamEndTime?datetime}</p></td>
+                                </tr>
+
+                                <tr>
+                                    <td><p>组员性别要求：</p></td>
+                                    <td><p class="pull-right">无</p></td>
+                                </tr>
+
+                                <tr>
+                                    <td><p>冲突课程：</p></td>
+                                    <td><p class="pull-right">.Net(XX老师）</p></td>
+                                </tr>
+
                                 </tbody>
                             </table>
                         </div>

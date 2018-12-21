@@ -90,11 +90,11 @@
                                 <tbody>
                                 <#list courseAndKlassList as list>
                                 <tr>
-                                    <td>${list.course.courseName}——${list.grade}(${list.klassSerial})</td>
+                                    <td>${list.course.courseName}——${list.klass.grade}(${list.klass.klassSerial})</td>
                                     <td>
                                         <form action="/student/seminar" method="post">
                                             <input type="hidden" name="courseId" value=${list.courseId}>
-                                            <input type="hidden" name="klassId" value=${list.id}>
+                                            <input type="hidden" name="klassId" value=${list.klassId}>
                                         <button class="md-trigger btn btn-primary waves-effect waves-light pull-right" >进入
                                         </button></td>
                                         </form>

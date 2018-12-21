@@ -1,20 +1,15 @@
 package com.loha.flippedclassroom.dao;
 
-
-import com.loha.flippedclassroom.entity.Attendance;
 import com.loha.flippedclassroom.entity.KlassSeminar;
 import com.loha.flippedclassroom.entity.Seminar;
 import com.loha.flippedclassroom.mapper.AttendanceMapper;
 import com.loha.flippedclassroom.mapper.KlassSeminarMapper;
 import com.loha.flippedclassroom.mapper.SeminarMapper;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
-import com.loha.flippedclassroom.entity.Seminar;
-import com.loha.flippedclassroom.mapper.SeminarMapper;
 import com.loha.flippedclassroom.pojo.DTO.SeminarDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * 与讨论课相关的dao
@@ -42,7 +37,12 @@ public class SeminarDao {
 //        klassSeminar.setSeminarId(seminarId);
 //        return klassSeminarMapper.selectKlassSeminarByKlassSeminarId(klassSeminar);
 //    }
-
+    /**
+     * 获取KlassSeminar对象，用于后续获取KlassSeminar的id
+     */
+    public KlassSeminar getKlassSeminar(KlassSeminar klassSeminar) throws Exception {
+        return klassSeminarMapper.selectKlassSeminarByKlassSeminarId(klassSeminar);
+    }
     /**
      * 根据Id获取当前的讨论课
      */

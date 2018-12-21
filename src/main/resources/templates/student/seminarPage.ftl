@@ -111,7 +111,7 @@
 
                                         <tr>
                                             <td>
-                                                <form action="/student/seminar/info" method="get">
+                                                <form action="/student/seminar/info" method="post">
                                                     <input type="hidden" name="klassId" value="${klassId}">
                                                     <input type="hidden" name="seminarId" value="${seminar.id}">
                                                     <button style="border: transparent" class="btn-lg btn-default btn-block  waves-effect waves-light" type="submit" >

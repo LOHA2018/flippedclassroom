@@ -8,9 +8,10 @@
 
     <link rel="shortcut icon" href="/img/favicon_1.ico">
 
-    <title>讨论课</title>
+    <title>班级信息</title>
 
     <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
+
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/core.css" rel="stylesheet" type="text/css">
@@ -29,8 +30,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-
-
 </head>
 
 
@@ -45,18 +44,15 @@
             <div class="container">
                 <div class="">
                     <div class="pull-left">
-                        <form action="/student/seminar" method="post">
-                            <input type="hidden" name="klassId" value="${klassId}">
-                            <input type="hidden" name="courseId" value="${seminar.courseId}">
+                        <form action="/teacher/course" method="get">
                             <button class="button-menu-mobile">
                                 <div class="glyphicon glyphicon-menu-left"></div>
                             </button>
                         </form>
-
                     </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                        ${seminar.course.courseName}————讨论课
+                            班级信息
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
@@ -64,8 +60,9 @@
                             <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img
                                     src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
-                                <li><a href="/student/index"><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
-                                <li><a href="/student/chooseCourse"><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
+                                <li><a><h4><i class="md md-info"></i>&nbsp;待办</h4></a></li>
+                                <li><a><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
+                                <li><a><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -89,58 +86,65 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default ">
-                        <div class="panel-heading"><h3 class="panel-title">讨论课</h3></div>
                         <div class="panel-body">
 
-                            <table class="table">
 
+                            <#list klassList as klass>
+                            <table class="table">
+                                <label>${klass.grade}——${klass.klassSerial}</label>
                                 <tbody>
                                 <tr>
-                                    <td><p>轮次：第${round.roundSerial}轮</p></td>
+                                    <td>讨论课时间：
+                                        <div class="pull-right">${klass.time}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>讨论课地点：
+                                        <div class="pull-right">${klass.location}</div>
+                                    </td>
 
                                 </tr>
                                 <tr>
-                                    <td><p>主题：${seminar.seminarName}</p></td>
-                                </tr>
-                                <tr>
-                                    <td><p>课次序号：第${seminar.seminarSerial}次</p></td>
-                                </tr>
-                                <tr>
-                                    <td><p>要求：${seminar.introduction!}</p></td>
-                                </tr>
-                                <tr>
-                                    <td><p>课程情况：未开始
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td>
-                                        <p>报名开始时间：${seminar.enrollStartTime?datetime!}</p>
-                                        <p>报名截止时间：${seminar.enrollEndTime?datetime!}</p>
+                                        <div class="row">
+                                            <div class="col-xs-6 col-sm-4">
+                                                <input id="importStudent" type="file"/>
+                                            </div>
+                                            <div class="col-xs-6 col-sm-4">
+                                                <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"
+                                                        onclick="resetStudentList(${klass.id})">
+                                                    提交
+                                                </button>
+                                            </div>
+                                        </div>
+
+
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <form action="/student/seminar/enrollList" method="post">
-                                            <input type="hidden" name="klassId" value=${klassId}>
-                                            <input type="hidden" name="seminarId" value="${seminar.id}">
-                                            <button class="btn btn-lg btn-default btn-block waves-effect waves-light ">
-                                                报名
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
+
                                 </tbody>
+
                             </table>
-                        </div>
 
-                    </div> <!-- panel-body -->
-                </div> <!-- panel -->
-            </div>
+                        </#list>
 
-        </div> <!-- End row -->
 
-    </div>
+                        <form action="/teacher/course/klass/create" method="post">
+                            <input type="hidden" name="courseId" value="${course.id}">
+                            <button class="btn btn-default btn-block btn-lg waves-effect waves-light pull-right">新增班级
+                            </button>
+                        </form>
+
+
+                    </div>
+
+                </div> <!-- panel-body -->
+            </div> <!-- panel -->
+        </div>
+
+    </div> <!-- End row -->
+
+</</div>
 
 </div>
 <!-- END wrapper -->
@@ -150,6 +154,47 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+<script>
+    function resetStudentList(klassId) {
 
+         var fileObj = document.getElementById(classId).files[0];
+
+
+        if (!fileObj) {
+            alert("文件不能为空!");
+            return;
+        }
+        else {
+
+            var fileName = fileObj.name;
+            alert(45 + fileName);
+            if (!fileName.indexOf("xls") || !fileName.indexOf("xlsx")) {
+                alert("文件格式不正确!");
+                return
+            }
+
+
+            var formData = new FormData();
+            formData.append('file', fileObj);
+            formData.append('classId', klassId);
+
+
+            $.ajax({
+                url: "/teacher/course/klass",
+                type: "POST",
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function (data, status) {
+                    alert(data);
+                },
+                error: function (data, status) {
+                    alert(data);
+                }
+            });
+        }
+    }
+</script>
 </body>
 </html>

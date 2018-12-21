@@ -29,16 +29,13 @@ public class CourseService {
     @Autowired
     SeminarDao seminarDao;
 
-    public Course getCourseById(long courseId) throws Exception {
+    public Course getCourseById(Long courseId) throws Exception{
         return courseDao.getCourseById(courseId);
     }
 
-    /**
-     * @Author: birden
-     * @Description:课程下所有班级
-     * @Date:12:20 2018/12/20
-     */
-    public List<Klass> getKlassByCourseId(long courseId) {
+
+
+    public List<Klass> getKlassByCourseId(Long courseId) throws Exception{
         return klassDao.getKlassByCourseId(courseId);
     }
 

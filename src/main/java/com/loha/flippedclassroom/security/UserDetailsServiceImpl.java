@@ -5,6 +5,7 @@ import com.loha.flippedclassroom.entity.Student;
 import com.loha.flippedclassroom.entity.Teacher;
 import com.loha.flippedclassroom.mapper.StudentMapper;
 import com.loha.flippedclassroom.mapper.TeacherMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,6 +26,7 @@ import java.util.List;
  * @date 2018/12/15
  */
 @Service
+@Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final StudentMapper studentMapper;
