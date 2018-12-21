@@ -263,12 +263,17 @@ public class TeacherController {
         model.addAttribute("SeminarScoreList", scoreService.getSeminarScore(klassSeminarId));
         return "grade";
     }
-
+/**
+ * @Author: birden
+ * @Description: 开始讨论课
+ * @Date: 2018/12/21 11:04
+ */
     @GetMapping("course/seminar/progressing")
     public String seminarProcessing(Long klassSeminarId, Model model) {
         model.addAttribute("enrollList",klassSeminarService.getAttendance(klassSeminarId));
         return "processing";
     }
+
 
     @GetMapping("course/teamList")
     public String courseTeamList(Long courseId, Model model) {

@@ -18,25 +18,26 @@ public class WebSocketController {
     KlassSeminarService klassSeminarService;
     @Autowired
     SimpMessagingTemplate messagingTemplate;
-/**
- * @Author: birden
- * @Description: 广播
- * @Date: 2018/12/21 0:59
- */
+
+    /**
+     * @Author: birden
+     * @Description: 广播
+     * @Date: 2018/12/21 0:59
+     */
     @MessageMapping("/question")
     @SendTo("topic/seminar")
-    public Question raiseQuestion(Question question)throws Exception
-    {
+    public Question raiseQuestion(Question question) throws Exception {
         return klassSeminarService.createQuestion(question);
     }
-/**
- * @Author: birden
- * @Description: 点对点
- * @Date: 2018/12/21 0:59
- */
+
+    /**
+     * @Author: birden
+     * @Description: 点对点, 调用算法
+     * @Date: 2018/12/21 0:59
+     */
     @MessageMapping("/frank")
-    public void handleCommand(Principal principal, String account)
-    {
-        messagingTemplate.convertAndSendToUser(account,"topic/frank","message");
+    public void handleCommand(Principal principal, String command) {
+        String account = "";
+        messagingTemplate.convertAndSendToUser(account, "topic/frank", "message");
     }
 }
