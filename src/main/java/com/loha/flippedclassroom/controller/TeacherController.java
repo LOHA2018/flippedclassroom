@@ -27,6 +27,8 @@ public class TeacherController {
 //异常处理需要确定
     @Autowired
     TeacherService teacherService;
+
+    @Autowired
     CourseService courseService;
 
 
@@ -154,6 +156,13 @@ public class TeacherController {
     }
     **/
 
+    /**
+     * 教师移动端controller
+     *
+     * @author sulingqi
+     * @date 2018/12/19
+     */
+
 
 
     @GetMapping(value = "/activation")
@@ -208,6 +217,35 @@ public class TeacherController {
     public ResponseEntity modifyPwd(@ModelAttribute("curTeacherId") Long teacherId,String password) throws Exception{
         teacherService.modifyTeacherPwdById(teacherId,password);
         return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * 教师移动端controller
+     *
+     * @author sulingqi
+     * @date 2018/12/21
+     */
+
+    @GetMapping(value = "/course")
+    public String teacherCourseList(@ModelAttribute("curTeacherId")Long teacherId, Model model) throws Exception
+    {
+
+        model.addAttribute("courseList",teacherService.getTeacherCourses(teacherId));
+        return "teacher/course";
+    }
+
+    @PostMapping("/course/info")
+    public String courseInfo(Long courseId,Model model) throws Exception
+    {
+        model.addAttribute("course", courseService.getCourseById(courseId));
+        return "teacher/courseInfo";
+    }
+
+    @PostMapping("course/klassList")
+    public String getCousreKlassList(Long courseId,Model model) throws Exception{
+        model.addAttribute("klassList", courseService.getKlassByCourseId(courseId));
+        model.addAttribute("course", courseService.getCourseById(courseId));
+        return "teacher/klassInfo";
     }
 
 }
