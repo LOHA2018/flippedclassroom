@@ -131,7 +131,8 @@
 
                         <form action="/teacher/course/klass/create" method="post">
                             <input type="hidden" name="courseId" value="${course.id}">
-                            <button class="btn btn-default btn-block btn-lg waves-effect waves-light pull-right">新增班级
+                            <button class="btn btn-default btn-block btn-lg waves-effect waves-light pull-right"
+                            type="submit">新增班级
                             </button>
                         </form>
 

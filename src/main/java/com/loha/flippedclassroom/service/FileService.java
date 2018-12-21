@@ -59,7 +59,7 @@ public class FileService {
     /**
      * 教师上传学生名单
      */
-    public void uploadStudentList(MultipartFile file,Integer klassId) throws Exception{
+    public void uploadStudentList(MultipartFile file,Long klassId) throws Exception{
         String filename=file.getOriginalFilename();
         boolean isExcel2003=true;
         List<Student> students=new ArrayList<>();

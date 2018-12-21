@@ -248,4 +248,14 @@ public class TeacherController {
         return "teacher/klassInfo";
     }
 
+    @PostMapping("course/klass/create")
+    public String createClass(Long courseId,Model model) throws Exception
+    {
+        model.addAttribute("courseId",courseId);
+        return "teacher/klassCreate";
+    }
+
+
+
+
 }

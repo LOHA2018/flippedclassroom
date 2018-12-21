@@ -8,7 +8,7 @@
 
     <link rel="shortcut icon" href="/img/favicon_1.ico">
 
-    <title>课程信息</title>
+    <title>新建班级</title>
 
     <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
 
@@ -43,7 +43,9 @@
             <div class="container">
                 <div class="">
                     <div class="pull-left">
-                        <form action="/teacher/course/info" method="get">
+
+                        <form action="/teacher/course/klassList" method="post">
+                            <input type="hidden" name="courseId" value="${courseId}">
                             <button class="button-menu-mobile">
                                 <div class="glyphicon glyphicon-menu-left"></div>
                             </button>
@@ -51,7 +53,7 @@
                     </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                            ${course.courseName}
+                            创建班级
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
@@ -88,71 +90,44 @@
                         <div class="panel-body">
 
                             <table class="table">
-
                                 <tbody>
                                 <tr>
-                                    <td><p>课程简介：</p>
-                                        <p>${course.introduction}</p>
+                                    <td>
+
+                                        <label>班级名：</label>
+
+                                        <input id="grade" type="text" class="form-control" placeholder="年级" name="grade"
+                                               value="">
+
+                                        <input id="klassSerial" type="text" class="form-control" placeholder="班级"
+                                               name="klassSerial" value="">
+
                                     </td>
 
+                                </tr>
+                                <tr>
+                                    <td><label>上课时间：</label>
+                                        <input id="klassTime" type="text" class="form-control" name="klassTime"
+                                               value=""></td>
+                                </tr>
+                                <tr>
+                                    <td><label>上课地点：</label>
+                                        <input id="klassLocation" type="text" class="form-control"></td>
+
+                                </tr>
+                                <tr>
+                                    <td><label>班级学生名单：</label>
+                                        <input id="importStudent" type="file"/></td>
                                 </tr>
 
                                 </tbody>
+
                             </table>
 
-                            <table class="table">
+                            <button class="btn btn-primary waves-effect waves-light pull-right"
+                                    onclick="storeClass()">保存
+                            </button>
 
-                                <tbody>
-
-                                <tr>
-                                    <td rowspan="3"><p>成绩计算规则：</p></td>
-                                    <td>
-
-                                        <p class="pull-right">课堂展示：${course.prePercentage}</p>
-
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <p class="pull-right">课堂提问：${course.questionPercentage}</p>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>
-                                        <p class="pull-right">报告分数：${course.reportPercentage}</p>
-                                    </td>
-                                </tr>
-
-
-                                <tr>
-                                    <td><p>小组人数：</p></td>
-                                    <td><p class="pull-right">最少人数——最多人数</p></td>
-                                </tr>
-
-                                <tr>
-                                    <td><p>组队开始时间：</p></td>
-                                    <td><p class="pull-right">${course.teamStartTime?datetime}</p></td>
-                                </tr>
-
-                                <tr>
-                                    <td><p>组队结束时间：</p></td>
-                                    <td><p class="pull-right">${course.teamEndTime?datetime}</p></td>
-                                </tr>
-
-                                <tr>
-                                    <td><p>组员性别要求：</p></td>
-                                    <td><p class="pull-right">无</p></td>
-                                </tr>
-
-                                <tr>
-                                    <td><p>冲突课程：</p></td>
-                                    <td><p class="pull-right">.Net(XX老师）</p></td>
-                                </tr>
-
-                                </tbody>
-                            </table>
                         </div>
 
                     </div> <!-- panel-body -->
@@ -171,6 +146,49 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script>
+    function storeClass() {
+        var grade = document.getElementById("grade").value;
+        var klassSerial = document.getElementById("klassSerial").value;
+        var klassTime = document.getElementById("klassTime").value;
+        var klassLocation = document.getElementById("klassLocation").value;
+        var fileObj = document.getElementById("importStudent").files[0];
+        if (grade == "" || klassLocation == "" || klassSerial == "" || klassTime == "") {
+            alert("字段不能为空！");
+            return false;
+        } else {
+            var formData = new FormData();
+            var fileName = fileObj.name;
+            if (fileName.indexOf("xls") < 0 || fileName.indexOf("xlsx") < 0) {
+                alert("文件格式错误");
+                return false;
+            }
+            formData.append('file', fileObj);
+            formData.append('grade', grade);
+            formData.append('klassSerial', klassSerial);
+            formData.append('klassLocation', klassLocation);
+
+            $.ajax({
+                url: "/teacher/course/klass",
+                type: "POST",
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function (data, status) {
+                    alert("创建成功!");
+                    window.location.href="/teacher/course/klass";
+                },
+                error: function (data, status) {
+                    alert("创建失败!");
+                }
+            });
+        }
+
+    }
+</script>
+
 
 </body>
 </html>
