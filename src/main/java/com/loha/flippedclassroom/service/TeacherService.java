@@ -80,7 +80,7 @@ public class TeacherService {
         teacherDao.modifyTeacherPsd(teacher);
     }
 
-    public MessageBox getTeacherMessageBox(Long id){
-        return new MessageBox();
-    }
+//    public MessageBox getTeacherMessageBox(Long id){
+//        return new MessageBox();
+//    }
 }

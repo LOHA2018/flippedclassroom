@@ -25,14 +25,26 @@ public class WebSocketController {
      * @Date: 2018/12/21 0:59
      */
     @MessageMapping("/question")
-    @SendTo("topic/seminar")
-    public Question raiseQuestion(Question question) throws Exception {
-        return klassSeminarService.createQuestion(question);
+    public void raiseQuestion(Principal principal, Question question) throws Exception {
+        principal.getName();
+        klassSeminarService.createQuestion(question);
+        messagingTemplate.convertAndSend("/topic" + "/seminar id here", question);
     }
 
     /**
      * @Author: birden
-     * @Description: 点对点, 调用算法
+     * @Description: 教师抽取提问
+     * @Date: 2018/12/22 23:05
+     */
+    @MessageMapping("/pickUp")
+    public void pickUpQuestion(Long attendance_id) {
+        //算法
+//        messagingTemplate.convertAndSend("/topic" + "/seminar id here", question_id);
+    }
+
+    /**
+     * @Author: birden
+     * @Description: 点对点, 调用算法, this will not be used，abort！！！
      * @Date: 2018/12/21 0:59
      */
     @MessageMapping("/frank")

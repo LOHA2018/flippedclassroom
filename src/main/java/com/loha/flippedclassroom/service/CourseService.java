@@ -44,8 +44,8 @@ public class CourseService {
      * @Description:课程下所有轮次
      * @Date:12:20 2018/12/20
      */
-    public List<Round> getRoundByCourseId(long courseId) {
-        return roundDao.getRoundByCourseId(courseId);
+    public List<Round> getRoundByCourseId(long courseId)throws Exception {
+        return roundDao.getRoundAndSeminar(courseId);
     }
 
     public void deleteKlass(long klassId) {

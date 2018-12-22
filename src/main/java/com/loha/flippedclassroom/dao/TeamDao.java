@@ -21,12 +21,10 @@ import java.util.Map;
 public class TeamDao {
 
     private final AttendanceMapper attendanceMapper;
-    private final KlassStudentMapper klassStudentMapper;
     private final TeamMapper teamMapper;
 
     TeamDao(AttendanceMapper attendanceMapper,KlassStudentMapper klassStudentMapper,TeamMapper teamMapper){
         this.attendanceMapper=attendanceMapper;
-        this.klassStudentMapper=klassStudentMapper;
         this.teamMapper=teamMapper;
     }
 
@@ -87,5 +85,15 @@ public class TeamDao {
         attendance.setPptName(pptName);
         attendance.setPptUrl(pptUrl);
         attendanceMapper.updatePowerPointByKlassSeminarAndTeamId(attendance);
+    }
+
+    /**
+     * @Author: birden
+     * @Description: 查询小组
+     * @Date: 2018/12/21 23:32
+     */
+    public Team getTeamById(Long id)throws Exception
+    {
+        return teamMapper.selectTeamById(id);
     }
 }
