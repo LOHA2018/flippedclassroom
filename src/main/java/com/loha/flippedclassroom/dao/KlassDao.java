@@ -20,6 +20,7 @@ public class KlassDao {
         this.klassMapper=klassMapper;
     }
 
+
     /**
      * 根据课程id获取该课程下所有班级
      */
@@ -32,5 +33,17 @@ public class KlassDao {
      */
     public Klass getKlassById(Long klassId) throws Exception{
         return klassMapper.selectKlassById(klassId);
+    }
+
+
+    /**
+     * 创建班级
+     */
+    public void createKlass(Klass klass) throws Exception{
+       klassMapper.insertKlass(klass);
+    }
+
+    public Long selectKlassId(Long courseId, Integer grade, Integer klassSerial) throws Exception{
+        return klassMapper.selectKlassId(courseId,grade,klassSerial);
     }
 }

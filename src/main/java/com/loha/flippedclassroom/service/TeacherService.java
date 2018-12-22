@@ -18,6 +18,14 @@ import java.util.List;
  * @author zhoujian
  * @date 2018/12/16
  */
+
+/**
+ * teacher service
+ *
+ * @author sulingqi
+ * @date 2018/12/22
+ */
+
 @Service
 public class TeacherService {
 
@@ -78,5 +86,14 @@ public class TeacherService {
         Teacher teacher=teacherDao.getTeacherById(teacherId);
         teacher.setPassword(password);
         teacherDao.modifyTeacherPsd(teacher);
+    }
+
+
+    public void createKlass(Klass klass) throws Exception{
+        klassDao.createKlass(klass);
+    }
+
+    public Long selectKlassId(Long courseId, Integer grade, Integer klassSerial) throws Exception{
+        return klassDao.selectKlassId(courseId,grade,klassSerial);
     }
 }

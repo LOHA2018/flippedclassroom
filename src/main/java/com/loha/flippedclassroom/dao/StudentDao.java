@@ -93,7 +93,12 @@ public class StudentDao {
         map.put("klassId",klassId);
         map.put("courseId",klass.getCourseId());
         map.put("studentId",student.getId());
+        Long findStudentId=klassStudentMapper.selectKlassStudent(map);
 
-        klassStudentMapper.insertKlassStudent(map);
+        if(!student.getId().equals(findStudentId))
+        {
+            klassStudentMapper.insertKlassStudent(map);
+        }
+
     }
 }

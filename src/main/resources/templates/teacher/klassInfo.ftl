@@ -108,7 +108,7 @@
                                     <td>
                                         <div class="row">
                                             <div class="col-xs-6 col-sm-4">
-                                                <input id="importStudent" type="file"/>
+                                                <input id="klass${klass.id}" type="file"/>
                                             </div>
                                             <div class="col-xs-6 col-sm-4">
                                                 <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"
@@ -157,8 +157,9 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
 <script>
     function resetStudentList(klassId) {
+        var klassFile="klass"+klassId;
 
-         var fileObj = document.getElementById(classId).files[0];
+         var fileObj = document.getElementById(klassFile).files[0];
 
 
         if (!fileObj) {
@@ -168,7 +169,6 @@
         else {
 
             var fileName = fileObj.name;
-            alert(45 + fileName);
             if (!fileName.indexOf("xls") || !fileName.indexOf("xlsx")) {
                 alert("文件格式不正确!");
                 return
@@ -177,21 +177,21 @@
 
             var formData = new FormData();
             formData.append('file', fileObj);
-            formData.append('classId', klassId);
+            formData.append('klassId', klassId);
 
 
             $.ajax({
-                url: "/teacher/course/klass",
+                url: "/teacher/course/klassList/save",
                 type: "POST",
                 data: formData,
                 cache: false,
                 processData: false,
                 contentType: false,
                 success: function (data, status) {
-                    alert(data);
+                    alert("创建成功!");
                 },
                 error: function (data, status) {
-                    alert(data);
+                    alert("创建失败!");
                 }
             });
         }

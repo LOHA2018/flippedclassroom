@@ -18,4 +18,11 @@ public interface KlassStudentMapper {
      * @throws Exception
      */
     void insertKlassStudent(Map<String,Long> map) throws Exception;
+
+    /**
+     * 插入班级学生记录前，查找班级学生数据是否存在
+     * @param map 包含"klassId","teamId","courseId"
+     * @throws Exception
+     */
+     Long selectKlassStudent(Map<String,Long> map) throws Exception;
 }

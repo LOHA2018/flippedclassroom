@@ -35,4 +35,6 @@
         values (#{account},'123456',0,#{studentName})
     </insert>
 
+
+
 </mapper>

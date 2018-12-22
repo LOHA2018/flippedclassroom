@@ -168,10 +168,13 @@
             formData.append('grade', grade);
             formData.append('klassSerial', klassSerial);
             formData.append('klassLocation', klassLocation);
+            formData.append('klassTime',klassTime);
+            formData.append('courseId',${courseId});
 
             $.ajax({
                 url: "/teacher/course/klass/create/save",
                 type: "POST",
+                dataType: "json",
                 data: formData,
                 cache: false,
                 processData: false,

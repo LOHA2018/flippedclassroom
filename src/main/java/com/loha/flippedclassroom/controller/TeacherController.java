@@ -1,6 +1,7 @@
 package com.loha.flippedclassroom.controller;
 
 import com.loha.flippedclassroom.entity.Course;
+import com.loha.flippedclassroom.entity.Klass;
 import com.loha.flippedclassroom.entity.Teacher;
 import com.loha.flippedclassroom.service.CourseService;
 import com.loha.flippedclassroom.service.FileService;
@@ -262,7 +263,6 @@ public class TeacherController {
     }
 
 
-
     @PostMapping("course/klass/create")
     public String createClass(Long courseId,Model model) throws Exception
     {
@@ -270,11 +270,36 @@ public class TeacherController {
         return "teacher/klassCreate";
     }
 
-    @PostMapping(value = "course/klass/create/save")
+
+
+    @PostMapping(value = "course/klassList/save")
     @ResponseBody
     public ResponseEntity submitXsl(@RequestParam("file") MultipartFile file,Long klassId) throws Exception{
         fileService.uploadStudentList(file,klassId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
+
+    @PostMapping(value = "course/klass/create/save")
+    @ResponseBody
+    public ResponseEntity saveKlass(@RequestParam("file") MultipartFile file,Long courseId, Integer grade,Integer klassSerial,String klassLocation,String klassTime) throws Exception{
+        Klass klass=new Klass();
+        klass.setGrade(grade);
+        klass.setKlassSerial(klassSerial);
+        klass.setLocation(klassLocation);
+        klass.setTime(klassTime);
+        klass.setCourseId(courseId);
+
+
+        if(teacherService.selectKlassId(courseId,grade,klassSerial)==null)
+        {
+            teacherService.createKlass(klass);
+            Long klassId=teacherService.selectKlassId(courseId,grade,klassSerial);
+            fileService.uploadStudentList(file,klassId);
+
+        }
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+
+    }
+
 
 }

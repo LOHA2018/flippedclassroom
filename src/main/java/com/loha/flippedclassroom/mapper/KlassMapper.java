@@ -1,6 +1,7 @@
 package com.loha.flippedclassroom.mapper;
 
 import com.loha.flippedclassroom.entity.Klass;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,6 +11,13 @@ import java.util.List;
  *
  * @author zhoujian
  * @date 2018/12/16
+ */
+
+/**
+ * 与新建班级相关的mapper
+ *
+ * @author sulingqi
+ * @date 2018/12/22
  */
 @Repository
 public interface KlassMapper {
@@ -37,4 +45,21 @@ public interface KlassMapper {
      * @throws Exception
      */
     List<Klass> selectKlassAndCourseByStudentId(Long studentId) throws Exception;
+
+    /**
+     * 新建班级
+     * @param klass 班级
+     * @throws Exception
+     */
+    void insertKlass(@Param("klass") Klass klass) throws Exception;
+
+    /**
+     * 根据课程Id，年级，序列号查班级Id
+     * @param courseId 班级Id
+     * @param grade 年级
+     * @param klassSerial 序列号
+     * @return klassId
+     * @throws Exception
+     */
+    Long selectKlassId(@Param("courseId") Long courseId,@Param("grade") Integer grade,@Param("klassSerial") Integer klassSerial) throws Exception;
 }
