@@ -123,10 +123,10 @@
                                 </tbody>
 
                             </table>
+                               <button class="btn btn-primary waves-effect waves-light pull-right"
+                                     onclick="storeClass()">保存
+                               </button>
 
-                            <button class="btn btn-primary waves-effect waves-light pull-right"
-                                    onclick="storeClass()">保存
-                            </button>
 
                         </div>
 
@@ -170,7 +170,7 @@
             formData.append('klassLocation', klassLocation);
 
             $.ajax({
-                url: "/teacher/course/klass",
+                url: "/teacher/course/klass/create/save",
                 type: "POST",
                 data: formData,
                 cache: false,
@@ -178,7 +178,7 @@
                 contentType: false,
                 success: function (data, status) {
                     alert("创建成功!");
-                    window.location.href="/teacher/course/klass";
+                    window.location.href="/teacher/course/klassList?courseId=${courseId}";
                 },
                 error: function (data, status) {
                     alert("创建失败!");

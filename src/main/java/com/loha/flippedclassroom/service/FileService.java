@@ -98,6 +98,7 @@ public class FileService {
 
         for(Student student:students){
             studentDao.insertStudent(student);
+            studentDao.insertKlassStudent(klassId,student.getAccount());
         }
     }
 }

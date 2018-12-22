@@ -3,6 +3,7 @@ package com.loha.flippedclassroom.controller;
 import com.loha.flippedclassroom.entity.Course;
 import com.loha.flippedclassroom.entity.Teacher;
 import com.loha.flippedclassroom.service.CourseService;
+import com.loha.flippedclassroom.service.FileService;
 import com.loha.flippedclassroom.service.TeacherService;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 教师移动端controller
@@ -30,6 +32,9 @@ public class TeacherController {
 
     @Autowired
     CourseService courseService;
+
+    @Autowired
+    FileService fileService;
 
 
 //    @PostMapping(value = "/activation")
@@ -248,6 +253,16 @@ public class TeacherController {
         return "teacher/klassInfo";
     }
 
+
+    @GetMapping("course/klassList")
+    public String getCousreKlassList2(Long courseId,Model model) throws Exception{
+        model.addAttribute("klassList", courseService.getKlassByCourseId(courseId));
+        model.addAttribute("course", courseService.getCourseById(courseId));
+        return "teacher/klassInfo";
+    }
+
+
+
     @PostMapping("course/klass/create")
     public String createClass(Long courseId,Model model) throws Exception
     {
@@ -255,7 +270,11 @@ public class TeacherController {
         return "teacher/klassCreate";
     }
 
-
-
+    @PostMapping(value = "course/klass/create/save")
+    @ResponseBody
+    public ResponseEntity submitXsl(@RequestParam("file") MultipartFile file,Long klassId) throws Exception{
+        fileService.uploadStudentList(file,klassId);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
 
 }
