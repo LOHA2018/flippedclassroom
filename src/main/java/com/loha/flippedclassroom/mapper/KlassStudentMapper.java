@@ -1,4 +1,5 @@
 package com.loha.flippedclassroom.mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
@@ -25,4 +26,13 @@ public interface KlassStudentMapper {
      * @throws Exception
      */
      Long selectKlassStudent(Map<String,Long> map) throws Exception;
+
+    /**
+     * 根据班级Id删除班级学生
+     * @param klassId 班级Id
+     * @return klassId
+     * @throws Exception
+     */
+    void deleteKlassStudentByKlassId(@Param("klassId")Long klassId) throws Exception;
+
 }

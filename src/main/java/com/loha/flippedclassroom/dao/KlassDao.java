@@ -2,6 +2,7 @@ package com.loha.flippedclassroom.dao;
 
 import com.loha.flippedclassroom.entity.Klass;
 import com.loha.flippedclassroom.mapper.KlassMapper;
+import com.loha.flippedclassroom.mapper.KlassStudentMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,9 +16,11 @@ import java.util.List;
 @Repository
 public class KlassDao {
     private final KlassMapper klassMapper;
+    private final KlassStudentMapper klassStudentMapper;
 
-    KlassDao(KlassMapper klassMapper){
+    KlassDao(KlassMapper klassMapper,KlassStudentMapper klassStudentMapper){
         this.klassMapper=klassMapper;
+        this.klassStudentMapper=klassStudentMapper;
     }
 
 
@@ -54,7 +57,7 @@ public class KlassDao {
      * 删除班级，级联删除班级学生
      */
     public void deleteKlassByKlassId(Long klassId) throws Exception{
-        klassMapper.deleteKlassStudentByKlassId(klassId);
+        klassStudentMapper.deleteKlassStudentByKlassId(klassId);
         klassMapper.deleteKlassByKlassId(klassId);
     }
 

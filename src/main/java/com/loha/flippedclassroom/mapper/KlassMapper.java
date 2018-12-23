@@ -71,12 +71,5 @@ public interface KlassMapper {
      */
     void deleteKlassByKlassId(@Param("klassId")Long klassId) throws Exception;
 
-    /**
-     * 根据班级Id删除班级学生
-     * @param klassId 班级Id
-     * @return klassId
-     * @throws Exception
-     */
-    void deleteKlassStudentByKlassId(@Param("klassId")Long klassId) throws Exception;
 
 }

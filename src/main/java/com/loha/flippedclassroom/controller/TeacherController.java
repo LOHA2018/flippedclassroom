@@ -317,6 +317,13 @@ public class TeacherController {
         courseService.deleteCourseByCourseId(courseId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
+
+    @PostMapping(value = "course/create")
+    public String createCourse(Model model) throws Exception
+    {
+        return "teacher/courseCreate";
+    }
+
     
     
 

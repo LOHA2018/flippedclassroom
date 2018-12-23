@@ -12,5 +12,9 @@
         where klass_id=#{klassId} and student_id=#{studentId}
     </select>
 
+    <delete id="deleteKlassStudentByKlassId" parameterType="Long">
+        delete from klass_student where klass_id=#{klassId}
+    </delete>
+
 
 </mapper>

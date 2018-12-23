@@ -191,12 +191,12 @@
         </div> <!-- end row -->
 
             <div class="row">
-                <form action=""
+                <form action="/teacher/course/create"  method="post">
                 <div class="col-lg-12 col-md-12 col-xs-12">
-                    <button  class="btn btn-lg btn-default btn-block waves-effect waves-light ">创建讨论课
+                    <button  class="btn btn-lg btn-default btn-block waves-effect waves-light ">创建课程
                     </button>
-
                 </div>
+                </form>
             </div>
     </div> <!-- End row -->
 

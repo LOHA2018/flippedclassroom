@@ -42,8 +42,6 @@
     </delete>
 
 
-    <delete id="deleteKlassStudentByKlassId" parameterType="Long">
-        delete from klass_student where klass_id=#{klassId}
-    </delete>
+
 
 </mapper>
