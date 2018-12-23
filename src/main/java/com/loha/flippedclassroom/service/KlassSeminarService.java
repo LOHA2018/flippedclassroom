@@ -32,7 +32,7 @@ public class KlassSeminarService {
      * @Description:获取班级讨论课
      * @Date:12:50 2018/12/20
      */
-    public KlassSeminar getKlassSeminar(long klassId, long seminarId) throws Exception{
+    public KlassSeminar getKlassSeminar(long klassId, long seminarId) throws Exception {
         return klassSeminarDao.getKlassSeminar(klassId, seminarId);
     }
 
@@ -47,10 +47,33 @@ public class KlassSeminarService {
 
     /**
      * @Author: birden
+     * @Description: 获得正在进行的展示id
+     * @Date: 2018/12/23 21:08
+     */
+    public Long getOngoingAttendanceId(List<Attendance> attendanceList) {
+        for (Attendance attendance : attendanceList) {
+            if (0 == attendance.getIsPresent()) {
+                return attendance.getId();
+            }
+        }
+        return 0L;
+    }
+
+    /**
+     * @Author: birden
+     * @Description: 获得本次展示的问题
+     * @Date: 2018/12/23 21:07
+     */
+    public List<Question> getQuestionByAttendanceId(Long attendanceId) {
+        return questionDao.getQuestionByAttendanceId(attendanceId);
+    }
+
+    /**
+     * @Author: birden
      * @Description: 获取问题
      * @Date: 2018/12/21 0:34
      */
-    public Question getQuestionById(Long questionId){
+    public Question getQuestionById(Long questionId) {
         return questionDao.getQuestionById(questionId);
     }
 
@@ -59,8 +82,7 @@ public class KlassSeminarService {
      * @Description: 创建问题
      * @Date: 2018/12/21 0:35
      */
-    public Question createQuestion(Question question)throws Exception
-    {
+    public Question createQuestion(Question question) throws Exception {
         questionDao.createQuestion(question);
         return question;
     }

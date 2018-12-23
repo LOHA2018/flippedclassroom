@@ -29,5 +29,11 @@ public class CourseDao {
         return courseMapper.selectCourseById(id);
     }
 
+    public Long getCourseIdByKlassSeminarId(Long klassSeminarId)throws Exception{
+        return courseMapper.getCourseIdByKlassSeminarId(klassSeminarId);
+    }
 
+    public Course getCourseByKlassSeminarId(Long klassSeminarId)throws Exception{
+        return courseMapper.selectCourseById(getCourseIdByKlassSeminarId(klassSeminarId));
+    }
 }

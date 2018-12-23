@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 教师移动端controller
  *
@@ -31,10 +33,10 @@ public class TeacherController {
     CourseService courseService;
     @Autowired
     KlassSeminarService klassSeminarService;
-//    @Autowired
-//    ScoreService scoreService;
-//    @Autowired
-//    TeamService teamService;
+    @Autowired
+    ScoreService scoreService;
+    @Autowired
+    TeamService teamService;
 
     /**
      * @Author: birden
@@ -50,7 +52,7 @@ public class TeacherController {
     @ResponseBody
     public ResponseEntity activateTeacher(@ModelAttribute("curTeacherId") Long teacherId, String password) throws Exception {
         teacherService.activateTeacher(password, teacherId);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(value = "/index")
@@ -79,7 +81,7 @@ public class TeacherController {
     @ResponseBody
     public ResponseEntity modifyEmail(@ModelAttribute("curTeacherId") Long teacherId, String email) throws Exception {
         teacherService.modifyTeacherEmail(teacherId, email);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(value = "/setting/modifyPwd")
@@ -91,7 +93,7 @@ public class TeacherController {
     @ResponseBody
     public ResponseEntity modifyPwd(@ModelAttribute("curTeacherId") Long teacherId, String password) throws Exception {
         teacherService.modifyTeacherPwdById(teacherId, password);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("/notification")
@@ -122,18 +124,18 @@ public class TeacherController {
     @ResponseBody
     public ResponseEntity submitCourseCreate(@ModelAttribute("curTeacherId") Long teacherId, @RequestParam Course courseDTO) throws Exception {
         courseService.createCourse(teacherId, courseDTO);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/course/{courseId}")
     @ResponseBody
     public ResponseEntity deleteCourse(@PathVariable Long courseId) throws Exception {
         courseService.deleteCourse(courseId);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("course/klassList")
-    public String getCousreKlassList(@RequestParam("courseId") Long courseId, Model model)throws Exception {
+    public String getCousreKlassList(@RequestParam("courseId") Long courseId, Model model) throws Exception {
         model.addAttribute("klasses", courseService.getKlassByCourseId(courseId));
         return "teacher/klass";
     }
@@ -148,14 +150,14 @@ public class TeacherController {
     @ResponseBody
     public ResponseEntity submitCreateClass(@RequestBody Klass klassDTO) throws Exception {
         courseService.createKlass(klassDTO);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("course/klass/{klassId}")
     @ResponseBody
     public ResponseEntity deleteClass(@PathVariable Long klassId) {
         courseService.deleteKlass(klassId);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     /**
@@ -164,7 +166,7 @@ public class TeacherController {
      * @Date:12:13 2018/12/20
      */
     @GetMapping("course/seminarList")
-    public String getSeminarList(@RequestParam("courseId") Long courseId, Model model)throws Exception {
+    public String getSeminarList(@RequestParam("courseId") Long courseId, Model model) throws Exception {
         model.addAttribute("courseId", courseId);
         model.addAttribute("rounds", courseService.getRoundByCourseId(courseId));
         model.addAttribute("klasses", courseService.getKlassByCourseId(courseId));
@@ -175,7 +177,7 @@ public class TeacherController {
     @ResponseBody
     public ResponseEntity addRound(Long courseId) {
         courseService.addRoundByCourseId(courseId);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping("course/seminar/create")
@@ -192,7 +194,7 @@ public class TeacherController {
     @ResponseBody
     public ResponseEntity submitSeminarCreate(SeminarDTO seminar) throws Exception {
         courseService.createSeminar(seminar);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     /**
@@ -215,7 +217,7 @@ public class TeacherController {
     @ResponseBody
     public ResponseEntity seminarUpdate(SeminarDTO seminarDTO) throws Exception {
         courseService.updateSeminar(seminarDTO);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     /**
@@ -227,7 +229,7 @@ public class TeacherController {
     @ResponseBody
     public ResponseEntity deleteSeminar(@PathVariable Long seminarId) throws Exception {
         courseService.deleteSeminar(seminarId);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     /**
@@ -252,39 +254,74 @@ public class TeacherController {
         return "teacher/finished";
     }
 
+
     /**
      * @Author: birden
-     * @Description:前端处理分数显示
-     * @Date:12:57 2018/12/20
+     * @Description: 开始讨论课
+     * @Date: 2018/12/21 11:04
      */
+    @GetMapping("course/seminar/progressing")
+    public String seminarProcessing(Long klassSeminarId, Model model) {
+        model.addAttribute("enrollList", klassSeminarService.getAttendance(klassSeminarId));
+        return "teacher/processing";
+    }
+
+    /**
+     * @Author: birden
+     * @Description: 展示评分
+     * @Date: 2018/12/23 21:44
+     */
+    @GetMapping("/scoreAttendance")
+    @ResponseBody
+    public ResponseEntity scoreAttendance(Long attendanceId, Double score)throws Exception
+    {
+        scoreService.scoreAttendanceByAttendanceId(attendanceId,score);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    /**
+     * @Author: birden
+     * @Description: 提问评分
+     * @Date: 2018/12/23 21:44
+     */
+    @GetMapping("/scoreQuestion")
+    @ResponseBody
+    public ResponseEntity scoreQuestion(Long questionId, Double score) throws Exception
+    {
+        scoreService.scoreQuestionByQuestionId(questionId, score);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+    /**
+     * @Author: birden
+     * @Description: 结束讨论课
+     * @Date: 2018/12/23 21:47
+     */
+    @GetMapping("/endKlassSeminar")
+    @ResponseBody
+    public ResponseEntity endKlassSeminar(Long klassSeminarId) throws Exception{
+        scoreService.calculateQuestionScore(klassSeminarId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+//    /**
+//     * @Author: birden
+//     * @Description:前端处理分数显示
+//     * @Date:12:57 2018/12/20
+//     */
 //    @GetMapping("course/seminar/grade")
 //    public String seminarGrade(Long klassSeminarId, Model model) {
 //        model.addAttribute("SeminarScoreList", scoreService.getSeminarScore(klassSeminarId));
 //        return "grade";
 //    }
-
-/**
- * @Author: birden
- * @Description: 开始讨论课
- * @Date: 2018/12/21 11:04
- */
-    @GetMapping("course/seminar/progressing")
-    public String seminarProcessing(Long klassSeminarId, Model model) {
-        model.addAttribute("enrollList",klassSeminarService.getAttendance(klassSeminarId));
-        //questionList
-        return "teacher/processing";
-    }
-
-
 //    @GetMapping("course/teamList")
 //    public String courseTeamList(Long courseId, Model model) {
 //        model.addAttribute(teamService.getTeamByCourseId(courseId));
 //        return "teamList";
 //    }
 
-    @GetMapping("course/grade")
-    public String courseGrade(Long courseId, Model model) {
-        //complex
-        return "teacher/courseGrade";
-    }
+//    @GetMapping("course/grade")
+//    public String courseGrade(Long courseId, Model model) {
+//        //complex
+//        return "teacher/courseGrade";
+//    }
 }

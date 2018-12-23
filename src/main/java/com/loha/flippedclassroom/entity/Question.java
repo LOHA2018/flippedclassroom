@@ -1,10 +1,13 @@
 package com.loha.flippedclassroom.entity;
 
+import java.math.BigDecimal;
+
 public class Question {
     public Long questionId;
     public Long attendanceId;
     public Long studentId;
     public Long teamId;
+    public BigDecimal score;
 
     public Long getQuestionId() {
         return questionId;
@@ -36,5 +39,13 @@ public class Question {
 
     public void setTeamId(Long teamId) {
         this.teamId = teamId;
+    }
+
+    public BigDecimal getScore() {
+        return score;
+    }
+
+    public void setScore(BigDecimal score) {
+        this.score = score;
     }
 }

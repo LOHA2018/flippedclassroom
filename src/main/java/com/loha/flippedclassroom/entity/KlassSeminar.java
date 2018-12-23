@@ -30,4 +30,56 @@ public class KlassSeminar {
         formatDate = dFormat.format(reportDdl);
         return formatDate;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getKlassId() {
+        return klassId;
+    }
+
+    public void setKlassId(Long klassId) {
+        this.klassId = klassId;
+    }
+
+    public Long getSeminarId() {
+        return seminarId;
+    }
+
+    public void setSeminarId(Long seminarId) {
+        this.seminarId = seminarId;
+    }
+
+    public void setReportDdl(Date reportDdl) {
+        this.reportDdl = reportDdl;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Klass getKlass() {
+        return klass;
+    }
+
+    public void setKlass(Klass klass) {
+        this.klass = klass;
+    }
+
+    public Seminar getSeminar() {
+        return seminar;
+    }
+
+    public void setSeminar(Seminar seminar) {
+        this.seminar = seminar;
+    }
 }

@@ -5,6 +5,8 @@ import com.loha.flippedclassroom.mapper.QuestionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class QuestionDao {
     @Autowired
@@ -31,5 +33,15 @@ public class QuestionDao {
             throw new Exception();
         }
         questionMapper.createQuestion(question);
+    }
+
+    /**
+     * @Author: birden
+     * @Description: 获得本次展示全部问题
+     * @Date: 2018/12/23 21:10
+     */
+    public List<Question> getQuestionByAttendanceId(Long attendanceId)
+    {
+        return questionMapper.getQuestionByAttendanceId(attendanceId);
     }
 }

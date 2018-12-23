@@ -2,6 +2,7 @@ package com.loha.flippedclassroom.controller;
 
 import com.loha.flippedclassroom.entity.KlassSeminar;
 import com.loha.flippedclassroom.entity.Question;
+import com.loha.flippedclassroom.pojo.WebSocketDTO;
 import com.loha.flippedclassroom.service.KlassSeminarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -28,7 +29,23 @@ public class WebSocketController {
     public void raiseQuestion(Principal principal, Question question) throws Exception {
         principal.getName();
         klassSeminarService.createQuestion(question);
-        messagingTemplate.convertAndSend("/topic" + "/seminar id here", question);
+        WebSocketDTO webSocketDTO=new WebSocketDTO();
+        webSocketDTO.setType("question");
+        webSocketDTO.setQuestion(question);
+        messagingTemplate.convertAndSend("/topic" + "/seminar id here", webSocketDTO);
+    }
+
+    /**
+     * @Author: birden
+     * @Description: 下组展示
+     * @Date: 2018/12/23 21:32
+     */
+    @MessageMapping("/nextPresentation")
+    public void nextPresentation(Long lastPresentationId){
+        //设置上一个展示为空
+        WebSocketDTO webSocketDTO=new WebSocketDTO();
+        webSocketDTO.setType("nextPresentation");
+        messagingTemplate.convertAndSend("/topic" + "/seminar id here", webSocketDTO);
     }
 
     /**

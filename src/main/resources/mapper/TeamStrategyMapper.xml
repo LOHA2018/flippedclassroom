@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loha.flippedclassroom.mapper.TeamStrategyMapper">
+    <resultMap id="conflictCourseResultMap" type="ConflictCourseStrategy">
+        <id property="id" column="id"/>
+        <collection property="courseAStudentList" javaType="ArrayList" column="courseAId" ofType="Long"
+                    select="selectStudentId" fetchType="eager"/>
+        <collection property="courseBStudentList" javaType="ArrayList" column="courseBId" ofType="Long"
+                    select="selectStudentId"/>
+    </resultMap>
+
+    <resultMap id="courseMemberLimitResultMap" type="CourseMemberLimitStrategy">
+        <id property="id" column="id"/>
+        <result property="minMember" javaType="Integer" column="minMember"/>
+        <result property="maxMember" javaType="Integer" column="maxMember"/>
+        <collection property="courseStudentList" javaType="ArrayList" column="courseId" ofType="Long"
+                    select="selectStudentId" fetchType="eager"/>
+    </resultMap>
+
+    <select id="getMemberLimitStrategy" resultType="MemberLimitStrategy">
+        select id, min_member as "minMember", max_member as "maxMember"
+        from member_limit_strategy
+        where id = #{id}
+    </select>
+    <select id="getConflictCourseStrategy" resultMap="conflictCourseResultMap">
+        select id, course_1_id as "courseAId", course_2_id as "courseBId"
+        from conflict_course_strategy
+        where id = #{id}
+    </select>
+    <select id="getCourseMemberLimitStrategy" resultType="courseMemberLimitResultMap">
+        select id, course_id as "courseId", min_member as "minMember", max_member as "maxMember"
+        from course_member_limit_strategy
+        where id = #{id}
+    </select>
+    <select id="selectStudentId" resultType="Long">
+        select student_id
+        from klass_student
+        where course_id = #{id}
+    </select>
+    <select id="getTeamStrategy" resultType="java.util.HashMap">
+        select A.strategy_id as "strategyId", A.strategy_name as "strategyName"
+        from team_strategy A left outer join team B on A.course_id=B.course_id
+        where B.id=#{id}
+    </select>
+    <select id="getCompositeAndStrategy" resultType="java.util.HashMap">
+        select strategy_1_id   as "strategyAId",
+               strategy_1_name as "strategyAName",
+               strategy_2_id   as "strategyBId",
+               strategy_2_name as "strategyBName"
+        from team_and_strategy
+        where id = #{id}
+    </select>
+    <select id="getCompositeOrStrategy" resultType="java.util.HashMap">
+        select strategy_1_id   as "strategyAId",
+               strategy_1_name as "strategyAName",
+               strategy_2_id   as "strategyBId",
+               strategy_2_name as "strategyBName"
+        from team_or_strategy
+        where id = #{id}
+    </select>
+</mapper>

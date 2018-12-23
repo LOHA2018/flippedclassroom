@@ -3,6 +3,8 @@ package com.loha.flippedclassroom.mapper;
 import com.loha.flippedclassroom.entity.Question;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface QuestionMapper {
     /**
@@ -20,4 +22,12 @@ public interface QuestionMapper {
      * @throws Exception
      */
     public void createQuestion(Question question);
+    /**
+     *fetch data by
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
+    public List<Question> getQuestionByAttendanceId(Long attendanceId);
 }

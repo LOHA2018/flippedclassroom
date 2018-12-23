@@ -54,4 +54,12 @@ public interface SeminarMapper {
      * @throws Exception
      */
     Seminar selectSeminarByRoundId(Long roundId) throws Exception;
+    /**
+     *fetch data by
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
+    Seminar selectSeminarByKlassSeminarId(Long klassSeminarId);
 }

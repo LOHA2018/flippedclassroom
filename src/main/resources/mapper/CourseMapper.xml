@@ -24,4 +24,7 @@
         select * from course where id=#{value}
     </select>
 
+    <select id="getCourseByKlassSeminarId" parameterType="Long" resultMap="courseMap">
+        select presentation_percentage from course A
+    </select>
 </mapper>

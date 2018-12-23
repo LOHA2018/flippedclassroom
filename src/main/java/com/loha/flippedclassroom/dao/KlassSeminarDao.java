@@ -3,9 +3,12 @@ package com.loha.flippedclassroom.dao;
 import com.loha.flippedclassroom.entity.KlassSeminar;
 import com.loha.flippedclassroom.entity.Question;
 import com.loha.flippedclassroom.mapper.KlassSeminarMapper;
+import com.loha.flippedclassroom.mapper.QuestionMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @Author: birden
@@ -16,7 +19,8 @@ import org.springframework.stereotype.Repository;
 public class KlassSeminarDao {
     @Autowired
     KlassSeminarMapper klassSeminarMapper;
-
+@Autowired
+QuestionMapper questionMapper;
     /**
      * @Author: birden
      * @Description: 取班级讨论课
@@ -24,5 +28,15 @@ public class KlassSeminarDao {
      */
     public KlassSeminar getKlassSeminar(Long klassId, Long seminarId) throws Exception {
         return klassSeminarMapper.selectKlassSeminar(klassId, seminarId);
+    }
+
+    public KlassSeminar getKlassSeminarById(Long klassSeminarId)throws Exception
+    {
+        return klassSeminarMapper.selectKlassSeminarById(klassSeminarId);
+    }
+
+    public List<Question> getQuestion(Long teamId, Long klassSeminarId)
+    {
+        return questionMapper.getQuestion(teamId,klassSeminarId);
     }
 }

@@ -3,6 +3,7 @@ package com.loha.flippedclassroom.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -27,4 +28,9 @@ public class Course {
     private Integer seminarMainCourseId;
 
     private Teacher teacher;
+
+    public double getFinalScore(double presentationScore, double questionScore, double reportScore)
+    {
+        return (presentationScore*prePercentage+questionScore*questionPercentage+reportScore*reportPercentage)/100;
+    }
 }

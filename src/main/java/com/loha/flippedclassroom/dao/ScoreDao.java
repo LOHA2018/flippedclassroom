@@ -28,9 +28,9 @@ public class ScoreDao {
 
 
     @Autowired
-    ScoreDao(ScoreMapper scoreMapper,KlassSeminarMapper klassSeminarMapper){
-        this.scoreMapper=scoreMapper;
-        this.klassSeminarMapper=klassSeminarMapper;
+    ScoreDao(ScoreMapper scoreMapper, KlassSeminarMapper klassSeminarMapper) {
+        this.scoreMapper = scoreMapper;
+        this.klassSeminarMapper = klassSeminarMapper;
     }
 
 
@@ -38,36 +38,80 @@ public class ScoreDao {
      * 根据team的id和round的id查询某个team在某一轮下的成绩情况
      * teamId根据klassStudent表查找，通过课程找round（round中有seminars）,再用seminarid和classid和teamid找成绩
      */
-    public ScoreInfo getOneTeamScoreUnderOneRound(Long klassId, Round round, Long teamId) throws Exception{
-        RoundScore temp=new RoundScore();
+    public ScoreInfo getOneTeamScoreUnderOneRound(Long klassId, Round round, Long teamId) throws Exception {
+        RoundScore temp = new RoundScore();
         temp.setRoundId(round.getId());
         temp.setTeamId(teamId);
         //拿到某一轮的总成绩,roundScore中有round
-        RoundScore roundScore=scoreMapper.selectRoundScore(temp);
-        List<SeminarScore> seminarScoreList=new LinkedList<>();
-        for(Seminar seminar:round.getSeminars()){
+        RoundScore roundScore = scoreMapper.selectRoundScore(temp);
+        List<SeminarScore> seminarScoreList = new LinkedList<>();
+        for (Seminar seminar : round.getSeminars()) {
 
             //用于查询的map
-            Map<String,Long> findScoreMap=new HashMap(16);
-            findScoreMap.put("klassId",klassId);
-            findScoreMap.put("seminarId",seminar.getId());
-            findScoreMap.put("teamId",teamId);
+            Map<String, Long> findScoreMap = new HashMap(16);
+            findScoreMap.put("klassId", klassId);
+            findScoreMap.put("seminarId", seminar.getId());
+            findScoreMap.put("teamId", teamId);
 
-            SeminarScore seminarScore=scoreMapper.selectSeminarScore(findScoreMap);
-            Seminar setSeminar=klassSeminarMapper.selectKlassSeminarById(seminarScore.getKlassSeminarId()).getSeminar();
+            SeminarScore seminarScore = scoreMapper.selectSeminarScore(findScoreMap);
+            Seminar setSeminar = klassSeminarMapper.selectKlassSeminarById(seminarScore.getKlassSeminarId()).getSeminar();
             seminarScore.setSeminar(setSeminar);
 
             seminarScoreList.add(seminarScore);
         }
 
         //DTO
-        ScoreInfo scoreInfo=new ScoreInfo();
+        ScoreInfo scoreInfo = new ScoreInfo();
         scoreInfo.setRoundScore(roundScore);
         scoreInfo.setSeminarScores(seminarScoreList);
         return scoreInfo;
     }
 
-    public List<SeminarScore> getSeminarScoreByKlassSeminarId(long klassSeminarId){
+    public List<SeminarScore> getSeminarScoreByKlassSeminarId(long klassSeminarId) {
         return scoreMapper.selectSeminarScoreByKlassSeminarId(klassSeminarId);
+    }
+
+    /**
+     * @Author: birden
+     * @Description: 展示评分
+     * @Date: 2018/12/23 21:54
+     */
+    public void scoreAttendanceByAttendanceId(Long attendanceId, Double score) {
+        scoreMapper.scoreAttendanceByAttendanceId(attendanceId, score);
+    }
+
+    /**
+     * @Author: birden
+     * @Description: 提问评分
+     * @Date: 2018/12/23 21:54
+     */
+    public void scoreQuestionByQuestionId(Long questionId, Double score) {
+        scoreMapper.scoreQuestionByQuestionId(questionId, score);
+    }
+
+    /**
+     * @Author: birden
+     * @Description: 计算讨论课总成绩
+     * @Date: 2018/12/23 21:54
+     */
+    public void calculateKlassSeminarScore(Long klassSeminarId) {
+        scoreMapper.calculateKlassSeminarScore(klassSeminarId);
+    }
+
+    /**
+     * @Author: birden
+     * @Description: 更新讨论课成绩
+     * @Date: 2018/12/23 23:24
+     */
+    public void updateSeminarScore(SeminarScore seminarScore){
+        scoreMapper.updateSeminarScore(seminarScore);
+    }
+/**
+ * @Author: birden
+ * @Description: 获取讨论课成绩
+ * @Date: 2018/12/23 23:34
+ */
+    public SeminarScore getSeminarScore(Long teamId, Long klassSeminarId){
+        return scoreMapper.getSeminarScore(teamId,klassSeminarId);
     }
 }
