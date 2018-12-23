@@ -25,13 +25,18 @@ public class CourseService {
 
     @Autowired
     KlassDao klassDao;
-
+    /**
+     * 通过课程id获取课程
+     */
     public Course getCourseById(Long courseId) throws Exception{
         return courseDao.getCourseById(courseId);
     }
 
 
 
+    /**
+     * 通过课程id获取班级
+     */
     public List<Klass> getKlassByCourseId(Long courseId) throws Exception{
         return klassDao.getKlassByCourseId(courseId);
     }

@@ -96,4 +96,8 @@ public class TeacherService {
     public Long selectKlassId(Long courseId, Integer grade, Integer klassSerial) throws Exception{
         return klassDao.selectKlassId(courseId,grade,klassSerial);
     }
+
+    public void deleteKlassByKlassId(Long klassId) throws Exception{
+        klassDao.deleteKlassByKlassId(klassId);
+    }
 }

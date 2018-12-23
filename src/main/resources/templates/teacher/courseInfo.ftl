@@ -6,12 +6,11 @@
     <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
     <meta name="author" content="Coderthemes">
 
-    <link rel="shortcut icon" href="/img/favicon_1.ico">
+    <link rel="shortcut icon" href="/images/favicon_1.ico">
 
-    <title>课程信息</title>
+    <title>课程</title>
 
     <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
-
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/core.css" rel="stylesheet" type="text/css">
     <link href="/css/icons.css" rel="stylesheet" type="text/css">
@@ -43,7 +42,7 @@
             <div class="container">
                 <div class="">
                     <div class="pull-left">
-                        <form action="/teacher/course/info" method="get">
+                        <form action="/teacher/course" method="get">
                             <button class="button-menu-mobile">
                                 <div class="glyphicon glyphicon-menu-left"></div>
                             </button>
@@ -151,13 +150,20 @@
                                     <td><p class="pull-right">.Net(XX老师）</p></td>
                                 </tr>
 
+
                                 </tbody>
                             </table>
+
+                            <button class="btn btn-lg btn-purple btn-block waves-effect waves-light" onclick="deleteCourse()">删除课程
+                            </button>
                         </div>
 
                     </div> <!-- panel-body -->
                 </div> <!-- panel -->
             </div>
+
+
+
 
         </div> <!-- End row -->
 
@@ -171,6 +177,33 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script>
+    function deleteCourse() {
+        var msg=confirm("是否删除该门课程?");
+        if(msg==true)
+        {
+            $.ajax({
+                url:"/teacher/course/delete",
+                method:"post",
+                data:{
+                    "courseId": ${course.id}
+                },
+                success: function () {
+                    alert("删除成功！");
+                    window.location.href="/teacher/course";
+
+                },
+                error:function () {
+                    alert("删除失败!")
+                }
+            })
+        }
+
+    }
+</script>
+
+
 
 </body>
 </html>

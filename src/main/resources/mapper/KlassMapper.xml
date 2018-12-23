@@ -35,4 +35,15 @@
         where course_id=#{courseId} and grade=#{grade} and klass_serial=#{klassSerial}
     </select>
 
+    <delete id="deleteKlassByKlassId" parameterType="Long">
+
+        delete from klass where id=#{klassId}
+
+    </delete>
+
+
+    <delete id="deleteKlassStudentByKlassId" parameterType="Long">
+        delete from klass_student where klass_id=#{klassId}
+    </delete>
+
 </mapper>

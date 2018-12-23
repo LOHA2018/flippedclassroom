@@ -43,7 +43,19 @@ public class KlassDao {
        klassMapper.insertKlass(klass);
     }
 
+    /**
+     * 为了上传文件而查找当前班级的Id
+     */
     public Long selectKlassId(Long courseId, Integer grade, Integer klassSerial) throws Exception{
         return klassMapper.selectKlassId(courseId,grade,klassSerial);
     }
+
+    /**
+     * 删除班级，级联删除班级学生
+     */
+    public void deleteKlassByKlassId(Long klassId) throws Exception{
+        klassMapper.deleteKlassStudentByKlassId(klassId);
+        klassMapper.deleteKlassByKlassId(klassId);
+    }
+
 }

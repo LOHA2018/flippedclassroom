@@ -181,7 +181,7 @@
                 contentType: false,
                 success: function (data, status) {
                     alert("创建成功!");
-                    window.location.href="/teacher/course/klassList?courseId=${courseId}";
+                    //window.location.href="/teacher/course/klassList?courseId=${courseId}";
                 },
                 error: function (data, status) {
                     alert("创建失败!");

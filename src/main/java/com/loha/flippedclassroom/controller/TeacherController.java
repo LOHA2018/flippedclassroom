@@ -243,6 +243,7 @@ public class TeacherController {
     @PostMapping("/course/info")
     public String courseInfo(Long courseId,Model model) throws Exception
     {
+
         model.addAttribute("course", courseService.getCourseById(courseId));
         return "teacher/courseInfo";
     }
@@ -260,6 +261,14 @@ public class TeacherController {
         model.addAttribute("klassList", courseService.getKlassByCourseId(courseId));
         model.addAttribute("course", courseService.getCourseById(courseId));
         return "teacher/klassInfo";
+    }
+
+    @PostMapping("course/klass/delete")
+    @ResponseBody
+    public ResponseEntity deleteClass(Long klassId)throws Exception
+    {
+        teacherService.deleteKlassByKlassId(klassId);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
 
@@ -282,6 +291,7 @@ public class TeacherController {
     @PostMapping(value = "course/klass/create/save")
     @ResponseBody
     public ResponseEntity saveKlass(@RequestParam("file") MultipartFile file,Long courseId, Integer grade,Integer klassSerial,String klassLocation,String klassTime) throws Exception{
+
         Klass klass=new Klass();
         klass.setGrade(grade);
         klass.setKlassSerial(klassSerial);
@@ -300,6 +310,17 @@ public class TeacherController {
         return new ResponseEntity(HttpStatus.ACCEPTED);
 
     }
+    
+    @PostMapping(value = "/teacher/course/delete")
+    @ResponseBody
+    public ResponseEntity deleteCourse(@RequestParam("file") MultipartFile file,Long klassId) throws Exception{
+        fileService.uploadStudentList(file,klassId);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+    
+    
+
+
 
 
 }

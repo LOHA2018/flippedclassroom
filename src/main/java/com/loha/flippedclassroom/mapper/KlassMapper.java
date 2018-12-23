@@ -55,11 +55,28 @@ public interface KlassMapper {
 
     /**
      * 根据课程Id，年级，序列号查班级Id
-     * @param courseId 班级Id
+     * @param courseId 课程Id
      * @param grade 年级
      * @param klassSerial 序列号
      * @return klassId
      * @throws Exception
      */
     Long selectKlassId(@Param("courseId") Long courseId,@Param("grade") Integer grade,@Param("klassSerial") Integer klassSerial) throws Exception;
+
+    /**
+     * 根据班级Id删除班级
+     * @param klassId 班级Id
+     * @return klassId
+     * @throws Exception
+     */
+    void deleteKlassByKlassId(@Param("klassId")Long klassId) throws Exception;
+
+    /**
+     * 根据班级Id删除班级学生
+     * @param klassId 班级Id
+     * @return klassId
+     * @throws Exception
+     */
+    void deleteKlassStudentByKlassId(@Param("klassId")Long klassId) throws Exception;
+
 }

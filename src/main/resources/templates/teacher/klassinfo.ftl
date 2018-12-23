@@ -86,12 +86,12 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default ">
-                        <div class="panel-body">
+                        <div id="tableParent" class="panel-body">
 
 
                             <#list klassList as klass>
-                            <table class="table">
-                                <label>${klass.grade}——${klass.klassSerial}</label>
+                            <table id="klass${klass.id}" class="table">
+                                <label id="klassLabel${klass.id}">${klass.grade}——${klass.klassSerial}</label>
                                 <tbody>
                                 <tr>
                                     <td>讨论课时间：
@@ -107,10 +107,17 @@
                                 <tr>
                                     <td>
                                         <div class="row">
-                                            <div class="col-xs-6 col-sm-4">
+                                            <div class="col-xs-12 col-sm-12">
                                                 <input id="klass${klass.id}" type="file"/>
                                             </div>
-                                            <div class="col-xs-6 col-sm-4">
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12">
+                                                <button class="md-trigger btn btn-purple waves-effect waves-light pull-right"
+                                                        onclick="deleteClass(${klass.id})">
+                                                    删除班级
+                                                </button>
                                                 <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"
                                                         onclick="resetStudentList(${klass.id})">
                                                     提交
@@ -126,26 +133,26 @@
 
                             </table>
 
-                        </#list>
+                            </#list>
+
+                            <form action="/teacher/course/klass/create" method="post">
+                                <input type="hidden" name="courseId" value="${course.id}">
+                                <button class="btn btn-default btn-block btn-lg waves-effect waves-light pull-right"
+                                        type="submit">新增班级
+                                </button>
+                            </form>
 
 
-                        <form action="/teacher/course/klass/create" method="post">
-                            <input type="hidden" name="courseId" value="${course.id}">
-                            <button class="btn btn-default btn-block btn-lg waves-effect waves-light pull-right"
-                            type="submit">新增班级
-                            </button>
-                        </form>
+                        </div>
 
+                    </div> <!-- panel-body -->
+                </div> <!-- panel -->
+            </div>
 
-                    </div>
+        </div> <!-- End row -->
 
-                </div> <!-- panel-body -->
-            </div> <!-- panel -->
-        </div>
-
-    </div> <!-- End row -->
-
-</</div>
+    </
+</div>
 
 </div>
 <!-- END wrapper -->
@@ -157,9 +164,9 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
 <script>
     function resetStudentList(klassId) {
-        var klassFile="klass"+klassId;
+        var klassFile = "klass" + klassId;
 
-         var fileObj = document.getElementById(klassFile).files[0];
+        var fileObj = document.getElementById(klassFile).files[0];
 
 
         if (!fileObj) {
@@ -195,6 +202,35 @@
                 }
             });
         }
+    }
+</script>
+
+<script>
+    function deleteClass(klassId) {
+        var msg = confirm("是否删除该班级?");
+        if (msg == true) {
+            $.ajax({
+                url: "/teacher/course/klass/delete",
+                method: "post",
+                data: {
+                    "klassId": klassId
+                },
+                success: function () {
+                    alert("删除成功!");
+                    var tmp = "klass" + klassId;
+                    var tmp2 = "klassLabel" + klassId;
+                    document.getElementById(tmp).innerHTML = "";
+                    document.getElementById(tmp2).innerHTML = "";
+                    var parent=document.getElementById("tableParent");
+                    var child=document.getElementById(tmp);
+                    parent.removeChild(child);
+                },
+                error: function () {
+                    alert("删除失败!");
+                }
+            });
+        }
+
     }
 </script>
 </body>
