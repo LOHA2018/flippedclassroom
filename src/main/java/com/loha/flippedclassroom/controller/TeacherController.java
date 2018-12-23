@@ -311,10 +311,10 @@ public class TeacherController {
 
     }
     
-    @PostMapping(value = "/teacher/course/delete")
+    @PostMapping(value = "course/delete")
     @ResponseBody
-    public ResponseEntity deleteCourse(@RequestParam("file") MultipartFile file,Long klassId) throws Exception{
-        fileService.uploadStudentList(file,klassId);
+    public ResponseEntity deleteCourse(Long courseId) throws Exception{
+        courseService.deleteCourseByCourseId(courseId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
     

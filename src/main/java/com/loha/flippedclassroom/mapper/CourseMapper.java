@@ -29,4 +29,6 @@ public interface CourseMapper {
      * @throws Exception
      */
     Course selectCourseById(Long courseId) throws Exception;
+
+    void deleteCourseByCourseId(Long courseId) throws Exception;
 }

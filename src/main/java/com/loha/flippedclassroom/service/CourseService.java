@@ -40,6 +40,13 @@ public class CourseService {
     public List<Klass> getKlassByCourseId(Long courseId) throws Exception{
         return klassDao.getKlassByCourseId(courseId);
     }
+
+    /**
+     * 通过课程id删除课程
+     */
+    public void deleteCourseByCourseId(Long courseId) throws Exception{
+        courseDao.deleteCourseByCourseId(courseId);
+    }
 /**
     public Course getCourseById(Integer courseId) throws Exception{
         return courseDao.getCourseById(courseId);

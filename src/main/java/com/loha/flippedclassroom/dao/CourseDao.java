@@ -29,5 +29,10 @@ public class CourseDao {
         return courseMapper.selectCourseById(id);
     }
 
-
+    /**
+     * 根据课程id删除课程信息
+     */
+    public void deleteCourseByCourseId(Long courseId) throws Exception{
+        courseMapper.deleteCourseByCourseId(courseId);
+    }
 }
