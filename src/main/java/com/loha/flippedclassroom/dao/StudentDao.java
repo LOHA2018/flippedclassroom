@@ -4,6 +4,7 @@ import com.loha.flippedclassroom.entity.*;
 import com.loha.flippedclassroom.mapper.KlassMapper;
 import com.loha.flippedclassroom.mapper.KlassStudentMapper;
 import com.loha.flippedclassroom.mapper.StudentMapper;
+import com.loha.flippedclassroom.mapper.TeamMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,12 +23,14 @@ public class StudentDao {
     private final StudentMapper studentMapper;
     private final KlassStudentMapper klassStudentMapper;
     private final KlassMapper klassMapper;
+    private final TeamMapper teamMapper;
 
     @Autowired
-    StudentDao(StudentMapper studentMapper,KlassStudentMapper klassStudentMapper,KlassMapper klassMapper){
+    StudentDao(StudentMapper studentMapper,KlassStudentMapper klassStudentMapper,KlassMapper klassMapper,TeamMapper teamMapper){
         this.studentMapper=studentMapper;
         this.klassStudentMapper=klassStudentMapper;
         this.klassMapper=klassMapper;
+        this.teamMapper=teamMapper;
     }
 
     /**
@@ -95,5 +98,12 @@ public class StudentDao {
         map.put("studentId",student.getId());
 
         klassStudentMapper.insertKlassStudent(map);
+    }
+
+    /**
+     * 查询某一课程下所有未组队的学生
+     */
+    public List<Student> getStudentsNotInTeamByCourseId(Long courseId) throws Exception{
+        return studentMapper.selectStudentNotInTeamByCourseId(courseId);
     }
 }

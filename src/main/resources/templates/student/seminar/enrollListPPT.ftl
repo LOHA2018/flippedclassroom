@@ -103,6 +103,7 @@
                                                 class="md-trigger btn btn-default waves-effect waves-light pull-right">
 
                                                 <#if attendance.teamId??>
+                                                    ${attendance.team.klass.klassSerial}—${attendance.team.teamSerial}
                                                     <#if attendance.pptName??>
                                                     <form id="submitForm" action="/student/seminar/info/registerInfo/download" method="post">
                                                         <input type="hidden" name="attendanceId" value=${attendance.id}>

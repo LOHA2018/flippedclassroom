@@ -43,7 +43,9 @@
             <div class="container">
                 <div class="">
                     <div class="pull-left">
-                        <form action="/student/course/seminarList" method="get">
+                        <form action="/student/seminar" method="post">
+                            <input type="hidden" name="klassId" value="${klass.id}">
+                            <input type="hidden" name="courseId" value="${seminar.courseId}">
                             <button class="button-menu-mobile">
                                 <div class="glyphicon glyphicon-menu-left"></div>
                             </button>
@@ -107,6 +109,7 @@
                                     <td>
                                         <p>报名：${klass.grade}——(${klass.klassSerial}) 第${attendance.teamOrder}组</p>
                                         <form action="/student/seminar/enrollList" method="post">
+                                            <input type="hidden" name="courseId" value=${courseId}>
                                             <input type="hidden" name="klassId" value=${klass.id}>
                                             <input type="hidden" name="seminarId" value=${seminar.id}>
                                             <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"

@@ -54,6 +54,7 @@ public class ScoreDao {
             findScoreMap.put("teamId",teamId);
 
             SeminarScore seminarScore=scoreMapper.selectSeminarScore(findScoreMap);
+            //SeminarScore对象此处可能不存在，会出现空指针
             Seminar setSeminar=klassSeminarMapper.selectKlassSeminarById(seminarScore.getKlassSeminarId()).getSeminar();
             seminarScore.setSeminar(setSeminar);
 

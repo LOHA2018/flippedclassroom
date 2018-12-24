@@ -2,7 +2,6 @@ package com.loha.flippedclassroom.controller;
 
 import com.loha.flippedclassroom.entity.Course;
 import com.loha.flippedclassroom.entity.Teacher;
-import com.loha.flippedclassroom.service.CourseService;
 import com.loha.flippedclassroom.service.TeacherService;
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,6 @@ public class TeacherController {
 //异常处理需要确定
     @Autowired
     TeacherService teacherService;
-    CourseService courseService;
 
 
 //    @PostMapping(value = "/activation")

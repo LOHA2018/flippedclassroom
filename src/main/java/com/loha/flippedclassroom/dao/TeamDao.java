@@ -1,9 +1,11 @@
 package com.loha.flippedclassroom.dao;
 
 import com.loha.flippedclassroom.entity.Attendance;
+import com.loha.flippedclassroom.entity.Student;
 import com.loha.flippedclassroom.entity.Team;
 import com.loha.flippedclassroom.mapper.AttendanceMapper;
 import com.loha.flippedclassroom.mapper.KlassStudentMapper;
+import com.loha.flippedclassroom.mapper.StudentMapper;
 import com.loha.flippedclassroom.mapper.TeamMapper;
 import org.springframework.stereotype.Repository;
 
@@ -22,10 +24,14 @@ public class TeamDao {
 
     private final AttendanceMapper attendanceMapper;
     private final TeamMapper teamMapper;
+    private final StudentMapper studentMapper;
+    private final KlassStudentMapper klassStudentMapper;
 
-    TeamDao(AttendanceMapper attendanceMapper,TeamMapper teamMapper){
+    TeamDao(AttendanceMapper attendanceMapper,TeamMapper teamMapper,StudentMapper studentMapper,KlassStudentMapper klassStudentMapper){
         this.attendanceMapper=attendanceMapper;
         this.teamMapper=teamMapper;
+        this.studentMapper=studentMapper;
+        this.klassStudentMapper=klassStudentMapper;
     }
 
     public Attendance getAttendanceById(Long attendanceId) throws Exception{
@@ -43,13 +49,23 @@ public class TeamDao {
     }
 
     /**
-     * 获取某个学生在某课程某班级下所属的team
+     * 获取某个学生在某课程某班级下所属的team,没用到
      */
     public Team getTeamByKlassAndStudentId(Long klassId,Long studentId) throws Exception{
         Map<String,Long> map=new HashMap<>();
         map.put("klassId",klassId);
         map.put("studentId",studentId);
         return teamMapper.selectTeamByKlassAndStudentId(map);
+    }
+
+    /**
+     * 获取某个学生在某课程下所属的team
+     */
+    public Team getTeamByCourseAndStudentId(Long courseId,Long studentId) throws Exception{
+        Map<String,Long> map=new HashMap<>();
+        map.put("courseId",courseId);
+        map.put("studentId",studentId);
+        return teamMapper.selectTeamByCourseAndStudentId(map);
     }
 
     /**
@@ -110,11 +126,76 @@ public class TeamDao {
         attendanceMapper.updatePowerPointByAttendanceId(attendance);
     }
 
+    /**
+     * 组员上传报告
+     */
     public void submitReport(Long attendanceId,String reportName,String reportUrl) throws Exception{
         Attendance attendance=new Attendance();
         attendance.setId(attendanceId);
         attendance.setPptName(reportName);
         attendance.setPptUrl(reportUrl);
         attendanceMapper.updateReportByAttendanceId(attendance);
+    }
+
+    /**
+     * 获取一个team，包括组长及其成员
+     */
+    public Team getTeamAndMembers(Map<String,Long> map) throws Exception{
+        Team team=teamMapper.selectTeamById(map.get("teamId"));
+        List<Student> member=studentMapper.selectStudentByTeamId(map);
+        team.setMember(member);
+        return team;
+    }
+
+    public List<Student> getMemberInTeam(Long courseId,Long teamId) throws Exception{
+        Map<String,Long> map=new HashMap<>();
+        map.put("courseId",courseId);
+        map.put("teamId",teamId);
+        return studentMapper.selectStudentByTeamId(map);
+    }
+
+    /**
+     * 获取某个课程下的所有team
+     */
+    public List<Team> getAllTeamsByCourseId(Long courseId) throws Exception{
+        return teamMapper.selectTeamByCourseId(courseId);
+    }
+
+    /**
+     * 获取某个班级下的所有team
+     */
+    public List<Team> getAllTeamsByKlassId(Long klassId) throws Exception{
+        return teamMapper.selectTeamByKlassId(klassId);
+    }
+
+
+    /**
+     * 删除一个小组的某个组员
+     */
+    public void deleteStudentInTeam(Map<String,Long> map) throws Exception{
+        map.put("teamId",null);
+        klassStudentMapper.updateStudentStatusInTeam(map);
+    }
+
+    /**
+     * 添加一个小组的某个组员
+     */
+    public void addStudentInTeam(Map<String,Long> map) throws Exception{
+        klassStudentMapper.updateStudentStatusInTeam(map);
+    }
+
+    /**
+     * 解散一个小组
+     */
+    public void disbandTeam(Long teamId) throws Exception{
+        teamMapper.deleteTeamById(teamId);
+    }
+
+    /**
+     * 创建一个小组
+     */
+    public Long createTeam(Team team) throws Exception{
+         teamMapper.insertOneTeam(team);
+         return team.getId();
     }
 }

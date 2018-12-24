@@ -3,6 +3,8 @@ package com.loha.flippedclassroom.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * POJO
  *
@@ -21,4 +23,6 @@ public class Team {
     private Integer status;
 
     private Klass klass;
+    private Student leader;
+    private List<Student> member;
 }

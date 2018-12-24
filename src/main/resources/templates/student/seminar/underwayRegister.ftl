@@ -42,7 +42,9 @@
             <div class="container">
                 <div class="">
                     <div class="pull-left">
-                        <form action="/student/course/seminarList" method="get">
+                        <form action="/student/seminar" method="post">
+                            <input type="hidden" name="klassId" value="${klass.id}">
+                            <input type="hidden" name="courseId" value="${seminar.courseId}">
                             <button class="button-menu-mobile">
                                 <div class="glyphicon glyphicon-menu-left"></div>
                             </button>

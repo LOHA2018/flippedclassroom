@@ -8,6 +8,9 @@
         <result column="student_name" property="studentName"/>
         <result column="is_active" property="isActive"/>
         <result column="email" property="email"/>
+
+        <collection property="courseIds" ofType="Long" column="id" select="com.loha.flippedclassroom.mapper.KlassStudentMapper.selectCourseIdByStudentId">
+        </collection>
     </resultMap>
 
     <select id="selectStudentByNum" parameterType="String" resultMap="studentMap">
@@ -16,6 +19,16 @@
 
     <select id="selectStudentById" parameterType="Long" resultMap="studentMap">
         select * from student where id=#{value}
+    </select>
+
+    <select id="selectStudentByTeamId" parameterType="Map" resultMap="studentMap">
+        select student.* from student,klass_student
+        where team_id=#{teamId} and course_id=#{courseId} and student_id=id
+    </select>
+
+    <select id="selectStudentNotInTeamByCourseId" parameterType="Long" resultMap="studentMap">
+        select student.* from student,klass_student
+        where course_id=#{value} and team_id is null and student_id=id
     </select>
 
     <update id="updatePwdAndEmailById" parameterType="Student">

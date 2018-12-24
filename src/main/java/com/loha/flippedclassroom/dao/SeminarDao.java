@@ -41,7 +41,7 @@ public class SeminarDao {
     /**
      * 根据Id获取当前的讨论课
      */
-    public Seminar getCurSeminar(Long seminarId) throws Exception{
+    public Seminar getSeminarById(Long seminarId) throws Exception{
         return seminarMapper.selectSeminarById(seminarId);
     }
 }

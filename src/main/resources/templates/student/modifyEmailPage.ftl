@@ -106,7 +106,6 @@
                                             <button class="btn btn-success waves-effect waves-light"
                                                     onclick="submitEmail()">确认提交
                                             </button>
-                                            <button class="btn btn-default waves-effect" type="button">取消</button>
                                         </div>
                                     </div>
                                 </div>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loha.flippedclassroom.mapper.StrategyMapper">
+    <resultMap id="teamStrategyMap" type="TeamStrategy">
+        <result column="course_id" property="courseId"/>
+        <result column="strategy_id" property="strategyId"/>
+        <result column="strategy_name" property="strategyTableName"/>
+    </resultMap>
+
+    <resultMap id="teamAndStrategyMap" type="TeamAndStrategy">
+        <id column="id" property="id"/>
+        <result column="strategy_1_name	" property="strategyOneName"/>
+        <result column="strategy_1_id" property="strategyOneId"/>
+        <result column="strategy_2_name" property="strategyTwoName"/>
+        <result column="strategy_2_id" property="strategyTwoId"/>
+    </resultMap>
+
+    <resultMap id="teamOrStrategyMap" type="TeamOrStrategy">
+        <id column="id" property="id"/>
+        <result column="strategy_1_name" property="strategyOneName"/>
+        <result column="strategy_1_id" property="strategyOneId"/>
+        <result column="strategy_2_name" property="strategyTwoName"/>
+        <result column="strategy_2_id" property="strategyTwoId"/>
+    </resultMap>
+
+    <resultMap id="memberLimitStrategyMap" type="MemberLimitStrategy">
+        <id column="id" property="id"/>
+        <result column="min_member" property="minMember"/>
+        <result column="max_member" property="maxMember"/>
+    </resultMap>
+
+    <resultMap id="courseMemberLimitStrategyMap" type="CourseMemberLimitStrategy">
+        <id column="id" property="id"/>
+        <result column="course_id" property="courseId"/>
+        <result column="min_member" property="minMember"/>
+        <result column="max_member" property="maxMember"/>
+    </resultMap>
+
+    <resultMap id="conflictCourseStrategyMap" type="ConflictCourseStrategy">
+        <id column="id" property="id"/>
+        <result column="course_1_id" property="courseOneId"/>
+        <result column="course_2_id" property="courseTwoId"/>
+    </resultMap>
+
+
+
+    <select id="selectTeamStrategyByCourseId" parameterType="Long" resultMap="teamStrategyMap">
+        select * from team_strategy where course_id=#{value}
+    </select>
+
+    <select id="selectTeamAndStrategyById" parameterType="Long" resultMap="teamAndStrategyMap">
+        select * from team_and_strategy where id=#{value}
+    </select>
+
+    <select id="selectTeamOrStrategyById" parameterType="Long" resultMap="teamOrStrategyMap">
+        select * from team_or_strategy where id=#{value}
+    </select>
+
+    <select id="selectMemberLimitStrategyById" parameterType="Long" resultMap="memberLimitStrategyMap">
+        select * from member_limit_strategy where id=#{value}
+    </select>
+
+    <select id="selectCourseMemberLimitStrategyById" parameterType="Long" resultMap="courseMemberLimitStrategyMap">
+        select * from course_member_limit_strategy where id=#{value}
+    </select>
+
+    <select id="selectConflictCourseStrategyById" parameterType="Long" resultMap="conflictCourseStrategyMap">
+        select * from conflict_course_strategy where id=#{value}
+    </select>
+
+
+</mapper>

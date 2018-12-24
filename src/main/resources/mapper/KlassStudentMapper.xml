@@ -7,5 +7,20 @@
         values (#{klassId},#{studentId},#{courseId})
     </insert>
 
+    <select id="selectCourseIdByStudentId" parameterType="Long" resultType="Long">
+        select course_id from klass_student where student_id=#{value}
+    </select>
+
+    <select id="selectTeamIdByStudentCourseId" parameterType="Map" resultType="Long">
+        select team_id from klass_student
+        where course_id=#{courseId} and student_id=#{studentId}
+    </select>
+
+    <update id="updateStudentStatusInTeam" parameterType="Map">
+        update klass_student
+        set team_id=#{teamId}
+        where course_id=#{courseId} and student_id=#{studentId}
+    </update>
+
 
 </mapper>

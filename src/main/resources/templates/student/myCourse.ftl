@@ -95,13 +95,13 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion-test" href="#collapseOne"
+                                    <a data-toggle="collapse" data-parent="#accordion-test" href="#course${list.course.id}"
                                        class="collapsed">
                                         ${list.course.courseName}——${list.grade}(${list.klassSerial})
                                     </a>
                                 </h4>
                             </div>
-                            <div id="collapseOne" class="panel-collapse collapse">
+                            <div id="course${list.course.id}" class="panel-collapse collapse">
                                 <div class="panel-body">
                                     <table class="table">
 
@@ -133,9 +133,9 @@
 
                                         <tr>
                                             <td>
-                                                <form action="/student/course/team" method="post">
-                                                    <input type="hidden" name="courseInfo"
-                                                           value="courseAndKlassMap.get(key).id">
+                                                <form action="/student/course/team" method="get">
+                                                    <input type="hidden" name="klassId" value=${list.id}>
+                                                    <input type="hidden" name="courseId" value=${list.courseId}>
                                                     <button style="border: transparent"
                                                             class="  btn-lg btn-default btn-block  waves-effect waves-light ">
                                                         我的组队

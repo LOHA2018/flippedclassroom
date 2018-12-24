@@ -43,9 +43,11 @@
             <div class="container">
                 <div class="">
                     <div class="pull-left">
-                        <button class="button-menu-mobile">
-                            <div class="glyphicon glyphicon-menu-left"></div>
-                        </button>
+                        <form action="/student/course" method="get">
+                            <button class="button-menu-mobile">
+                                <div class="glyphicon glyphicon-menu-left"></div>
+                            </button>
+                        </form>
 
                     </div>
                     <div class="pull-left">

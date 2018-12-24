@@ -3,6 +3,8 @@ package com.loha.flippedclassroom.entity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * POJO
  *
@@ -18,4 +20,6 @@ public class Student {
     private boolean isActive;
     private String studentName;
     private String email;
+
+    List<Long> courseIds;
 }

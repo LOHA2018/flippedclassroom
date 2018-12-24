@@ -43,10 +43,11 @@
             <div class="container">
                 <div class="">
                     <div class="pull-left">
-                        <button class="button-menu-mobile">
-                            <div class="glyphicon glyphicon-menu-left"></div>
-                        </button>
-
+                        <form action="/student/index" method="get">
+                            <button  class="button-menu-mobile">
+                                <div class="glyphicon glyphicon-menu-left"></div>
+                            </button>
+                        </form>
                     </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
@@ -130,8 +131,8 @@
 <!-- END wrapper -->
 
 <!-- jQuery  -->
-<script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
 
 </body>
 </html>

@@ -1,5 +1,8 @@
 package com.loha.flippedclassroom.service;
 
+import com.loha.flippedclassroom.entity.stragety.Strategy;
+import com.loha.flippedclassroom.entity.stragety.TeamStrategy;
+import com.loha.flippedclassroom.mapper.StrategyMapper;
 import com.loha.flippedclassroom.util.SortEnrollList;
 import com.loha.flippedclassroom.dao.*;
 import com.loha.flippedclassroom.entity.*;
@@ -10,8 +13,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * student service
@@ -29,9 +34,10 @@ public class StudentService {
     private final TeamDao teamDao;
     private final RoundDao roundDao;
     private final KlassDao klassDao;
+    private final StrategyDao strategyDao;
 
     @Autowired
-    StudentService(StudentDao studentDao,CourseDao courseDao,ScoreDao scoreDao,SeminarDao seminarDao,TeamDao teamDao,RoundDao roundDao,KlassDao klassDao){
+    StudentService(StudentDao studentDao,CourseDao courseDao,ScoreDao scoreDao,SeminarDao seminarDao,TeamDao teamDao,RoundDao roundDao,KlassDao klassDao,StrategyDao strategyDao){
         this.studentDao=studentDao;
         this.courseDao=courseDao;
         this.scoreDao=scoreDao;
@@ -39,6 +45,7 @@ public class StudentService {
         this.teamDao=teamDao;
         this.roundDao=roundDao;
         this.klassDao=klassDao;
+        this.strategyDao=strategyDao;
     }
 
     /**
@@ -46,6 +53,13 @@ public class StudentService {
      */
     public Team getMyTeamUnderKlass(Long klassId,Long studentId)throws Exception{
         return teamDao.getTeamByKlassAndStudentId(klassId,studentId);
+    }
+
+    /**
+     * 获取某个学生在某个课程下的队伍信息
+     */
+    public Team getMyTeamUnderCourse(Long courseId,Long studentId) throws Exception{
+        return  teamDao.getTeamByCourseAndStudentId(courseId,studentId);
     }
 
     /**
@@ -75,7 +89,7 @@ public class StudentService {
     }
 
     /**
-     * 根据该学生所有课程及所在班级信息
+     * 获取该学生所有课程及所在班级信息
      */
     public List<Klass> getCourseAndKlass(Long studentId) throws Exception{
         return studentDao.getCourseAndKlass(studentId);
@@ -107,15 +121,30 @@ public class StudentService {
     }
 
     /**
+     * 获取课程下的所有班级
+     */
+    public List<Klass> getKlassByCourseId(Long courseId) throws Exception{
+        return klassDao.getKlassByCourseId(courseId);
+    }
+
+    /**
      * 查询所有轮及其所属的讨论课的成绩
      */
     public List<ScoreInfo> getMyScore(Long klassId, Long courseId, Long studentId) throws Exception{
         //获得所有轮(同时也获得了所有的讨论课)，对每一轮遍历
         List<Round> rounds=roundDao.getRoundAndSeminar(courseId);
         //获得当前所在的team
-        Team team = getMyTeamUnderKlass(klassId,studentId);
+        //Team team = getMyTeamUnderKlass(klassId,studentId);
+        Team team=getMyTeamUnderCourse(courseId,studentId);
 
         List<ScoreInfo> list=new LinkedList<>();
+
+        //修改处
+        if(team==null){
+            return list;
+        }
+        //修改处
+
         for(Round round:rounds){
             list.add(scoreDao.getOneTeamScoreUnderOneRound(klassId,round,team.getId()));
         }
@@ -133,63 +162,12 @@ public class StudentService {
         return seminarDao.getKlassSeminar(klassId,seminarId);
     }
 
-    /**
-     * 获取某个team在某次讨论课的页面
-     */
-    public String getTeamSeminarStatus(Long studentId,Long klassId,Long seminarId) throws Exception{
-        Team team=getMyTeamUnderKlass(klassId,studentId);
-
-        KlassSeminar klassSeminar=seminarDao.getKlassSeminar(klassId,seminarId);
-
-        //讨论课状态
-        Integer seminarStatus=klassSeminar.getStatus();
-
-        //小组参加状态
-        Attendance attend=teamDao.attendSeminar(team.getId(),klassSeminar.getId());
-
-        if (seminarStatus==0)
-        {
-            if(attend==null)
-            {
-                return "unOpenUnregister";
-            }
-            else {
-                return "unOpenRegister";
-            }
-        }
-        else if (seminarStatus==1){
-            if(attend==null)
-            {
-                return "underwayUnregister";
-            }
-            else {
-                return "underwayRegister";
-            }
-        }
-        else {
-            if(attend==null)
-            {
-                return "finishedUnregister";
-            }
-            else {
-                return "finishedRegister";
-            }
-        }
-    }
-
-    /**
-     * 某个小组在某次讨论课下的attendance对象
-     */
-    public Attendance getAttendanceUnderSeminar(Long klassId,Long seminarId,Long teamId) throws Exception{
-        Long klassSeminarId=seminarDao.getKlassSeminar(klassId,seminarId).getId();
-        return teamDao.attendSeminar(teamId,klassSeminarId);
-    }
 
     /**
      * 获取当前讨论课
      */
-    public Seminar getCurSeminar(Long seminarId) throws Exception{
-        return seminarDao.getCurSeminar(seminarId);
+    public Seminar getSeminarById(Long seminarId) throws Exception{
+        return seminarDao.getSeminarById(seminarId);
     }
 
     /**
@@ -200,19 +178,6 @@ public class StudentService {
     }
 
     /**
-     * 获取某次讨论课的报名列表
-     */
-    public List<Attendance> getEnrollList(Long klassId,Long seminarId) throws Exception{
-        KlassSeminar klassSeminar=seminarDao.getKlassSeminar(klassId,seminarId);
-
-        List<Attendance> enrollList=teamDao.getEnrollList(klassSeminar.getId());
-
-        int teamLimit= seminarDao.getCurSeminar(seminarId).getTeamLimit();
-
-        return SortEnrollList.sort(enrollList,teamLimit);
-    }
-
-    /**
      * 报名某一次讨论课，或者修改一次讨论课的报名次序
      */
     public void registerSeminar(Long klassId,Long seminarId,Long teamId,Integer teamOrder) throws Exception{
@@ -220,6 +185,9 @@ public class StudentService {
         teamDao.registerSeminar(klassSeminarId,teamId,teamOrder);
     }
 
+    /**
+     * 取消报名
+     */
     public void cancelRegister(Long klassId,Long seminarId,Long teamId) throws Exception{
         Long klassSeminarId=seminarDao.getKlassSeminar(klassId,seminarId).getId();
         teamDao.cancelRegister(klassSeminarId,teamId);

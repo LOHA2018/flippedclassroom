@@ -43,7 +43,7 @@
             <div class="container">
                 <div class="">
                     <div class="pull-left">
-                        <form action="/student/index" method="get">
+                        <form action="/student/chooseCourse" method="get">
                             <button class="button-menu-mobile">
                                 <div class="glyphicon glyphicon-menu-left"></div>
                             </button>
@@ -111,13 +111,20 @@
 
                                         <tr>
                                             <td>
+                                                <#if myTeam??>
                                                 <form action="/student/seminar/info" method="get">
+                                                    <input type="hidden" name="courseId" value=${courseId}>
                                                     <input type="hidden" name="klassId" value="${klassId}">
                                                     <input type="hidden" name="seminarId" value="${seminar.id}">
                                                     <button style="border: transparent" class="btn-lg btn-default btn-block  waves-effect waves-light" type="submit" >
                                                         ${seminar.seminarName}
                                                     </button>
                                                 </form>
+                                                    <#else >
+                                                    <button style="border: transparent" class="btn-lg btn-default btn-block  waves-effect waves-light" onclick="deny()" >
+                                                        ${seminar.seminarName}
+                                                    </button>
+                                                </#if>
                                             </td>
                                         </tr>
 
@@ -155,5 +162,13 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+
+<script>
+    function deny() {
+        alert("未加入小组");
+    }
+
+</script>
 </body>
+
 </html>

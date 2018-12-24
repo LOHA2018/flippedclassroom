@@ -122,6 +122,7 @@
                                 <tr id="register">
                                     <td>
                                         <form action="/student/seminar/enrollList" method="post">
+                                            <input type="hidden" name="courseId" value=${courseId}>
                                             <input type="hidden" name="klassId" value=${klass.id}>
                                             <input type="hidden" name="seminarId" value="${seminar.id}">
                                             <button class="btn btn-lg btn-default btn-block waves-effect waves-light">
