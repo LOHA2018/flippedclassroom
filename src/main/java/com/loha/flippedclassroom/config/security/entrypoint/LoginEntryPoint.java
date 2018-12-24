@@ -1,4 +1,4 @@
-package com.loha.flippedclassroom.security.entrypoint;
+package com.loha.flippedclassroom.config.security.entrypoint;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.AuthenticationException;

@@ -1,4 +1,4 @@
-package com.loha.flippedclassroom.security;
+package com.loha.flippedclassroom.config.security;
 
 
 import com.loha.flippedclassroom.entity.Student;

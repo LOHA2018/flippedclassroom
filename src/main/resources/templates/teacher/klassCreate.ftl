@@ -6,11 +6,12 @@
     <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
     <meta name="author" content="Coderthemes">
 
-    <link rel="shortcut icon" href="img/favicon_1.ico">
+    <link rel="shortcut icon" href="/img/favicon_1.ico">
 
-    <title>账户与设置</title>
+    <title>新建班级</title>
 
     <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
+
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/core.css" rel="stylesheet" type="text/css">
     <link href="/css/icons.css" rel="stylesheet" type="text/css">
@@ -28,8 +29,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
-
-
 </head>
 
 
@@ -44,16 +43,17 @@
             <div class="container">
                 <div class="">
                     <div class="pull-left">
-                        <form action="/teacher/index" method="get">
-                            <button  class="button-menu-mobile">
+
+                        <form action="/teacher/course/klassList" method="post">
+                            <input type="hidden" name="courseId" value="${courseId}">
+                            <button class="button-menu-mobile">
                                 <div class="glyphicon glyphicon-menu-left"></div>
                             </button>
                         </form>
-
                     </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                            账户与设置
+                            创建班级
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
@@ -90,46 +90,44 @@
                         <div class="panel-body">
 
                             <table class="table">
-
                                 <tbody>
                                 <tr>
-                                    <td><p>姓名：${teacher.teacherName}</p></td>
+                                    <td>
+
+                                        <label>班级名：</label>
+
+                                        <input id="grade" type="text" class="form-control" placeholder="年级" name="grade"
+                                               value="">
+
+                                        <input id="klassSerial" type="text" class="form-control" placeholder="班级"
+                                               name="klassSerial" value="">
+
+                                    </td>
 
                                 </tr>
                                 <tr>
-                                    <td><p>教工号：${teacher.account}</p></td>
+                                    <td><label>上课时间：</label>
+                                        <input id="klassTime" type="text" class="form-control" name="klassTime"
+                                               value=""></td>
                                 </tr>
                                 <tr>
-                                    <td><p>联系方式（邮箱）：${teacher.email}
-                                        <form action="/teacher/setting/modifyEmail" method="get">
-                                            <button class="md-trigger btn btn-primary waves-effect waves-light pull-right">
-                                                修改
-                                            </button>
-                                        </form>
-                                        </p>
-                                    </td>
+                                    <td><label>上课地点：</label>
+                                        <input id="klassLocation" type="text" class="form-control"></td>
+
                                 </tr>
                                 <tr>
-                                    <td>
-                                        <p>账户密码
-                                        <form action="/teacher/setting/modifyPwd" method="get">
-                                            <button class="md-trigger btn btn-primary waves-effect waves-light pull-right">
-                                                <div class="glyphicon glyphicon-pencil"></div>
-                                            </button>
-                                        </form>
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <button class="btn btn-lg btn-default btn-block waves-effect waves-light "
-                                                onclick="Quit()">退出登录
-                                        </button>
-                                    </td>
+                                    <td><label>班级学生名单：</label>
+                                        <input id="importStudent" type="file"/></td>
                                 </tr>
 
                                 </tbody>
+
                             </table>
+                            <button class="btn btn-primary waves-effect waves-light pull-right"
+                                    onclick="storeClass()">保存
+                            </button>
+
+
                         </div>
 
                     </div> <!-- panel-body -->
@@ -148,14 +146,75 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
-<script type="text/javascript">
-    function Quit() {
 
-        if(  confirm("确认退出登陆？")==true)
-        {
-            window.location.href="/login";
+<script>
+
+
+    function storeClass() {
+        var grade = document.getElementById("grade").value;
+        var klassSerial = document.getElementById("klassSerial").value;
+        var klassTime = document.getElementById("klassTime").value;
+        var klassLocation = document.getElementById("klassLocation").value;
+
+        if (grade == "" || klassLocation == "" || klassSerial == "" || klassTime == "") {
+            alert("字段不能为空！");
+            return false;
+        } else {
+
+            var formData = new FormData();
+            formData.append('grade', grade);
+            formData.append('klassSerial', klassSerial);
+            formData.append('klassLocation', klassLocation);
+            formData.append('klassTime', klassTime);
+            formData.append('courseId',${courseId});
+
+            if (document.getElementById("importStudent").files[0] != undefined) {
+                var fileObj = document.getElementById("importStudent").files[0];
+                var fileName = fileObj.name;
+                formData.append('file', fileObj);
+                if (fileName.indexOf("xls") < 0 || fileName.indexOf("xlsx") < 0) {
+                    alert("文件格式错误");
+                    return false;
+                }
+                $.ajax({
+                    url: "/teacher/course/klass/create/save1",
+                    type: "POST",
+                    dataType: "json",
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data, status) {
+                        alert("创建成功!");
+                        window.location.href="/teacher/course/klassList?courseId=${courseId}";
+                    },
+                    error: function (data, status) {
+                        alert("创建失败!");
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: "/teacher/course/klass/create/save2",
+                    type: "POST",
+                    dataType: "json",
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data, status) {
+                        alert("创建成功!");
+                        window.location.href="/teacher/course/klassList?courseId=${courseId}";
+                    },
+                    error: function (data, status) {
+                        alert("创建失败!");
+                    }
+                });
+            }
         }
     }
+
 </script>
+
+
 </body>
 </html>

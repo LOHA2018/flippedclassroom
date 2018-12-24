@@ -1,9 +1,8 @@
-package com.loha.flippedclassroom.security.config;
+package com.loha.flippedclassroom.config.security.config;
 
-import com.loha.flippedclassroom.security.UserDetailsServiceImpl;
-import com.loha.flippedclassroom.security.entrypoint.LoginEntryPoint;
-import com.loha.flippedclassroom.security.handler.IdentityCheckFailureHandler;
-import com.loha.flippedclassroom.security.handler.IdentityCheckSuccessHandler;
+import com.loha.flippedclassroom.config.security.UserDetailsServiceImpl;
+import com.loha.flippedclassroom.config.security.handler.IdentityCheckFailureHandler;
+import com.loha.flippedclassroom.config.security.handler.IdentityCheckSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;

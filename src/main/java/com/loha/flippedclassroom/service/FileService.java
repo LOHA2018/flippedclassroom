@@ -30,10 +30,12 @@ import java.util.List;
 public class FileService {
 
     private final TeamDao teamDao;
+    private final SeminarDao seminarDao;
     private final StudentDao studentDao;
 
     FileService(TeamDao teamDao, SeminarDao seminarDao,StudentDao studentDao){
         this.teamDao=teamDao;
+        this.seminarDao=seminarDao;
         this.studentDao=studentDao;
     }
 
@@ -122,7 +124,7 @@ public class FileService {
     /**
      * 教师上传学生名单
      */
-    public void uploadStudentList(MultipartFile file,Integer klassId) throws Exception{
+    public void uploadStudentList(MultipartFile file,Long klassId) throws Exception{
         String filename=file.getOriginalFilename();
         boolean isExcel2003=true;
         List<Student> students=new ArrayList<>();
@@ -161,6 +163,7 @@ public class FileService {
 
         for(Student student:students){
             studentDao.insertStudent(student);
+            studentDao.insertKlassStudent(klassId,student.getAccount());
         }
     }
 }

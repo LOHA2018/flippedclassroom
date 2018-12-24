@@ -25,4 +25,25 @@
         where student_id=#{values} and klass_id=id
     </select>
 
+
+
+
+
+
+    <insert id="insertKlass" parameterType="Klass">
+        insert into klass(course_id,grade,klass_serial,klass_time,klass_location)
+        values (#{klass.courseId},#{klass.grade},#{klass.klassSerial},#{klass.time},#{klass.location})
+    </insert>
+
+    <select id="selectKlassId" resultType="Long">
+        select id from klass
+        where course_id=#{courseId} and grade=#{grade} and klass_serial=#{klassSerial}
+    </select>
+
+    <delete id="deleteKlassByKlassId" parameterType="Long">
+
+        delete from klass where id=#{klassId}
+
+    </delete>
+
 </mapper>

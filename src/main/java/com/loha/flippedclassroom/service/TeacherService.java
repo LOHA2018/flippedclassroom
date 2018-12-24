@@ -26,15 +26,17 @@ public class TeacherService {
     private final KlassDao klassDao;
     private final TeamDao teamDao;
     private final ScoreDao scoreDao;
+    private final SeminarDao seminarDao;
 
     @Autowired
-    TeacherService(TeacherDao teacherDao,CourseDao courseDao,RoundDao roundDao,KlassDao klassDao,TeamDao teamDao,ScoreDao scoreDao){
+    TeacherService(TeacherDao teacherDao,CourseDao courseDao,RoundDao roundDao,KlassDao klassDao,TeamDao teamDao,ScoreDao scoreDao,SeminarDao seminarDao){
         this.teacherDao=teacherDao;
         this.courseDao=courseDao;
         this.roundDao=roundDao;
         this.klassDao=klassDao;
         this.teamDao=teamDao;
         this.scoreDao=scoreDao;
+        this.seminarDao=seminarDao;
     }
 
 
@@ -85,6 +87,20 @@ public class TeacherService {
 
 
 
+    public void createKlass(Klass klass) throws Exception{
+        klassDao.createKlass(klass);
+    }
+
+    public Long selectKlassId(Long courseId, Integer grade, Integer klassSerial) throws Exception{
+        return klassDao.selectKlassId(courseId,grade,klassSerial);
+    }
+
+    public void deleteKlassByKlassId(Long klassId) throws Exception{
+        klassDao.deleteKlassByKlassId(klassId);
+    }
+
+
+
     /**
      *查询所有队伍的每一轮的讨论课成绩
      */
@@ -107,7 +123,17 @@ public class TeacherService {
         return allTeamAllRound;
     }
 
+    public Integer getSeminarStatus(Long klassId,Long seminarId) throws Exception{
+        return seminarDao.getKlassSeminar(klassId, seminarId).getStatus();
+    }
 
+    public Seminar getSeminarById(Long seminarId) throws Exception{
+        return seminarDao.getSeminarById(seminarId);
+    }
+
+    public Round getRoundById(Long roundId) throws Exception{
+        return roundDao.getRoundById(roundId);
+    }
 
 
 }

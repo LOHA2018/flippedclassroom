@@ -1,4 +1,4 @@
-package com.loha.flippedclassroom.security.config;
+package com.loha.flippedclassroom.config.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

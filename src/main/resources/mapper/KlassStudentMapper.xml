@@ -27,4 +27,17 @@
     </delete>
 
 
+
+
+
+    <select id="selectKlassStudent" parameterType="map" resultType="Long" >
+        select student_id from klass_student
+        where klass_id=#{klassId} and student_id=#{studentId}
+    </select>
+
+    <delete id="deleteKlassStudentByKlassId" parameterType="Long">
+        delete from klass_student where klass_id=#{klassId}
+    </delete>
+
+
 </mapper>

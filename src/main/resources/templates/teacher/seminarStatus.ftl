@@ -6,9 +6,9 @@
     <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
     <meta name="author" content="Coderthemes">
 
-    <link rel="shortcut icon" href="img/favicon_1.ico">
+    <link rel="shortcut icon" href="/img/favicon_1.ico">
 
-    <title>账户与设置</title>
+    <title>讨论课</title>
 
     <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -44,16 +44,15 @@
             <div class="container">
                 <div class="">
                     <div class="pull-left">
-                        <form action="/teacher/index" method="get">
-                            <button  class="button-menu-mobile">
+                        <form action="/student/course/seminarList" method="get">
+                            <button class="button-menu-mobile">
                                 <div class="glyphicon glyphicon-menu-left"></div>
                             </button>
                         </form>
-
                     </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                            账户与设置
+                            ${seminar.course.courseName}-讨论课
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
@@ -87,46 +86,107 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default ">
+                        <div class="panel-heading"><h3 class="panel-title">讨论课</h3></div>
                         <div class="panel-body">
 
                             <table class="table">
 
                                 <tbody>
                                 <tr>
-                                    <td><p>姓名：${teacher.teacherName}</p></td>
+                                    <td><p>轮次：第${round.roundSerial}轮</p></td>
 
                                 </tr>
                                 <tr>
-                                    <td><p>教工号：${teacher.account}</p></td>
+                                    <td><p>主题：${seminar.seminarName}</p></td>
                                 </tr>
                                 <tr>
-                                    <td><p>联系方式（邮箱）：${teacher.email}
-                                        <form action="/teacher/setting/modifyEmail" method="get">
+                                    <td><p>课次序号：第${seminar.seminarSerial}次</p></td>
+                                </tr>
+                                <tr>
+                                    <td><p>要求：${seminar.introduction}</p></td>
+                                </tr>
+
+
+                                <tr>
+                                    <td>
+                                        <#if status==0>
+                                        <p>课程情况:未开始
+                                            <#elseif status==1>
+                                        <p>课程情况:正在进行
+                                        <#else >
+                                        <p>课程情况:已完成
+                                        </#if>
+
+                                        <form action="/student/seminar/info/registerInfo" method="post">
+                                            <input type="hidden" name="klassId" value=${klassId}>
+                                            <input type="hidden" name="seminarId" value=${seminar.id}>
                                             <button class="md-trigger btn btn-primary waves-effect waves-light pull-right">
-                                                修改
+                                                报名情况
                                             </button>
                                         </form>
                                         </p>
+
+
                                     </td>
                                 </tr>
+
+
                                 <tr>
                                     <td>
-                                        <p>账户密码
-                                        <form action="/teacher/setting/modifyPwd" method="get">
-                                            <button class="md-trigger btn btn-primary waves-effect waves-light pull-right">
-                                                <div class="glyphicon glyphicon-pencil"></div>
+                                        <p>报名开始时间：${seminar.enrollStartTime?datetime}</p>
+                                        <p>报名截止时间：${seminar.enrollEndTime?datetime}</p>
+                                    </td>
+                                </tr>
+
+
+                                <#if status==0>
+                                    <tr>
+                                        <td>
+                                            <form action="/teacher/course/seminar/progressing" method="post">
+                                                <input type="hidden" name="seminarId" value="${seminar.id}">
+                                                <button class="btn btn-lg btn-default btn-block waves-effect waves-light ">
+                                                    开始讨论课
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <#elseif status==1>
+                                    <tr>
+                                        <td>
+                                            <form action="/teacher/course/seminar/progressing" method="post">
+                                                <input type="hidden" name="seminarId" value="${seminar.id}">
+                                                <button class="btn btn-lg btn-default btn-block waves-effect waves-light ">
+                                                    进入讨论课
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <#else >
+                                <tr>
+                                    <td>
+                                        <form action="/teacher/course/seminar/progressing" method="post">
+                                            <input type="hidden" name="seminarId" value="${seminar.id}">
+                                            <button class="btn btn-lg btn-default btn-block waves-effect waves-light ">
+                                                书面报告
                                             </button>
                                         </form>
-                                        </p>
                                     </td>
                                 </tr>
+
                                 <tr>
                                     <td>
-                                        <button class="btn btn-lg btn-default btn-block waves-effect waves-light "
-                                                onclick="Quit()">退出登录
-                                        </button>
+                                        <form action="/teacher/course/seminar/progressing" method="post">
+                                            <input type="hidden" name="seminarId" value="${seminar.id}">
+                                            <button class="btn btn-lg btn-default btn-block waves-effect waves-light ">
+                                                查看成绩
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
+                                </#if>
+
+
+
 
                                 </tbody>
                             </table>
@@ -148,14 +208,6 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
-<script type="text/javascript">
-    function Quit() {
 
-        if(  confirm("确认退出登陆？")==true)
-        {
-            window.location.href="/login";
-        }
-    }
-</script>
 </body>
 </html>

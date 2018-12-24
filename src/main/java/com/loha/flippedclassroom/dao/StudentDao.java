@@ -89,7 +89,7 @@ public class StudentDao {
     }
 
     /**
-     * 在klassStudent表里插入一条学生记录
+     * 在klassStudent表里插入一条学生记录 slq修改于12.25
      */
     public void insertKlassStudent(Long klassId,String studentNum) throws Exception{
         Klass klass=klassMapper.selectKlassById(klassId);
@@ -99,8 +99,13 @@ public class StudentDao {
         map.put("klassId",klassId);
         map.put("courseId",klass.getCourseId());
         map.put("studentId",student.getId());
+        Long findStudentId=klassStudentMapper.selectKlassStudent(map);
 
-        klassStudentMapper.insertKlassStudent(map);
+        if(!student.getId().equals(findStudentId))
+        {
+            klassStudentMapper.insertKlassStudent(map);
+        }
+
     }
 
     /**

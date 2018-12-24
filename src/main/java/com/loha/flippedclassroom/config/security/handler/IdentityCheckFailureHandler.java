@@ -1,4 +1,4 @@
-package com.loha.flippedclassroom.security.handler;
+package com.loha.flippedclassroom.config.security.handler;
 
 
 import org.springframework.security.core.AuthenticationException;
