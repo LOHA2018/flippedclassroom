@@ -60,4 +60,12 @@ public interface AttendanceMapper {
      * @throws Exception
      */
     void updatePowerPointByKlassSeminarAndTeamId(Attendance attendance) throws Exception;
+    /**
+     *fetch data by
+     *
+     * @param attendanceId
+     * @return
+     * @throws Exception
+     */
+    Attendance selectAttendanceById(Long attendanceId);
 }

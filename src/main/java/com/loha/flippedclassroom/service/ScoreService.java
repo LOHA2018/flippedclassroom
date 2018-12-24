@@ -27,34 +27,39 @@ public class ScoreService {
     @Autowired
     TeamDao teamDao;
 
+    /**
+     * @Author: birden
+     * @Description: test done
+     * @Date: 2018/12/25 0:07
+     */
     public void scoreAttendanceByAttendanceId(Long attendanceId, Double score) {
         scoreDao.scoreAttendanceByAttendanceId(attendanceId, score);
     }
 
-    /**
-     * @Author: birden
-     * @Description: hard, abort
-     * @Date: 2018/12/23 23:57
-     */
-    public void createAllSeminarScore(Long klassSeminarId)throws Exception
-    {
-        Course course=courseDao.getCourseByKlassSeminarId(klassSeminarId);
-        List<Team> teamList= teamDao.getAllTeamUnderOneCourse(course);
-        for (Team team:teamList)
-        {
-            SeminarScore seminarScore=new SeminarScore();
-            seminarScore.setKlassSeminarId(klassSeminarId);
-            seminarScore.setTeamId(team.getId());
-            scoreDao.insertSeminarScore(seminarScore);
-        }
-    }
+//    /**
+////     * @Author: birden
+////     * @Description: hard, abort!!
+////     * @Date: 2018/12/23 23:57
+////     */
+////    public void createAllSeminarScore(Long klassSeminarId)throws Exception
+////    {
+////        Course course=courseDao.getCourseByKlassSeminarId(klassSeminarId);
+////        List<Team> teamList= teamDao.getAllTeamUnderOneCourse(course);
+////        for (Team team:teamList)
+////        {
+////            SeminarScore seminarScore=new SeminarScore();
+////            seminarScore.setKlassSeminarId(klassSeminarId);
+////            seminarScore.setTeamId(team.getId());
+////            scoreDao.insertSeminarScore(seminarScore);
+////        }
+////    }
 
     /**
      * @Author: birden
-     * @Description: 提问评分
+     * @Description: 提问评分 test done
      * @Date: 2018/12/23 21:54
      */
-    public void scoreQuestionByQuestionId(Long questionId, Double score) {
+    public void scoreQuestionByQuestionId(Long questionId, Double score)throws Exception {
         scoreDao.scoreQuestionByQuestionId(questionId, score);
     }
 
@@ -63,11 +68,11 @@ public class ScoreService {
      * @Description: 获得成绩最高分
      * @Date: 2018/12/23 22:36
      */
-    public BigDecimal getMaxQuestionScore(List<Question> questionList) {
-        BigDecimal questionScore = new BigDecimal("0.0");
+    public double getMaxQuestionScore(List<Question> questionList) {
+        double questionScore = 0.0;
         for (Question question : questionList) {
-            if (question.getScore().compareTo(questionScore) > 0) {
-                questionScore = question.getScore();
+            if (question.getScore().doubleValue() > questionScore) {
+                questionScore = question.getScore().doubleValue();
             }
         }
         return questionScore;
@@ -75,14 +80,14 @@ public class ScoreService {
 
     /**
      * @Author: birden
-     * @Description: 计算提问成绩
+     * @Description: 计算提问成绩 test done!
      * @Date: 2018/12/23 22:50
      */
-    public void calculateQuestionScore(Long klassSeminarId) {
+    public void calculateQuestionScore(Long klassSeminarId)throws Exception {
         List<SeminarScore> seminarScoreList = scoreDao.getSeminarScoreByKlassSeminarId(klassSeminarId);
         for (SeminarScore seminarScore : seminarScoreList) {
             List<Question> questionList = klassSeminarDao.getQuestion(seminarScore.getTeamId(), seminarScore.getKlassSeminarId());
-            seminarScore.setQuestionScore(getMaxQuestionScore(questionList));
+            seminarScore.setQuestionScore(BigDecimal.valueOf(getMaxQuestionScore(questionList)));
             scoreDao.updateSeminarScore(seminarScore);
         }
     }
@@ -111,7 +116,7 @@ public class ScoreService {
         for (SeminarScore seminarScore : seminarScoreList) {
             seminarScore.setTotalScore(new BigDecimal(course.getFinalScore(seminarScore.getPresentationScore().doubleValue(), seminarScore.getQuestionScore().doubleValue(),
                     seminarScore.getReportScore().doubleValue())));
-            scoreDao.saveSeminarScore(seminarScore);
+            scoreDao.updateSeminarScore(seminarScore);
         }
     }
 }

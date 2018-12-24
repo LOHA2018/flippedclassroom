@@ -20,7 +20,6 @@ import java.util.List;
  * @date 2018/12/16
  */
 @Service
-@Slf4j
 public class StudentService {
     private final StudentDao studentDao;
     private final CourseDao courseDao;

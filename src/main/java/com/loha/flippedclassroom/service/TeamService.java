@@ -1,7 +1,6 @@
 package com.loha.flippedclassroom.service;
 
 import com.loha.flippedclassroom.dao.TeamDao;
-import com.loha.flippedclassroom.dao.TeamStrategyDao;
 import com.loha.flippedclassroom.entity.Team;
 import com.loha.flippedclassroom.entity.teamstrategy.TeamStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,7 @@ import java.util.List;
  */
 @Service
 public class TeamService {
-    @Autowired
-    TeamStrategyDao teamStrategyDao;
+
     @Autowired
     TeamDao teamDao;
 
@@ -26,17 +24,17 @@ public class TeamService {
         return teamDao.getTeamById(teamId);
     }
 
-    public boolean isTeamValid(Long teamId)throws Exception
-    {
-        TeamStrategy teamStrategy=teamStrategyDao.getTeamStrategyByTeamId(teamId);
-        Team team=getTeamById(teamId);
-
-        if (!teamStrategy.isGroupValid(team))
-        {
-            team.setStatus(0);
-            return false;
-        }
-        team.setStatus(1);
-        return true;
-    }
+//    public boolean isTeamValid(Long teamId)throws Exception
+//    {
+//        TeamStrategy teamStrategy=teamStrategyDao.getTeamStrategyByTeamId(teamId);
+//        Team team=getTeamById(teamId);
+//
+//        if (!teamStrategy.isGroupValid(team))
+//        {
+//            team.setStatus(0);
+//            return false;
+//        }
+//        team.setStatus(1);
+//        return true;
+//    }
 }

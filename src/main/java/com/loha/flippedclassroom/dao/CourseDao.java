@@ -17,9 +17,11 @@ import java.util.List;
 public class CourseDao {
 
     private final CourseMapper courseMapper;
+    private final KlassSeminarMapper klassSeminarMapper;
 
-    CourseDao(CourseMapper courseMapper){
+    CourseDao(CourseMapper courseMapper, KlassSeminarMapper klassSeminarMapper){
         this.courseMapper=courseMapper;
+        this.klassSeminarMapper=klassSeminarMapper;
     }
 
     /**
@@ -29,11 +31,9 @@ public class CourseDao {
         return courseMapper.selectCourseById(id);
     }
 
-    public Long getCourseIdByKlassSeminarId(Long klassSeminarId)throws Exception{
-        return courseMapper.getCourseIdByKlassSeminarId(klassSeminarId);
-    }
 
     public Course getCourseByKlassSeminarId(Long klassSeminarId)throws Exception{
-        return courseMapper.selectCourseById(getCourseIdByKlassSeminarId(klassSeminarId));
+        KlassSeminar klassSeminar=klassSeminarMapper.selectKlassSeminarById(klassSeminarId);
+        return courseMapper.selectCourseByKlassId(klassSeminar.getKlassId());
     }
 }

@@ -4,9 +4,11 @@ import java.math.BigDecimal;
 
 public class Question {
     public Long questionId;
+    public Long klassSeminarId;
     public Long attendanceId;
     public Long studentId;
     public Long teamId;
+    public boolean selected;
     public BigDecimal score;
 
     public Long getQuestionId() {
@@ -15,6 +17,14 @@ public class Question {
 
     public void setQuestionId(Long questionId) {
         this.questionId = questionId;
+    }
+
+    public Long getKlassSeminarId() {
+        return klassSeminarId;
+    }
+
+    public void setKlassSeminarId(Long klassSeminarId) {
+        this.klassSeminarId = klassSeminarId;
     }
 
     public Long getAttendanceId() {
@@ -39,6 +49,14 @@ public class Question {
 
     public void setTeamId(Long teamId) {
         this.teamId = teamId;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 
     public BigDecimal getScore() {

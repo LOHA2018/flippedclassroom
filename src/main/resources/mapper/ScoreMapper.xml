@@ -5,7 +5,7 @@
         <id column="klass_seminar_id" property="klassSeminarId"/>
         <id column="team_id" property="teamId"/>
         <result column="total_score" property="totalScore"/>
-        <result column="presentaton_score" property="presentationScore"/>
+        <result column="presentation_score" property="presentationScore"/>
         <result column="question_score" property="questionScore"/>
         <result column="report_score" property="reportScore"/>
         <association property="team" select="com.loha.flippedclassroom.mapper.TeamMapper.selectTeamById"
@@ -16,9 +16,9 @@
         <id column="round_id" property="roundId"/>
         <id column="team_id" property="teamId"/>
         <result column="total_score" property="totalScore"/>
-        <result column="presentation_score" property="presentationScore"/>
-        <result column="question_score" property="questionScore"/>
-        <result column="report_score" property="reportScore"/>
+        <result column="presentation_score" property="presentationScore" jdbcType="DECIMAL"/>
+        <result column="question_score" property="questionScore" jdbcType="DECIMAL"/>
+        <result column="report_score" property="reportScore" jdbcType="DECIMAL"/>
         <association property="round" select="com.loha.flippedclassroom.mapper.RoundMapper.selectRoundById"
                      column="round_id"></association>
         <association property="team" select="com.loha.flippedclassroom.mapper.TeamMapper.selectTeamById"
@@ -47,4 +47,21 @@
         from seminar_score
         where klass_seminar_id = #{id}
     </select>
+
+    <select id="selectSeminarScoreByKlassSeminarIdAndTeamId" parameterType="Map" resultMap="seminarScoreMap">
+        select *
+        from seminar_score
+        where klass_seminar_id=#{klassSeminarId}
+        and team_id=#{teamId}
+    </select>
+
+    <insert id="insertSeminarScore" useGeneratedKeys="true" parameterType="Map">
+        insert into seminar_score (klass_seminar_id, team_id)
+        values (#{klassSeminarId},#{teamId})
+    </insert>
+
+    <update id="updateSeminarScore" parameterType="SeminarScore">
+        update seminar_score set presentation_score=#{presentationScore}, question_score=#{questionScore}, report_score=#{reportScore}
+        where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}
+    </update>
 </mapper>

@@ -1,13 +1,16 @@
 package com.loha.flippedclassroom.dao;
 
 import com.loha.flippedclassroom.entity.*;
+import com.loha.flippedclassroom.mapper.AttendanceMapper;
 import com.loha.flippedclassroom.mapper.KlassSeminarMapper;
+import com.loha.flippedclassroom.mapper.QuestionMapper;
 import com.loha.flippedclassroom.mapper.ScoreMapper;
 import com.loha.flippedclassroom.pojo.ScoreInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,12 +28,15 @@ public class ScoreDao {
 
     private final ScoreMapper scoreMapper;
     private final KlassSeminarMapper klassSeminarMapper;
-
+    private final AttendanceMapper attendanceMapper;
+    private final QuestionMapper questionMapper;
 
     @Autowired
-    ScoreDao(ScoreMapper scoreMapper, KlassSeminarMapper klassSeminarMapper) {
+    ScoreDao(ScoreMapper scoreMapper, KlassSeminarMapper klassSeminarMapper, AttendanceMapper attendanceMapper, QuestionMapper questionMapper) {
         this.scoreMapper = scoreMapper;
         this.klassSeminarMapper = klassSeminarMapper;
+        this.attendanceMapper = attendanceMapper;
+        this.questionMapper = questionMapper;
     }
 
 
@@ -73,11 +79,30 @@ public class ScoreDao {
 
     /**
      * @Author: birden
+     * @Description: 创建seminarscore，当存在时不抛错
+     * @Date: 2018/12/24 20:10
+     */
+    public SeminarScore createSeminarScore(Long klassSeminarId, Long teamId) {
+        SeminarScore seminarScore = scoreMapper.selectSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId, teamId);
+        if (null == seminarScore) {
+            scoreMapper.insertSeminarScore(klassSeminarId, teamId);
+        } else {
+            seminarScore = new SeminarScore();
+            seminarScore.setKlassSeminarId(klassSeminarId);
+            seminarScore.setTeamId(teamId);
+        }
+        return seminarScore;
+    }
+
+    /**
+     * @Author: birden
      * @Description: 展示评分
      * @Date: 2018/12/23 21:54
      */
     public void scoreAttendanceByAttendanceId(Long attendanceId, Double score) {
-        scoreMapper.scoreAttendanceByAttendanceId(attendanceId, score);
+        Attendance attendance = attendanceMapper.selectAttendanceById(attendanceId);
+        attendance.getSeminarScore().setPresentationScore(BigDecimal.valueOf(score));
+        scoreMapper.updateSeminarScore(attendance.getSeminarScore());
     }
 
     /**
@@ -85,17 +110,14 @@ public class ScoreDao {
      * @Description: 提问评分
      * @Date: 2018/12/23 21:54
      */
-    public void scoreQuestionByQuestionId(Long questionId, Double score) {
-        scoreMapper.scoreQuestionByQuestionId(questionId, score);
-    }
-
-    /**
-     * @Author: birden
-     * @Description: 计算讨论课总成绩
-     * @Date: 2018/12/23 21:54
-     */
-    public void calculateKlassSeminarScore(Long klassSeminarId) {
-        scoreMapper.calculateKlassSeminarScore(klassSeminarId);
+    public void scoreQuestionByQuestionId(Long questionId, Double score) throws Exception {
+        Question question = questionMapper.selectQuestionById(questionId);
+        if (null == question) {
+            throw new Exception();
+        }
+        question.setSelected(true);
+        question.setScore(BigDecimal.valueOf(score));
+        questionMapper.updateQuestion(question);
     }
 
     /**
@@ -103,15 +125,20 @@ public class ScoreDao {
      * @Description: 更新讨论课成绩
      * @Date: 2018/12/23 23:24
      */
-    public void updateSeminarScore(SeminarScore seminarScore){
+    public void updateSeminarScore(SeminarScore seminarScore) throws Exception{
+        if (null==scoreMapper.selectSeminarScoreByKlassSeminarIdAndTeamId(seminarScore.getKlassSeminarId(),seminarScore.getTeamId()))
+        {
+            throw new Exception();
+        }
         scoreMapper.updateSeminarScore(seminarScore);
     }
-/**
- * @Author: birden
- * @Description: 获取讨论课成绩
- * @Date: 2018/12/23 23:34
- */
-    public SeminarScore getSeminarScore(Long teamId, Long klassSeminarId){
-        return scoreMapper.getSeminarScore(teamId,klassSeminarId);
+
+    /**
+     * @Author: birden
+     * @Description: 获取讨论课成绩
+     * @Date: 2018/12/23 23:34
+     */
+    public SeminarScore getSeminarScore(Long teamId, Long klassSeminarId) {
+        return scoreMapper.selectSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId, teamId);
     }
 }

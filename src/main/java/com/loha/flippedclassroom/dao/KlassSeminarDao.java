@@ -37,6 +37,6 @@ QuestionMapper questionMapper;
 
     public List<Question> getQuestion(Long teamId, Long klassSeminarId)
     {
-        return questionMapper.getQuestion(teamId,klassSeminarId);
+        return questionMapper.selectQuestion(teamId,klassSeminarId);
     }
 }

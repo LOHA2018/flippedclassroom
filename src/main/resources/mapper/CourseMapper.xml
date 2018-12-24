@@ -13,18 +13,26 @@
         <result column="team_end_time" property="teamEndTime"/>
         <result column="team_main_course_id" property="teamMainCourseId"/>
         <result column="seminar_main_course_id" property="seminarMainCourseId"/>
-        <association property="teacher" select="com.loha.flippedclassroom.mapper.TeacherMapper.selectTeacherById" column="teacher_id"></association>
+        <association property="teacher" select="com.loha.flippedclassroom.mapper.TeacherMapper.selectTeacherById"
+                     column="teacher_id"></association>
     </resultMap>
 
     <select id="selectCourseByTeacherId" parameterType="Long" resultMap="courseMap">
-        select * from course where teacher_id=#{value}
+        select *
+        from course
+        where teacher_id = #{value}
     </select>
 
     <select id="selectCourseById" parameterType="Long" resultMap="courseMap">
-        select * from course where id=#{value}
+        select *
+        from course
+        where id = #{value}
     </select>
 
-    <select id="getCourseByKlassSeminarId" parameterType="Long" resultMap="courseMap">
-        select presentation_percentage from course A
+    <select id="selectCourseByKlassId" resultMap="courseMap">
+        select *
+        from course
+                 left outer join klass on course.id = klass.course_id
+        where klass.id=#{id}
     </select>
 </mapper>

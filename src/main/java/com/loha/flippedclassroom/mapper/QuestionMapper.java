@@ -1,6 +1,7 @@
 package com.loha.flippedclassroom.mapper;
 
 import com.loha.flippedclassroom.entity.Question;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -30,4 +31,18 @@ public interface QuestionMapper {
      * @throws Exception
      */
     public List<Question> getQuestionByAttendanceId(Long attendanceId);
+    /**
+     * @Author: birden
+     * @Description:
+     * @Date: 2018/12/24 21:57
+     */
+    public void updateQuestion(Question question);
+    /**
+     *fetch data by
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
+    public List<Question> selectQuestion(@Param("teamId") Long teamId,@Param("klassSeminarId") Long klassSeminarId);
 }

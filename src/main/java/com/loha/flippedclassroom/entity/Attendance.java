@@ -26,6 +26,7 @@ public class Attendance {
     private String pptUrl;
 
     private Team team;
+    private SeminarScore seminarScore;
     private List<Question> questionList;
 
     public Long getId() {
@@ -106,6 +107,14 @@ public class Attendance {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public SeminarScore getSeminarScore() {
+        return seminarScore;
+    }
+
+    public void setSeminarScore(SeminarScore seminarScore) {
+        this.seminarScore = seminarScore;
     }
 
     public List<Question> getQuestionList() {

@@ -31,10 +31,10 @@ public interface CourseMapper {
     Course selectCourseById(Long courseId) throws Exception;
     /**
      *fetch data by
-     *用于讨论课计算成绩
+     *
      * @param
      * @return
      * @throws Exception
      */
-//    Long getCourseIdByKlassSeminarId(Long klassSeminarId);
+    Course selectCourseByKlassId(Long klassId);
 }
