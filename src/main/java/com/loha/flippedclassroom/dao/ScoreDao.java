@@ -141,4 +141,48 @@ public class ScoreDao {
     public SeminarScore getSeminarScore(Long teamId, Long klassSeminarId) {
         return scoreMapper.selectSeminarScoreByKlassSeminarIdAndTeamId(klassSeminarId, teamId);
     }
+/**
+ * @Author: birden
+ * @Description:
+ * @Date: 2018/12/25 3:40
+ */
+    public RoundScore selectRoundScore(Long roundId, Long teamId)throws Exception{
+        RoundScore roundScore=new RoundScore();
+        roundScore.setRoundId(roundId);
+        roundScore.setTeamId(teamId);
+        return scoreMapper.selectRoundScore(roundScore);
+    }
+/**
+ * @Author: birden
+ * @Description:
+ * @Date: 2018/12/25 3:40
+ */
+    public RoundScore getRoundScore(Long roundId, Long teamId)throws Exception{
+        RoundScore roundScore=selectRoundScore(roundId,teamId);
+        if (null==roundScore)
+        {
+            roundScore=new RoundScore();
+            roundScore.setRoundId(roundId);
+            roundScore.setTeamId(teamId);
+            scoreMapper.insertRoundScore(roundScore);
+            return roundScore;
+        }
+        return roundScore;
+    }
+    /**
+     * @Author: birden
+     * @Description:
+     * @Date: 2018/12/25 3:40
+     */
+    public void saveRoundScore(RoundScore roundScore)throws Exception
+    {
+        if (null!=scoreMapper.selectRoundScore(roundScore))
+        {
+            scoreMapper.updateRoundScore(roundScore);
+        }
+        else
+        {
+            scoreMapper.insertRoundScore(roundScore);
+        }
+    }
 }

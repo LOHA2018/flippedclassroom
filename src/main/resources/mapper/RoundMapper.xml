@@ -21,4 +21,7 @@
         select * from round where id=#{value}
     </select>
 
+    <select id="getRoundEnrollNumber" resultType="Integer">
+        select enroll_number from klass_round where klass_id=#{klassId} and round_id=#{roundId}
+    </select>
 </mapper>

@@ -29,8 +29,21 @@ public class Course {
 
     private Teacher teacher;
 
-    public double getFinalScore(double presentationScore, double questionScore, double reportScore)
+    public double getFinalScore(BigDecimal presentationScore, BigDecimal questionScore, BigDecimal reportScore)
     {
-        return (presentationScore*prePercentage+questionScore*questionPercentage+reportScore*reportPercentage)/100;
+        double finalScore=0;
+        if (presentationScore!=null)
+        {
+            finalScore+=presentationScore.doubleValue()*prePercentage;
+        }
+        if (questionScore!=null)
+        {
+            finalScore+=questionScore.doubleValue()*questionPercentage;
+        }
+        if (reportScore!=null)
+        {
+            finalScore+=reportScore.doubleValue()*reportPercentage;
+        }
+        return finalScore/100;
     }
 }

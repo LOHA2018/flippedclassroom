@@ -10,21 +10,35 @@
         <result column="team_serial" property="teamSerial"/>
         <result column="status" property="status"/>
 
-        <association property="klass" select="com.loha.flippedclassroom.mapper.KlassMapper.selectKlassById" column="klass_id"></association>
+        <association property="klass" select="com.loha.flippedclassroom.mapper.KlassMapper.selectKlassById"
+                     column="klass_id"></association>
     </resultMap>
 
     <select id="selectTeamById" parameterType="Long" resultMap="teamMap">
-        select * from team where id=#{value}
+        select *
+        from team
+        where id = #{value}
     </select>
 
     <select id="selectTeamByCourseId" parameterType="Long" resultMap="teamMap">
-        select * from team where course_id=#{value}
+        select *
+        from team
+        where course_id = #{value}
     </select>
 
     <select id="selectTeamByKlassAndStudentId" parameterType="Map" resultMap="teamMap">
-        select team.* from team,klass_student
-        where klass_student.klass_id=#{klassId} and student_id=#{studentId} and team_id=id
+        select team.*
+        from team,
+             klass_student
+        where klass_student.klass_id = #{klassId}
+          and student_id = #{studentId}
+          and team_id = id
     </select>
 
-
+    <select id="selectTeamOfKlassByKlassId" resultMap="teamMap">
+        select team.*
+        from team
+                 left outer join klass_team on team.id = klass_team.team_id
+        where klass_team.klass_id=#{id}
+    </select>
 </mapper>

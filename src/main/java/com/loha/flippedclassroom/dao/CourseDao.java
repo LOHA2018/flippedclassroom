@@ -31,7 +31,11 @@ public class CourseDao {
         return courseMapper.selectCourseById(id);
     }
 
-
+/**
+ * @Author: birden
+ * @Description:
+ * @Date: 2018/12/25 1:16
+ */
     public Course getCourseByKlassSeminarId(Long klassSeminarId)throws Exception{
         KlassSeminar klassSeminar=klassSeminarMapper.selectKlassSeminarById(klassSeminarId);
         return courseMapper.selectCourseByKlassId(klassSeminar.getKlassId());

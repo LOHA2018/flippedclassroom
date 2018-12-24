@@ -51,6 +51,7 @@ public class SeminarScore {
         return presentationScore;
     }
 
+
     public void setPresentationScore(BigDecimal presentationScore) {
         this.presentationScore = presentationScore;
     }

@@ -69,4 +69,21 @@ public interface ScoreMapper {
      * @throws Exception
      */
     void updateSeminarScore(SeminarScore seminarScore);
+
+    /**
+     *fetch data by
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
+    void insertRoundScore(RoundScore roundScore);
+/**
+ *fetch data by
+ *
+ * @param
+ * @return
+ * @throws Exception
+ */
+    void updateRoundScore(RoundScore roundScore);
 }

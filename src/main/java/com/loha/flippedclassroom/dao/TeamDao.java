@@ -96,4 +96,13 @@ public class TeamDao {
     {
         return teamMapper.selectTeamById(id);
     }
+
+    /**
+     * @Author: birden
+     * @Description:
+     * @Date: 2018/12/25 1:26
+     */
+    public List<Team> getTeamOfKlassByKlassId(Long klassId){
+        return teamMapper.selectTeamOfKlassByKlassId(klassId);
+    }
 }

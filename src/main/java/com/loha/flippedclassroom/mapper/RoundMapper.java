@@ -1,6 +1,7 @@
 package com.loha.flippedclassroom.mapper;
 
 import com.loha.flippedclassroom.entity.Round;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public interface RoundMapper {
 
     /**
      * fetch a course's round
+     *
      * @param courseId course's id
      * @return a List of Round
      * @throws Exception
@@ -24,9 +26,19 @@ public interface RoundMapper {
 
     /**
      * fetch a course's round
+     *
      * @param roundId course's id
      * @return Round
      * @throws Exception
      */
     Round selectRoundById(Long roundId) throws Exception;
+
+    /**
+     * fetch data by
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
+    Integer getRoundEnrollNumber(@Param("klassId") Long klassId,@Param("roundId") Long roundId);
 }

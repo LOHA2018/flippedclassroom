@@ -39,4 +39,5 @@ QuestionMapper questionMapper;
     {
         return questionMapper.selectQuestion(teamId,klassSeminarId);
     }
+
 }

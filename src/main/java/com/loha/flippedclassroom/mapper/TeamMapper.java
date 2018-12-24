@@ -38,4 +38,13 @@ public interface TeamMapper {
      * @throws Exception
      */
     Team selectTeamByKlassAndStudentId(Map<String,Long> map) throws Exception;
+
+    /**
+     *fetch data by
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
+    List<Team> selectTeamOfKlassByKlassId(Long klassId);
 }

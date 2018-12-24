@@ -17,7 +17,7 @@ public class FlippedclassroomApplicationTests {
     @Test
     public void contextLoads() {
         try {
-            scoreService.calculateSeminarScore(23L,40L);
+            scoreService.calculateRoundScore(30L);
         }
         catch (Exception e)
         {
