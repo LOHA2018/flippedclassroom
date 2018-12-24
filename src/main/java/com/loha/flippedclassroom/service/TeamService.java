@@ -131,12 +131,9 @@ public class TeamService {
         //课程下的所有team
         List<Team> teamList=teamDao.getAllTeamsByCourseId(courseId);
 
-        Map<String,Long> map=new HashMap<>();
-        map.put("courseId",courseId);
         List<Team> teams=new LinkedList<>();
         for(Team team:teamList){
-            map.put("teamId",team.getId());
-            team=teamDao.getTeamAndMembers(map);
+            team=teamDao.getTeamAndMembers(team.getId());
             //移除member中的组长
             List<Student> member=team.getMember();
             Student leader=team.getLeader();
@@ -155,8 +152,8 @@ public class TeamService {
     /**
      * 某一课程下我的team
      */
-    public Team getMyTeamUnderCourse(Map<String,Long> map) throws Exception{
-        Team team=teamDao.getTeamAndMembers(map);
+    public Team getMyTeamUnderCourse(Long teamId) throws Exception{
+        Team team=teamDao.getTeamAndMembers(teamId);
         List<Student> member=team.getMember();
         Student leader=team.getLeader();
         for(Student temp:member){
@@ -194,12 +191,12 @@ public class TeamService {
     /**
      * 解散小组
      */
-    public void disbandTeam(Long teamId,Long courseId) throws Exception{
+    public void disbandTeam(Long teamId) throws Exception{
         Map<String,Long> map=new HashMap<>();
-        map.put("courseId",courseId);
+        map.put("teamId",teamId);
 
         //修改klass_student表中的相关记录
-        List<Student> member=teamDao.getMemberInTeam(courseId,teamId);
+        List<Student> member=teamDao.getMemberInTeam(teamId);
         for (Student student:member){
             map.put("studentId",student.getId());
             teamDao.deleteStudentInTeam(map);
@@ -223,7 +220,6 @@ public class TeamService {
         Long teamId=teamDao.createTeam(team);
 
         Map<String,Long> map=new HashMap<>();
-        map.put("courseId",team.getCourseId());
         map.put("teamId",teamId);
         for(String account:memberAccount){
             Long studentId=studentDao.getCurStudent(account).getId();

@@ -266,10 +266,7 @@ public class StudentController {
 
     @PostMapping(value = "/course/team/myteam")
     public String getMyTeamInfoPage(@ModelAttribute("curStudentId") Long studentId,Long teamId,Long courseId,Model model)throws Exception{
-        Map<String,Long> map=new HashMap<>();
-        map.put("courseId",courseId);
-        map.put("teamId",teamId);
-        Team team=teamService.getMyTeamUnderCourse(map);
+        Team team=teamService.getMyTeamUnderCourse(teamId);
         model.addAttribute("team",team);
         if(team.getLeader().getId().equals(studentId)){
             model.addAttribute("studentList",teamService.getStudentsNotInTeamByCourseId(courseId));
@@ -283,9 +280,9 @@ public class StudentController {
 
     @DeleteMapping(value = "/course/team/myteam/{id}")
     @ResponseBody
-    public ResponseEntity deleteMember(@PathVariable("id") Long studentId,@RequestParam("courseId") Long courseId) throws Exception{
+    public ResponseEntity deleteMember(@PathVariable("id") Long studentId,@RequestParam("teamId") Long teamId) throws Exception{
         Map<String,Long> map=new HashMap<>();
-        map.put("courseId",courseId);
+        map.put("teamId",teamId);
         map.put("studentId",studentId);
         teamService.deleteStudentInTeam(map);
         return new ResponseEntity(HttpStatus.ACCEPTED);
@@ -293,9 +290,8 @@ public class StudentController {
 
     @PutMapping(value = "/course/team/myteam/{id}")
     @ResponseBody
-    public ResponseEntity addMember(@PathVariable("id") Long studentId,@RequestParam("courseId") Long courseId,@RequestParam("teamId") Long teamId) throws Exception{
+    public ResponseEntity addMember(@PathVariable("id") Long studentId,@RequestParam("teamId") Long teamId) throws Exception{
         Map<String,Long> map=new HashMap<>();
-        map.put("courseId",courseId);
         map.put("studentId",studentId);
         map.put("teamId",teamId);
         teamService.addStudentInTeam(map);
@@ -314,8 +310,8 @@ public class StudentController {
 
     @PostMapping(value = "/course/team/myteam/disband")
     @ResponseBody
-    public ResponseEntity disbandTeam(Long teamId,Long courseId) throws Exception{
-        teamService.disbandTeam(teamId, courseId);
+    public ResponseEntity disbandTeam(Long teamId) throws Exception{
+        teamService.disbandTeam(teamId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 

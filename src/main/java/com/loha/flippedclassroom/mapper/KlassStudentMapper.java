@@ -28,9 +28,16 @@ public interface KlassStudentMapper {
     Long selectTeamIdByStudentCourseId(Map<String,Long> map) throws Exception;
 
     /**
-     * 添加或删除一个队伍中的某个同学，修改teamid的值即可
-     * @param map 包含"courseId","studentId","teamId"
+     * 添加队伍成员
+     * @param map "studentId","teamId"
      * @throws Exception
      */
-    void updateStudentStatusInTeam(Map<String,Long> map) throws Exception;
+    void addMemberInTeam(Map<String,Long> map) throws Exception;
+
+    /**
+     * 删除队伍成员
+     * @param map "studentId","teamId"
+     * @throws Exception
+     */
+    void deleteMemberInTeam(Map<String,Long> map) throws Exception;
 }

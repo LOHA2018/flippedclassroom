@@ -8,19 +8,23 @@
     </insert>
 
     <select id="selectCourseIdByStudentId" parameterType="Long" resultType="Long">
-        select course_id from klass_student where student_id=#{value}
+        select distinct course_id from klass_student where student_id=#{value}
     </select>
 
     <select id="selectTeamIdByStudentCourseId" parameterType="Map" resultType="Long">
-        select team_id from klass_student
-        where course_id=#{courseId} and student_id=#{studentId}
+        select team_id from team_student,team
+        where course_id=#{courseId} and student_id=#{studentId} and id=team_id
     </select>
 
-    <update id="updateStudentStatusInTeam" parameterType="Map">
-        update klass_student
-        set team_id=#{teamId}
-        where course_id=#{courseId} and student_id=#{studentId}
-    </update>
+    <insert id="addMemberInTeam" parameterType="Map">
+        insert into team_student
+        values(#{teamId},#{studentId})
+    </insert>
+
+    <delete id="deleteMemberInTeam" parameterType="Map">
+        delete from team_student
+        where team_id=#{teamId} and student_id=#{studentId}
+    </delete>
 
 
 </mapper>

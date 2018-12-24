@@ -21,14 +21,19 @@
         select * from student where id=#{value}
     </select>
 
-    <select id="selectStudentByTeamId" parameterType="Map" resultMap="studentMap">
-        select student.* from student,klass_student
-        where team_id=#{teamId} and course_id=#{courseId} and student_id=id
+    <select id="selectStudentByTeamId" parameterType="Long" resultMap="studentMap">
+        select student.* from student,team_student
+        where team_id=#{teamId} and student_id=id
     </select>
 
-    <select id="selectStudentNotInTeamByCourseId" parameterType="Long" resultMap="studentMap">
+    <select id="selectStudentByCourseId" parameterType="Long" resultMap="studentMap">
         select student.* from student,klass_student
-        where course_id=#{value} and team_id is null and student_id=id
+        where course_id=#{value} and student_id=id
+    </select>
+
+    <select id="selectStudentInTeamByCourseId" parameterType="Long" resultMap="studentMap">
+        select student.* from student,team_student,team
+        where team.course_id=#{value} and team.id=team_student.team_id and student.id=team_student.student_id
     </select>
 
     <update id="updatePwdAndEmailById" parameterType="Student">

@@ -32,12 +32,20 @@ public interface StudentMapper {
     Student selectStudentById(Long studentId) throws Exception;
 
     /**
-     * 根据team id和course id查询team中的学生
-     * @param map 其中包含courseId和teamId
+     * 根据team id查询team中的学生
+     * @param teamId
      * @return List<Student>
      * @throws Exception
      */
-    List<Student> selectStudentByTeamId(Map<String,Long> map) throws Exception;
+    List<Student> selectStudentByTeamId(Long teamId) throws Exception;
+
+    /**
+     * 根据课程ID查询该课程下的所有学生
+     * @param courseId 课程id
+     * @return List<Student>
+     * @throws Exception
+     */
+    List<Student> selectStudentByCourseId(Long courseId) throws Exception;
 
     /**
      * 激活学生账号并修改密码邮箱
@@ -74,5 +82,5 @@ public interface StudentMapper {
      * @return List<Student>
      * @throws Exception
      */
-    List<Student> selectStudentNotInTeamByCourseId(Long courseId) throws Exception;
+    List<Student> selectStudentInTeamByCourseId(Long courseId) throws Exception;
 }

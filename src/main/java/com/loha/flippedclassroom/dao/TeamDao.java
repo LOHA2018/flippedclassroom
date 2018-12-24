@@ -140,18 +140,15 @@ public class TeamDao {
     /**
      * 获取一个team，包括组长及其成员
      */
-    public Team getTeamAndMembers(Map<String,Long> map) throws Exception{
-        Team team=teamMapper.selectTeamById(map.get("teamId"));
-        List<Student> member=studentMapper.selectStudentByTeamId(map);
+    public Team getTeamAndMembers(Long teamId) throws Exception{
+        Team team=teamMapper.selectTeamById(teamId);
+        List<Student> member=studentMapper.selectStudentByTeamId(teamId);
         team.setMember(member);
         return team;
     }
 
-    public List<Student> getMemberInTeam(Long courseId,Long teamId) throws Exception{
-        Map<String,Long> map=new HashMap<>();
-        map.put("courseId",courseId);
-        map.put("teamId",teamId);
-        return studentMapper.selectStudentByTeamId(map);
+    public List<Student> getMemberInTeam(Long teamId) throws Exception{
+        return studentMapper.selectStudentByTeamId(teamId);
     }
 
     /**
@@ -173,15 +170,14 @@ public class TeamDao {
      * 删除一个小组的某个组员
      */
     public void deleteStudentInTeam(Map<String,Long> map) throws Exception{
-        map.put("teamId",null);
-        klassStudentMapper.updateStudentStatusInTeam(map);
+        klassStudentMapper.deleteMemberInTeam(map);
     }
 
     /**
      * 添加一个小组的某个组员
      */
     public void addStudentInTeam(Map<String,Long> map) throws Exception{
-        klassStudentMapper.updateStudentStatusInTeam(map);
+        klassStudentMapper.addMemberInTeam(map);
     }
 
     /**

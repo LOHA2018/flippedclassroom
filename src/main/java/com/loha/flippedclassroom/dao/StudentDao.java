@@ -5,10 +5,12 @@ import com.loha.flippedclassroom.mapper.KlassMapper;
 import com.loha.flippedclassroom.mapper.KlassStudentMapper;
 import com.loha.flippedclassroom.mapper.StudentMapper;
 import com.loha.flippedclassroom.mapper.TeamMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,7 @@ import java.util.Map;
  * @date 2018/12/11
  */
 @Repository
+@Slf4j
 public class StudentDao {
     private final StudentMapper studentMapper;
     private final KlassStudentMapper klassStudentMapper;
@@ -104,6 +107,32 @@ public class StudentDao {
      * 查询某一课程下所有未组队的学生
      */
     public List<Student> getStudentsNotInTeamByCourseId(Long courseId) throws Exception{
-        return studentMapper.selectStudentNotInTeamByCourseId(courseId);
+        List<Student> studentInTeam= studentMapper.selectStudentInTeamByCourseId(courseId);
+        List<Student> studentsInCourse=studentMapper.selectStudentByCourseId(courseId);
+
+        log.info("已经组队的学生");
+        for(Student s1:studentInTeam){
+            log.info(s1.getStudentName());
+        }
+
+        List<Student> notInTeam=new LinkedList<>();
+        boolean inTeam;
+        for(Student studentOne:studentsInCourse){
+            inTeam=false;
+            for(Student studentTwo:studentInTeam){
+                if(studentOne.getId().equals(studentTwo.getId())){
+                    inTeam=true;
+                    break;
+                }
+            }
+            if (!inTeam){
+                notInTeam.add(studentOne);
+            }
+        }
+        log.info("没组队的学生");
+        for(Student s2:notInTeam){
+            log.info(s2.getStudentName());
+        }
+        return notInTeam;
     }
 }

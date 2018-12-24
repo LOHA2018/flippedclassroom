@@ -34,8 +34,8 @@
     </select>
 
     <select id="selectTeamByCourseAndStudentId" parameterType="Map" resultMap="teamMap">
-        select team.* from team,klass_student
-        where klass_student.course_id=#{courseId} and student_id=#{studentId} and team_id=id
+        select team.* from team,team_student
+        where course_id=#{courseId} and student_id=#{studentId} and team_id=id
     </select>
 
 

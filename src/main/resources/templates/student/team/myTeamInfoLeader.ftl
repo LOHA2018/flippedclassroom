@@ -202,7 +202,7 @@
                 url: "/student/course/team/myteam/" + memberId,
                 method: "delete",
                 data: {
-                    "courseId": ${team.courseId}
+                    "teamId": ${team.id}
                 },
                 success: function () {
                     alert("删除成功");
@@ -243,7 +243,6 @@
             url: "/student/course/team/myteam/"+studentId,
             method: "put",
             data: {
-                "courseId":${team.courseId},
                 "teamId":${team.id}
             },
             success: function () {
@@ -288,8 +287,7 @@
                 url:"/student/course/team/myteam/disband" ,
                 method:"post",
                 data:{
-                    "teamId":${team.id},
-                    "courseId":${team.courseId}
+                    "teamId":${team.id}
                 },
                 success:function () {
                     alert("解散成功!");
