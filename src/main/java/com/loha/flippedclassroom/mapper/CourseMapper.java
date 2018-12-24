@@ -1,6 +1,7 @@
 package com.loha.flippedclassroom.mapper;
 
 import com.loha.flippedclassroom.entity.Course;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,4 +32,6 @@ public interface CourseMapper {
     Course selectCourseById(Long courseId) throws Exception;
 
     void deleteCourseByCourseId(Long courseId) throws Exception;
+
+    void insertCourse(@Param("course")Course course) throws Exception;
 }

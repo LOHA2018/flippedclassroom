@@ -15,6 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * 教师移动端controller
  *
@@ -288,9 +291,9 @@ public class TeacherController {
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(value = "course/klass/create/save")
+    @PostMapping(value = "course/klass/create/save1")
     @ResponseBody
-    public ResponseEntity saveKlass(@RequestParam("file") MultipartFile file,Long courseId, Integer grade,Integer klassSerial,String klassLocation,String klassTime) throws Exception{
+    public Integer saveKlass1(@RequestParam("file") MultipartFile file,Long courseId, Integer grade,Integer klassSerial,String klassLocation,String klassTime) throws Exception{
 
         Klass klass=new Klass();
         klass.setGrade(grade);
@@ -307,10 +310,31 @@ public class TeacherController {
             fileService.uploadStudentList(file,klassId);
 
         }
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        return 200;
 
     }
-    
+
+    @PostMapping(value = "course/klass/create/save2")
+    @ResponseBody
+    public Integer saveKlass2(Long courseId, Integer grade,Integer klassSerial,String klassLocation,String klassTime) throws Exception{
+
+        Klass klass=new Klass();
+        klass.setGrade(grade);
+        klass.setKlassSerial(klassSerial);
+        klass.setLocation(klassLocation);
+        klass.setTime(klassTime);
+        klass.setCourseId(courseId);
+
+
+        if(teacherService.selectKlassId(courseId,grade,klassSerial)==null)
+        {
+            teacherService.createKlass(klass);
+            Long klassId=teacherService.selectKlassId(courseId,grade,klassSerial);
+        }
+        return 200;
+
+    }
+
     @PostMapping(value = "course/delete")
     @ResponseBody
     public ResponseEntity deleteCourse(Long courseId) throws Exception{
@@ -319,15 +343,30 @@ public class TeacherController {
     }
 
     @PostMapping(value = "course/create")
-    public String createCourse(Model model) throws Exception
+    public String createCourse(@ModelAttribute("curTeacherId")Long teacherId,Model model) throws Exception
     {
         return "teacher/courseCreate";
     }
 
-    
-    
+    @PostMapping("course/create/save")
+    @ResponseBody
+    public ResponseEntity createCourse(@ModelAttribute("curTeacherId")Long teacherId, String courseName, String introduction,
+           Integer presentationPercentage, Integer questionPercentage, Integer reportPercentage,
+         String startDate, String endDate ) throws Exception{
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-
+        Course course=new Course();
+        course.setTeacherId(teacherId);
+        course.setCourseName(courseName);
+        course.setIntroduction(introduction);
+        course.setPrePercentage(presentationPercentage);
+        course.setQuestionPercentage(questionPercentage);
+        course.setReportPercentage(reportPercentage);
+        course.setTeamStartTime(sdf.parse(startDate));
+        course.setTeamEndTime(sdf.parse(endDate));
+        courseService.createCourse(course);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
 
 }

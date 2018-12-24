@@ -123,9 +123,9 @@
                                 </tbody>
 
                             </table>
-                               <button class="btn btn-primary waves-effect waves-light pull-right"
-                                     onclick="storeClass()">保存
-                               </button>
+                            <button class="btn btn-primary waves-effect waves-light pull-right"
+                                    onclick="storeClass()">保存
+                            </button>
 
 
                         </div>
@@ -148,48 +148,71 @@
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
 
 <script>
+
+
     function storeClass() {
         var grade = document.getElementById("grade").value;
         var klassSerial = document.getElementById("klassSerial").value;
         var klassTime = document.getElementById("klassTime").value;
         var klassLocation = document.getElementById("klassLocation").value;
-        var fileObj = document.getElementById("importStudent").files[0];
+
         if (grade == "" || klassLocation == "" || klassSerial == "" || klassTime == "") {
             alert("字段不能为空！");
             return false;
         } else {
+
             var formData = new FormData();
-            var fileName = fileObj.name;
-            if (fileName.indexOf("xls") < 0 || fileName.indexOf("xlsx") < 0) {
-                alert("文件格式错误");
-                return false;
-            }
-            formData.append('file', fileObj);
             formData.append('grade', grade);
             formData.append('klassSerial', klassSerial);
             formData.append('klassLocation', klassLocation);
-            formData.append('klassTime',klassTime);
+            formData.append('klassTime', klassTime);
             formData.append('courseId',${courseId});
 
-            $.ajax({
-                url: "/teacher/course/klass/create/save",
-                type: "POST",
-                dataType: "json",
-                data: formData,
-                cache: false,
-                processData: false,
-                contentType: false,
-                success: function (data, status) {
-                    alert("创建成功!");
-                    //window.location.href="/teacher/course/klassList?courseId=${courseId}";
-                },
-                error: function (data, status) {
-                    alert("创建失败!");
+            if (document.getElementById("importStudent").files[0] != undefined) {
+                var fileObj = document.getElementById("importStudent").files[0];
+                var fileName = fileObj.name;
+                formData.append('file', fileObj);
+                if (fileName.indexOf("xls") < 0 || fileName.indexOf("xlsx") < 0) {
+                    alert("文件格式错误");
+                    return false;
                 }
-            });
+                $.ajax({
+                    url: "/teacher/course/klass/create/save1",
+                    type: "POST",
+                    dataType: "json",
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data, status) {
+                        alert("创建成功!");
+                        window.location.href="/teacher/course/klassList?courseId=${courseId}";
+                    },
+                    error: function (data, status) {
+                        alert("创建失败!");
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: "/teacher/course/klass/create/save2",
+                    type: "POST",
+                    dataType: "json",
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data, status) {
+                        alert("创建成功!");
+                        window.location.href="/teacher/course/klassList?courseId=${courseId}";
+                    },
+                    error: function (data, status) {
+                        alert("创建失败!");
+                    }
+                });
+            }
         }
-
     }
+
 </script>
 
 

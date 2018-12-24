@@ -6,20 +6,19 @@
     <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
     <meta name="author" content="Coderthemes">
 
-    <link rel="shortcut icon" href="assets/images/favicon_1.ico">
+    <link rel="shortcut icon" href="/img/favicon_1.ico">
 
     <title>新建课程</title>
+    <link href="/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/core.css" rel="stylesheet" type="text/css">
+    <link href="/css/icons.css" rel="stylesheet" type="text/css">
+    <link href="/css/components.css" rel="stylesheet" type="text/css">
+    <link href="/css/pages.css" rel="stylesheet" type="text/css">
+    <link href="/css/menu.css" rel="stylesheet" type="text/css">
+    <link href="/css/responsive.css" rel="stylesheet" type="text/css">
 
-    <link href="assets/plugins/sweetalert/dist/sweetalert.css" rel="stylesheet" type="text/css">
-
-    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/css/core.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/icons.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/components.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/pages.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/menu.css" rel="stylesheet" type="text/css">
-    <link href="assets/css/responsive.css" rel="stylesheet" type="text/css">
-
+    <script src="/js/modernizr.min.js"></script>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -59,7 +58,7 @@
                     <ul class="nav navbar-nav navbar-right pull-right">
                         <li class="dropdown">
                             <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img
-                                    src="assets/images/users/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
+                                    src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
                                 <li><a><h4><i class="md md-home"></i>&nbsp;待办</h4></a></li>
                                 <li><a><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
@@ -185,11 +184,11 @@
 <!-- END wrapper -->
 
 <!-- jQuery  -->
-<script src="assets/js/modernizr.min.js"></script>
+<script src="/js/modernizr.min.js"></script>
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment-with-locales.min.js"></script>
-<script src="assets/js/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/moment.js/2.18.1/moment-with-locales.min.js"></script>
 
@@ -221,19 +220,20 @@
         }else
         {
             $.ajax({
-                url:"",
+                url:"/teacher/course/create/save",
                 method:"post",
                 data:{
                     "startDate":startDate,
                     "endDate":endDate,
                     "courseName":courseName,
                     "introduction":introduction,
-                    "maxNum":maxNum,
-                    "minNum":minNum,
+                    //"maxNum":maxNum,
+                    //"minNum":minNum,
                     "presentationPercentage":presentationPercentage,
                     "questionPercentage":questionPercentage,
                     "reportPercentage":reportPercentage,
-                    "sum": sum
+
+                    //"sum": sum
                 },
                 success:function () {
                     alert("创建课程成功!");

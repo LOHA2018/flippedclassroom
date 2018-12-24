@@ -47,6 +47,13 @@ public class CourseService {
     public void deleteCourseByCourseId(Long courseId) throws Exception{
         courseDao.deleteCourseByCourseId(courseId);
     }
+
+    /**
+     * 新建课程
+     */
+    public void createCourse(Course course) throws Exception{
+        courseDao.createCourse(course);
+    }
 /**
     public Course getCourseById(Integer courseId) throws Exception{
         return courseDao.getCourseById(courseId);

@@ -28,4 +28,11 @@
         delete from course where id=#{value}
     </delete>
 
+    <insert id="insertCourse" parameterType="Course">
+        insert into course(teacher_id,course_name,introduction,presentation_percentage,question_percentage,report_percentage,team_start_time,team_end_time)
+        values (#{course.teacherId},#{course.courseName},#{course.introduction},#{course.prePercentage},#{course.questionPercentage},#{course.reportPercentage},#{course.teamStartTime},#{course.teamEndTime})
+    </insert>
+
+
+
 </mapper>

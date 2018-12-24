@@ -35,4 +35,11 @@ public class CourseDao {
     public void deleteCourseByCourseId(Long courseId) throws Exception{
         courseMapper.deleteCourseByCourseId(courseId);
     }
+
+    /**
+     * 新建课程
+     */
+    public void createCourse(Course course) throws Exception{
+        courseMapper.insertCourse(course);
+    }
 }
