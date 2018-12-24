@@ -88,4 +88,10 @@ public class TeamDao {
         attendance.setPptUrl(pptUrl);
         attendanceMapper.updatePowerPointByKlassSeminarAndTeamId(attendance);
     }
+    /**
+     * 获取某个课程下的所有team
+     */
+    public List<Team> getAllTeamsByCourseId(Long courseId) throws Exception{
+        return teamMapper.selectTeamByCourseId(courseId);
+    }
 }

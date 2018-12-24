@@ -251,7 +251,7 @@ public class TeacherController {
         return "teacher/courseInfo";
     }
 
-    @PostMapping("course/klassList")
+    @PostMapping("/course/klassList")
     public String getCousreKlassList(Long courseId,Model model) throws Exception{
         model.addAttribute("klassList", courseService.getKlassByCourseId(courseId));
         model.addAttribute("course", courseService.getCourseById(courseId));
@@ -259,14 +259,14 @@ public class TeacherController {
     }
 
 
-    @GetMapping("course/klassList")
+    @GetMapping("/course/klassList")
     public String getCousreKlassList2(Long courseId,Model model) throws Exception{
         model.addAttribute("klassList", courseService.getKlassByCourseId(courseId));
         model.addAttribute("course", courseService.getCourseById(courseId));
         return "teacher/klassInfo";
     }
 
-    @PostMapping("course/klass/delete")
+    @PostMapping("/course/klass/delete")
     @ResponseBody
     public ResponseEntity deleteClass(Long klassId)throws Exception
     {
@@ -275,7 +275,7 @@ public class TeacherController {
     }
 
 
-    @PostMapping("course/klass/create")
+    @PostMapping("/course/klass/create")
     public String createClass(Long courseId,Model model) throws Exception
     {
         model.addAttribute("courseId",courseId);
@@ -284,14 +284,14 @@ public class TeacherController {
 
 
 
-    @PostMapping(value = "course/klassList/save")
+    @PostMapping(value = "/course/klassList/save")
     @ResponseBody
     public ResponseEntity submitXsl(@RequestParam("file") MultipartFile file,Long klassId) throws Exception{
         fileService.uploadStudentList(file,klassId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(value = "course/klass/create/save1")
+    @PostMapping(value = "/course/klass/create/save1")
     @ResponseBody
     public Integer saveKlass1(@RequestParam("file") MultipartFile file,Long courseId, Integer grade,Integer klassSerial,String klassLocation,String klassTime) throws Exception{
 
@@ -314,7 +314,7 @@ public class TeacherController {
 
     }
 
-    @PostMapping(value = "course/klass/create/save2")
+    @PostMapping(value = "/course/klass/create/save2")
     @ResponseBody
     public Integer saveKlass2(Long courseId, Integer grade,Integer klassSerial,String klassLocation,String klassTime) throws Exception{
 
@@ -335,7 +335,7 @@ public class TeacherController {
 
     }
 
-    @PostMapping(value = "course/delete")
+    @PostMapping(value = "/course/delete")
     @ResponseBody
     public ResponseEntity deleteCourse(Long courseId) throws Exception{
         courseService.deleteCourseByCourseId(courseId);
@@ -348,7 +348,7 @@ public class TeacherController {
         return "teacher/courseCreate";
     }
 
-    @PostMapping("course/create/save")
+    @PostMapping("/course/create/save")
     @ResponseBody
     public ResponseEntity createCourse(@ModelAttribute("curTeacherId")Long teacherId, String courseName, String introduction,
            Integer presentationPercentage, Integer questionPercentage, Integer reportPercentage,
@@ -369,4 +369,9 @@ public class TeacherController {
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
+    @PostMapping(value = "/course/grade")
+    public String getAllTeamsScore(Long courseId,Model model) throws Exception{
+        model.addAttribute("roundTeamSeminarList",teacherService.getAllTeamsScore(courseId));
+        return "teacher/studentScore";
+    }
 }

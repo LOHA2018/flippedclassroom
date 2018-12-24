@@ -1,15 +1,14 @@
 package com.loha.flippedclassroom.service;
 
-import com.loha.flippedclassroom.dao.CourseDao;
-import com.loha.flippedclassroom.dao.KlassDao;
-import com.loha.flippedclassroom.dao.RoundDao;
-import com.loha.flippedclassroom.dao.TeacherDao;
+import com.loha.flippedclassroom.dao.*;
 import com.loha.flippedclassroom.entity.*;
+import com.loha.flippedclassroom.pojo.ScoreInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -33,13 +32,17 @@ public class TeacherService {
     private final CourseDao courseDao;
     private final RoundDao roundDao;
     private final KlassDao klassDao;
+    private final TeamDao teamDao;
+    private final ScoreDao scoreDao;
 
     @Autowired
-    TeacherService(TeacherDao teacherDao,CourseDao courseDao,RoundDao roundDao,KlassDao klassDao){
+    TeacherService(TeacherDao teacherDao,CourseDao courseDao,RoundDao roundDao,KlassDao klassDao,TeamDao teamDao,ScoreDao scoreDao){
         this.teacherDao=teacherDao;
         this.courseDao=courseDao;
         this.roundDao=roundDao;
         this.klassDao=klassDao;
+        this.teamDao=teamDao;
+        this.scoreDao=scoreDao;
     }
 
 
@@ -99,5 +102,27 @@ public class TeacherService {
 
     public void deleteKlassByKlassId(Long klassId) throws Exception{
         klassDao.deleteKlassByKlassId(klassId);
+    }
+
+    /**
+     *查询所有队伍的每一轮的讨论课成绩
+     */
+    public List<List<ScoreInfo>> getAllTeamsScore(Long courseId) throws Exception{
+        //获取所有轮，小list的对象是team，roundscore，listseminar
+        List<Round> rounds=roundDao.getRoundAndSeminar(courseId);
+
+        //获取该课程下的所有team
+        List<Team> teams=teamDao.getAllTeamsByCourseId(courseId);
+
+        List<List<ScoreInfo>> allTeamAllRound=new LinkedList<>();
+        List<ScoreInfo> allTeamOneRound;
+        for (Round round:rounds){
+            allTeamOneRound=new LinkedList<>();
+            for(Team team:teams){
+                allTeamOneRound.add(scoreDao.getOneTeamScoreUnderOneRound(team.getKlassId(),round,team.getId()));
+            }
+            allTeamAllRound.add(allTeamOneRound);
+        }
+        return allTeamAllRound;
     }
 }

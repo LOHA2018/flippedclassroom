@@ -3,6 +3,7 @@ package com.loha.flippedclassroom.dao;
 import com.loha.flippedclassroom.entity.*;
 import com.loha.flippedclassroom.mapper.KlassSeminarMapper;
 import com.loha.flippedclassroom.mapper.ScoreMapper;
+import com.loha.flippedclassroom.mapper.TeamMapper;
 import com.loha.flippedclassroom.pojo.ScoreInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,14 @@ public class ScoreDao {
 
     private final ScoreMapper scoreMapper;
     private final KlassSeminarMapper klassSeminarMapper;
+    private final TeamMapper teamMapper;
 
 
     @Autowired
-    ScoreDao(ScoreMapper scoreMapper,KlassSeminarMapper klassSeminarMapper){
+    ScoreDao(ScoreMapper scoreMapper,KlassSeminarMapper klassSeminarMapper,TeamMapper teamMapper){
         this.scoreMapper=scoreMapper;
         this.klassSeminarMapper=klassSeminarMapper;
+        this.teamMapper=teamMapper;
     }
 
 
@@ -39,6 +42,10 @@ public class ScoreDao {
      * teamId根据klassStudent表查找，通过课程找round（round中有seminars）,再用seminarid和classid和teamid找成绩
      */
     public ScoreInfo getOneTeamScoreUnderOneRound(Long klassId, Round round, Long teamId) throws Exception{
+
+        //获取小组信息
+        Team team=teamMapper.selectTeamById(teamId);
+
         RoundScore temp=new RoundScore();
         temp.setRoundId(round.getId());
         temp.setTeamId(teamId);
@@ -54,6 +61,7 @@ public class ScoreDao {
             findScoreMap.put("teamId",teamId);
 
             SeminarScore seminarScore=scoreMapper.selectSeminarScore(findScoreMap);
+            //SeminarScore对象此处可能不存在，会出现空指针
             Seminar setSeminar=klassSeminarMapper.selectKlassSeminarById(seminarScore.getKlassSeminarId()).getSeminar();
             seminarScore.setSeminar(setSeminar);
 
@@ -62,6 +70,7 @@ public class ScoreDao {
 
         //DTO
         ScoreInfo scoreInfo=new ScoreInfo();
+        scoreInfo.setTeam(team);
         scoreInfo.setRoundScore(roundScore);
         scoreInfo.setSeminarScores(seminarScoreList);
         return scoreInfo;
