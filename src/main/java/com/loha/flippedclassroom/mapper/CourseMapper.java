@@ -37,4 +37,5 @@ public interface CourseMapper {
      * @throws Exception
      */
     Course selectCourseByKlassId(Long klassId);
+
 }

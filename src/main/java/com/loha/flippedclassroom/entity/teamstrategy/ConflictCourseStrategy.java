@@ -1,69 +1,36 @@
 package com.loha.flippedclassroom.entity.teamstrategy;
 
-import com.loha.flippedclassroom.entity.Student;
 import com.loha.flippedclassroom.entity.Team;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ConflictCourseStrategy implements TeamStrategy {
-    private Long id;
-    private Long courseAId;
-    private Long courseBId;
-    private List<Long> courseAStudentList;
-    private List<Long> courseBStudentList;
+/**
+ * @Author: birden
+ * @Description: need two entity to realise it
+ * @Date: 2018/12/25 12:55
+ */
+public class ConflictCourseStrategy implements TeamStrategy{
+    private List<ConflictCourseSubStrategy> conflictCourseSubStrategyList;
 
-    public Long getCourseAId() {
-        return courseAId;
+    public List<ConflictCourseSubStrategy> getConflictCourseSubStrategyList() {
+        return conflictCourseSubStrategyList;
     }
 
-    public void setCourseAId(Long courseAId) {
-        this.courseAId = courseAId;
-    }
-
-    public Long getCourseBId() {
-        return courseBId;
-    }
-
-    public void setCourseBId(Long courseBId) {
-        this.courseBId = courseBId;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public List<Long> getCourseAStudentList() {
-        return courseAStudentList;
-    }
-
-    public void setCourseAStudentList(List<Long> courseAStudentList) {
-        this.courseAStudentList = courseAStudentList;
-    }
-
-    public List<Long> getCourseBStudentList() {
-        return courseBStudentList;
-    }
-
-    public void setCourseBStudentList(List<Long> courseBStudentList) {
-        this.courseBStudentList = courseBStudentList;
+    public void setConflictCourseSubStrategyList(List<ConflictCourseSubStrategy> conflictCourseSubStrategyList) {
+        this.conflictCourseSubStrategyList = conflictCourseSubStrategyList;
     }
 
     @Override
     public boolean isGroupValid(Team team) {
-        List<Student> member=team.getMember();
-        for(Student student: member)
+        int count=0;
+        for (ConflictCourseSubStrategy conflictCourseSubStrategy:conflictCourseSubStrategyList)
         {
-            if (courseAStudentList.contains(student.getId()))
-            {
-                continue;
-            }
-            if (courseBStudentList.contains(student.getId()))
-            {
-                return false;
+            if (conflictCourseSubStrategy.isGroupValid(team)){
+                if (2<=++count)
+                {
+                    return false;
+                }
             }
         }
         return true;
