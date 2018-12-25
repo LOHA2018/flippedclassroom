@@ -4,6 +4,7 @@ import com.loha.flippedclassroom.entity.Attendance;
 import com.loha.flippedclassroom.entity.Team;
 import com.loha.flippedclassroom.mapper.AttendanceMapper;
 import com.loha.flippedclassroom.mapper.KlassStudentMapper;
+import com.loha.flippedclassroom.mapper.StudentMapper;
 import com.loha.flippedclassroom.mapper.TeamMapper;
 import org.springframework.stereotype.Repository;
 
@@ -22,10 +23,12 @@ public class TeamDao {
 
     private final AttendanceMapper attendanceMapper;
     private final TeamMapper teamMapper;
+    private final StudentMapper studentMapper;
 
-    TeamDao(AttendanceMapper attendanceMapper,KlassStudentMapper klassStudentMapper,TeamMapper teamMapper){
+    TeamDao(AttendanceMapper attendanceMapper, KlassStudentMapper klassStudentMapper, TeamMapper teamMapper, StudentMapper studentMapper){
         this.attendanceMapper=attendanceMapper;
         this.teamMapper=teamMapper;
+        this.studentMapper=studentMapper;
     }
 
     /**
@@ -94,7 +97,9 @@ public class TeamDao {
      */
     public Team getTeamById(Long id)throws Exception
     {
-        return teamMapper.selectTeamById(id);
+        Team team=teamMapper.selectTeamById(id);
+        team.setMember(studentMapper.selectStudentOfTeam(id));
+        return team;
     }
 
     /**
@@ -104,5 +109,21 @@ public class TeamDao {
      */
     public List<Team> getTeamOfKlassByKlassId(Long klassId){
         return teamMapper.selectTeamOfKlassByKlassId(klassId);
+    }
+
+    /**
+     * @Author: birden
+     * @Description: 更新team
+     * @Date: 2018/12/25 20:10
+     */
+    public void updateTeam(Team team)throws Exception
+    {
+        if (null!=getTeamById(team.getId()))
+        {
+            teamMapper.updateTeam(team);
+        }
+        else{
+            throw new Exception();
+        }
     }
 }

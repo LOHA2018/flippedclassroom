@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.loha.flippedclassroom.mapper.TeamStrategyMapper">
+    <resultMap id="conflictCourseResultMap" type="ConflictCourseSubStrategy">
+        <id property="id" column="id"/>
+        <result property="courseId" column="courseId"/>
+        <collection property="courseStudentList" javaType="ArrayList" column="courseId" ofType="Long"
+                    select="selectStudentId" fetchType="eager"/>
+    </resultMap>
+
+    <resultMap id="courseMemberLimitResultMap" type="CourseMemberLimitStrategy">
+        <id property="id" column="id"/>
+        <result property="courseId" column="courseId"/>
+        <result property="minMember" javaType="Integer" column="minMember"/>
+        <result property="maxMember" javaType="Integer" column="maxMember"/>
+        <collection property="courseStudentList" javaType="ArrayList" column="courseId" ofType="Long"
+                    select="selectStudentId" fetchType="eager"/>
+    </resultMap>
+
+    <select id="getMemberLimitStrategy" resultType="MemberLimitStrategy">
+        select id, min_member as "minMember", max_member as "maxMember"
+        from member_limit_strategy
+        where id = #{id}
+    </select>
+    <select id="getConflictCourseSubStrategy" resultMap="conflictCourseResultMap">
+        select id, course_id as "courseId"
+        from conflict_course_strategy
+        where id = #{id}
+    </select>
+    <select id="getCourseMemberLimitStrategy" resultMap="courseMemberLimitResultMap">
+        select id, course_id as "courseId", min_member as "minMember", max_member as "maxMember"
+        from course_member_limit_strategy
+        where id = #{id}
+    </select>
+    <select id="selectStudentId" resultType="Long">
+        select student_id
+        from klass_student
+        where course_id = #{id}
+    </select>
+    <select id="getTeamStrategy" resultType="java.util.HashMap">
+        select strategy_serial as "strategySerial", strategy_name as "strategyName", strategy_id as "strategyId"
+        from team_strategy
+        where course_id = #{id}
+    </select>
+    <select id="getCompositeAndStrategy" resultType="java.util.HashMap">
+        select strategy_name as "strategyName", strategy_id as "strategyId"
+        from team_and_strategy
+        where id = #{id}
+    </select>
+    <select id="getCompositeOrStrategy" resultType="java.util.HashMap">
+        select strategy_name as "strategyName", strategy_id as "strategyId"
+        from team_or_strategy
+        where id = #{id}
+    </select>
+    <insert id="insertMemberLimitStrategy" useGeneratedKeys="true" keyProperty = "id" keyColumn = "id">
+        insert into member_limit_strategy (min_member, max_member)
+        values (#{minMember}, #{maxMember})
+    </insert>
+    <insert id="insertCourseMemberLimitStrategy" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into course_member_limit_strategy (course_id, min_member, max_member)
+        VALUES (#{courseId}, #{minMember}, #{maxMember})
+    </insert>
+    <insert id="insertConflictCourseStrategy" parameterType="java.util.List">
+        insert into conflict_course_strategy (id, course_id) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id},#{item.courseId})
+        </foreach>
+    </insert>
+    <select id="selectMaxConflictCourseStrategyId" resultType="Long">
+        select max(id)
+        from conflict_course_strategy
+    </select>
+    <select id="selectMaxCompositeOrStrategyId" resultType="Long">
+        select max(id)
+        from team_or_strategy
+    </select>
+    <select id="selectMaxCompositeAndStrategyId" resultType="Long">
+        select max(id)
+        from team_and_strategy
+    </select>
+    <insert id="insertCompositeAndStrategy" useGeneratedKeys="true" keyProperty = "id" keyColumn = "id">
+        insert into team_and_strategy (id, strategy_name, strategy_id)
+        values (#{id},#{strategyName},#{strategyId})
+    </insert>
+    <insert id="insertCompositeOrStrategy" useGeneratedKeys="true" keyProperty = "id" keyColumn = "id">
+        insert into team_or_strategy (id, strategy_name, strategy_id)
+        values (#{id},#{strategyName},#{strategyId})
+    </insert>
+</mapper>

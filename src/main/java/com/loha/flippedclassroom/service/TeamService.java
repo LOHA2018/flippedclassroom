@@ -3,7 +3,9 @@ package com.loha.flippedclassroom.service;
 import com.loha.flippedclassroom.dao.TeamDao;
 import com.loha.flippedclassroom.dao.TeamStrategyDao;
 import com.loha.flippedclassroom.entity.Team;
+import com.loha.flippedclassroom.entity.teamstrategy.CompositeAndStrategy;
 import com.loha.flippedclassroom.entity.teamstrategy.TeamStrategy;
+import com.loha.flippedclassroom.mapper.TeamMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,10 +40,22 @@ public class TeamService {
         for (TeamStrategy teamStrategy : teamStrategyList) {
             if (!teamStrategy.isGroupValid(team)) {
                 team.setStatus(0);
+                teamDao.updateTeam(team);
                 return false;
             }
         }
         team.setStatus(1);
+        teamDao.updateTeam(team);
         return true;
+    }
+
+    /**
+     * @Author: birden
+     * @Description: 创建组队策略
+     * @Date: 2018/12/25 21:39
+     */
+    public void fundamentalLimitStrategy(CompositeAndStrategy cas)
+    {
+
     }
 }

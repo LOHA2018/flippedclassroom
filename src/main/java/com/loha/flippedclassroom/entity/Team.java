@@ -27,6 +27,10 @@ public class Team {
 
     public int getMemberNumber()
     {
+        if (member==null)
+        {
+            return 0;
+        }
         return member.size();
     }
 
@@ -44,5 +48,13 @@ public class Team {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Long getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
     }
 }

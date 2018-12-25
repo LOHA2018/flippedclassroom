@@ -47,4 +47,13 @@ public interface TeamMapper {
      * @throws Exception
      */
     List<Team> selectTeamOfKlassByKlassId(Long klassId);
+
+    /**
+     *fetch data by
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
+    void updateTeam(Team team);
 }

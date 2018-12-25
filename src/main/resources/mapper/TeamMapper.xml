@@ -11,9 +11,8 @@
         <result column="status" property="status"/>
 
         <association property="klass" select="com.loha.flippedclassroom.mapper.KlassMapper.selectKlassById"
-                     column="klass_id"></association>
+                     column="klass_id"/>
     </resultMap>
-
     <select id="selectTeamById" parameterType="Long" resultMap="teamMap">
         select *
         from team
@@ -39,6 +38,17 @@
         select team.*
         from team
                  left outer join klass_team on team.id = klass_team.team_id
-        where klass_team.klass_id=#{id}
+        where klass_team.klass_id = #{id}
     </select>
+
+    <update id="updateTeam" parameterType="Team">
+        update team
+        set klass_id    = #{klassId},
+            course_id   = #{courseId},
+            leader_id   = #{leaderId},
+            team_name   = #{teamName},
+            team_serial = #{teamSerial},
+            status      = #{status}
+        where id = #{id}
+    </update>
 </mapper>

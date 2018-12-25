@@ -3,6 +3,8 @@ package com.loha.flippedclassroom.mapper;
 import com.loha.flippedclassroom.entity.Student;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 与学生相关的mapper
  *
@@ -56,4 +58,12 @@ public interface StudentMapper {
      * @throws Exception
      */
     void insertStudent(Student student) throws Exception;
+    /**
+     *fetch data by
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
+    List<Student> selectStudentOfTeam(Long teamId);
 }
