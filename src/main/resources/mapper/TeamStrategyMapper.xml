@@ -52,38 +52,53 @@
         from team_or_strategy
         where id = #{id}
     </select>
-    <insert id="insertMemberLimitStrategy" useGeneratedKeys="true" keyProperty = "id" keyColumn = "id">
+    <insert id="insertCompositeAndStrategy" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" resultType="long" order="BEFORE">
+            select uuid_short()
+        </selectKey>
+        insert into team_and_strategy (id, strategy_name, strategy_id) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{id},#{item.strategyName},#{item.strategyId})
+        </foreach>
+    </insert>
+    <insert id="insertCompositeOrStrategy" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+        <selectKey keyProperty="id" resultType="Long" order="BEFORE">
+            select uuid_short()
+        </selectKey>
+        insert into team_or_strategy (id, strategy_name, strategy_id) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{id},#{item.strategyName},#{item.strategyId})
+        </foreach>
+    </insert>
+    <insert id="insertMemberLimitStrategy" useGeneratedKeys="true" keyProperty="id">
         insert into member_limit_strategy (min_member, max_member)
         values (#{minMember}, #{maxMember})
     </insert>
-    <insert id="insertCourseMemberLimitStrategy" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    <insert id="insertCourseMemberLimitStrategy" useGeneratedKeys="true" keyProperty="id">
         insert into course_member_limit_strategy (course_id, min_member, max_member)
         VALUES (#{courseId}, #{minMember}, #{maxMember})
     </insert>
     <insert id="insertConflictCourseStrategy" parameterType="java.util.List">
+        <selectKey keyProperty="id" keyColumn="id" resultType="long" order="BEFORE">
+            select uuid_short()
+        </selectKey>
         insert into conflict_course_strategy (id, course_id) values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.id},#{item.courseId})
+            (#{id},#{item.courseId})
         </foreach>
     </insert>
-    <select id="selectMaxConflictCourseStrategyId" resultType="Long">
-        select max(id)
-        from conflict_course_strategy
-    </select>
-    <select id="selectMaxCompositeOrStrategyId" resultType="Long">
-        select max(id)
-        from team_or_strategy
-    </select>
-    <select id="selectMaxCompositeAndStrategyId" resultType="Long">
-        select max(id)
-        from team_and_strategy
-    </select>
-    <insert id="insertCompositeAndStrategy" useGeneratedKeys="true" keyProperty = "id" keyColumn = "id">
-        insert into team_and_strategy (id, strategy_name, strategy_id)
-        values (#{id},#{strategyName},#{strategyId})
+
+    <insert id="insertTeamStrategy">
+        insert into team_strategy (course_id, strategy_serial, strategy_name, strategy_id)
+        values (#{courseId},#{strategySerial},#{strategyName},#{strategyId})
     </insert>
-    <insert id="insertCompositeOrStrategy" useGeneratedKeys="true" keyProperty = "id" keyColumn = "id">
-        insert into team_or_strategy (id, strategy_name, strategy_id)
-        values (#{id},#{strategyName},#{strategyId})
-    </insert>
+    <select id="selectConflictCourseStrategyLastInsert" resultType="Long">
+        select id from conflict_course_strategy order by id desc limit 1
+    </select>
+    <select id="selectCompositeOrStrategy" resultType="Long">
+        select id from team_or_strategy order by id desc limit 1
+    </select>
+    <select id="selectCompositeAndStrategy" resultType="Long">
+        select id from team_and_strategy order by id desc limit 1
+    </select>
 </mapper>

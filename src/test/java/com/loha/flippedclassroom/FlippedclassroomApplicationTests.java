@@ -48,7 +48,8 @@ public class FlippedclassroomApplicationTests {
             cas.setTeamStrategyList(new ArrayList<>());
             cas.addStrategy(mls);
             cas.addStrategy(cos);
-            System.out.println(teamStrategyDao.insertCompositeAndStrategy(cas));
+            teamStrategyDao.insertTeamStrategy(16L,4,cas);
+
 //            System.out.println(teamService.isTeamValid(3L));
 //            List<ConflictCourseSubStrategy> conflictCourseSubStrategyList=new ArrayList<>();
 //            conflictCourseSubStrategyList.add(new ConflictCourseSubStrategy());

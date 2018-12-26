@@ -4,6 +4,7 @@ import com.loha.flippedclassroom.entity.teamstrategy.ConflictCourseStrategy;
 import com.loha.flippedclassroom.entity.teamstrategy.ConflictCourseSubStrategy;
 import com.loha.flippedclassroom.entity.teamstrategy.CourseMemberLimitStrategy;
 import com.loha.flippedclassroom.entity.teamstrategy.MemberLimitStrategy;
+import com.loha.flippedclassroom.pojo.PO.StrategyPO;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -97,14 +98,7 @@ public interface TeamStrategyMapper {
      * @throws Exception
      */
     Long insertConflictCourseStrategy(List<ConflictCourseSubStrategy> conflictCourseSubStrategyList);
-/**
- *fetch data by
- *非自增，找主键
- * @param
- * @return
- * @throws Exception
- */
-    Long selectMaxConflictCourseStrategyId();
+
     /**
      * fetch data by
      *
@@ -121,7 +115,7 @@ public interface TeamStrategyMapper {
      * @return 插入的id
      * @throws Exception
      */
-    Long insertCompositeAndStrategy(Map<String, Object> map);
+    Long insertCompositeAndStrategy(List<StrategyPO> map);
 
     /**
      * fetch data by
@@ -130,30 +124,32 @@ public interface TeamStrategyMapper {
      * @return 插入的id
      * @throws Exception
      */
-    Long insertCompositeOrStrategy(Map<String, Object> map);
+    Long insertCompositeOrStrategy(List<StrategyPO> map);
 
     /**
      * fetch data by
      *
-     * @param map 传入map 包括课程id，策略名和策略id
+     * @param  strategyPO po
      * @return
      * @throws Exception
      */
-    void insertTeamStrategy(Map<String, Object> map);
+    void insertTeamStrategy(StrategyPO strategyPO);
+/**
+ * @Author: birden
+ * @Description: 
+ * @Date: 2018/12/26 21:38
+ */
+    Long selectConflictCourseStrategyLastInsert();
+/**
+ * @Author: birden
+ * @Description: 
+ * @Date: 2018/12/26 21:38
+ */
+    Long selectCompositeOrStrategy();
     /**
-     *fetch data by
-     *
-     * @param
-     * @return
-     * @throws Exception
+     * @Author: birden
+     * @Description: 
+     * @Date: 2018/12/26 21:38
      */
-    Long selectMaxCompositeOrStrategyId();
-    /**
-     *fetch data by
-     *
-     * @param
-     * @return
-     * @throws Exception
-     */
-    Long selectMaxCompositeAndStrategyId();
+    Long selectCompositeAndStrategy();
 }

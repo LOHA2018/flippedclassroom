@@ -5,6 +5,7 @@ import com.loha.flippedclassroom.entity.teamstrategy.*;
 import com.loha.flippedclassroom.mapper.CourseMapper;
 import com.loha.flippedclassroom.mapper.TeamMapper;
 import com.loha.flippedclassroom.mapper.TeamStrategyMapper;
+import com.loha.flippedclassroom.pojo.PO.StrategyPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import sun.misc.Perf;
@@ -139,11 +140,12 @@ public class TeamStrategyDao {
 
     /**
      * @Author: birden
-     * @Description: 插入策略部分,目前无法实现
+     * @Description: 插入策略部分, 完成
      * @Date: 2018/12/25 21:38
      */
     public Long insertMemberListStrategy(MemberLimitStrategy memberLimitStrategy) {
-        return teamStrategyMapper.insertMemberLimitStrategy(memberLimitStrategy);
+        teamStrategyMapper.insertMemberLimitStrategy(memberLimitStrategy);
+        return memberLimitStrategy.getId();
     }
 
     /**
@@ -152,11 +154,9 @@ public class TeamStrategyDao {
      * @Date: 2018/12/25 22:28
      */
     public Long insertConflictCourseStrategy(ConflictCourseStrategy conflictCourseStrategy) {
-        long key = teamStrategyMapper.selectMaxConflictCourseStrategyId();
-        for (ConflictCourseSubStrategy conflictCourseSubStrategy : conflictCourseStrategy.getConflictCourseSubStrategyList()) {
-            conflictCourseSubStrategy.setId(key + 1);
-        }
-        return teamStrategyMapper.insertConflictCourseStrategy(conflictCourseStrategy.getConflictCourseSubStrategyList());
+        teamStrategyMapper.insertConflictCourseStrategy(conflictCourseStrategy.getConflictCourseSubStrategyList());
+        return teamStrategyMapper.selectConflictCourseStrategyLastInsert();
+
     }
 
     /**
@@ -174,75 +174,73 @@ public class TeamStrategyDao {
      * @Description: 策略
      * @Date: 2018/12/25 22:59
      */
-    public Long insertCompositeAndStrategy(CompositeAndStrategy compositeAndStrategy)
-    {
-        Long key=teamStrategyMapper.selectMaxCompositeAndStrategyId();
-        for (TeamStrategy teamStrategy:compositeAndStrategy.getTeamStrategyList())
-        {
-            Map<String,Object> map=insertInstanceStrategy(teamStrategy);
-            if (map!=null)
-            {
-                map.put("id",key+1);
-                teamStrategyMapper.insertCompositeAndStrategy(map);
+    public Long insertCompositeAndStrategy(CompositeAndStrategy compositeAndStrategy) {
+        List<StrategyPO> strategyPOList = new ArrayList<>();
+        for (TeamStrategy teamStrategy : compositeAndStrategy.getTeamStrategyList()) {
+            StrategyPO strategyPO = insertInstanceStrategy(teamStrategy);
+            if (strategyPO != null) {
+                strategyPOList.add(strategyPO);
             }
         }
-        return key+1;
+        if (strategyPOList.size() != 0) {
+            teamStrategyMapper.insertCompositeAndStrategy(strategyPOList);
+            return teamStrategyMapper.selectCompositeAndStrategy();
+        }
+        return -1L;
     }
-/**
- * @Author: birden
- * @Description: 
- * @Date: 2018/12/25 23:43
- */
-    public Long insertCompositeOrStrategy(CompositeOrStrategy compositeOrStrategy)
-    {
-        Long key=teamStrategyMapper.selectMaxCompositeOrStrategyId();
-        for (TeamStrategy teamStrategy:compositeOrStrategy.getTeamStrategyList())
-        {
-            Map<String,Object> map=insertInstanceStrategy(teamStrategy);
-            if (map!=null)
-            {
-                map.put("id",key+1);
-                teamStrategyMapper.insertCompositeOrStrategy(map);
+
+    /**
+     * @Author: birden
+     * @Description:
+     * @Date: 2018/12/25 23:43
+     */
+    public Long insertCompositeOrStrategy(CompositeOrStrategy compositeOrStrategy) {
+        List<StrategyPO> strategyPOList = new ArrayList<>();
+        for (TeamStrategy teamStrategy : compositeOrStrategy.getTeamStrategyList()) {
+            StrategyPO strategyPO = insertInstanceStrategy(teamStrategy);
+            if (strategyPO != null) {
+                strategyPOList.add(strategyPO);
             }
         }
-        return key+1;
+        if (strategyPOList.size() != 0) {
+            teamStrategyMapper.insertCompositeOrStrategy(strategyPOList);
+            return teamStrategyMapper.selectCompositeOrStrategy();
+        }
+        return -1L;
     }
-/**
- * @Author: birden
- * @Description: 更新入口
- * @Date: 2018/12/25 23:25
- */
-    public Map<String,Object> insertInstanceStrategy(TeamStrategy teamStrategy) {
-        Map<String,Object> map=new HashMap<>();
-        if (teamStrategy instanceof MemberLimitStrategy)
-        {
+
+    /**
+     * @Author: birden
+     * @Description: 更新入口
+     * @Date: 2018/12/25 23:25
+     */
+    public StrategyPO insertInstanceStrategy(TeamStrategy teamStrategy) {
+        Map<String, Object> map = new HashMap<>();
+        if (teamStrategy instanceof MemberLimitStrategy) {
             insertMemberListStrategy((MemberLimitStrategy) teamStrategy);
-            map.put(sid,((MemberLimitStrategy) teamStrategy).getId());
-            map.put(sn,mls);
-            return map;
-        }
-        else if (teamStrategy instanceof CourseMemberLimitStrategy){
-            insertCourseMemberLimitStrategy((CourseMemberLimitStrategy)teamStrategy);
-            map.put(sid,(CourseMemberLimitStrategy)teamStrategy);
-            map.put(sn,cmls);
-            return map;
-        }
-        else if(teamStrategy instanceof ConflictCourseStrategy){
-            insertConflictCourseStrategy((ConflictCourseStrategy)teamStrategy);
-            map.put(sid,(ConflictCourseStrategy)teamStrategy);
-            map.put(sn,ccs);
-            return map;
-        }
-        else if (teamStrategy instanceof CompositeOrStrategy){
-            map.put(sid,insertCompositeOrStrategy((CompositeOrStrategy)teamStrategy));
-            map.put(sn,cos);
-            return map;
-        }
-        else if (teamStrategy instanceof CompositeAndStrategy){
-            map.put(sid,insertCompositeAndStrategy((CompositeAndStrategy)teamStrategy));
-            map.put(sn,cas);
-            return map;
+            return new StrategyPO(mls, ((MemberLimitStrategy) teamStrategy).getId());
+        } else if (teamStrategy instanceof CourseMemberLimitStrategy) {
+            insertCourseMemberLimitStrategy((CourseMemberLimitStrategy) teamStrategy);
+            return new StrategyPO(cmls, ((CourseMemberLimitStrategy) teamStrategy).getId());
+        } else if (teamStrategy instanceof ConflictCourseStrategy) {
+            return new StrategyPO(ccs, insertConflictCourseStrategy((ConflictCourseStrategy) teamStrategy));
+        } else if (teamStrategy instanceof CompositeOrStrategy) {
+            return new StrategyPO(cos, insertCompositeOrStrategy((CompositeOrStrategy) teamStrategy));
+        } else if (teamStrategy instanceof CompositeAndStrategy) {
+            return new StrategyPO(cas, insertCompositeAndStrategy((CompositeAndStrategy) teamStrategy));
         }
         return null;
+    }
+
+    /**
+     * @Author: birden
+     * @Description:
+     * @Date: 2018/12/26 13:51
+     */
+    public void insertTeamStrategy(Long courseId, Integer strategySerial, TeamStrategy teamStrategy){
+        StrategyPO strategyPO=insertInstanceStrategy(teamStrategy);
+        strategyPO.setStrategySerial(strategySerial);
+        strategyPO.setCourseId(courseId);
+        teamStrategyMapper.insertTeamStrategy(strategyPO);
     }
 }
