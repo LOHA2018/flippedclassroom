@@ -26,4 +26,18 @@ public interface KlassSeminarMapper {
      * @throws Exception
      */
     KlassSeminar selectKlassSeminarByKlassSeminarId(KlassSeminar klassSeminar) throws Exception;
+
+    /**
+     * 向klass_seminar表添加数据，在创建讨论课之后添加相应记录
+     * @param klassSeminar Object
+     * @throws Exception
+     */
+    void insertKlassSeminar(KlassSeminar klassSeminar) throws Exception;
+
+    /**
+     * 修改讨论课状态
+     * @param klassSeminar Object
+     * @throws Exception
+     */
+    void updateKlassSeminarStatus(KlassSeminar klassSeminar) throws Exception;
 }

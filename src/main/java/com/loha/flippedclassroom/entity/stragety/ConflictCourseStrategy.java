@@ -16,30 +16,23 @@ import java.util.List;
 @Getter
 @Setter
 public class ConflictCourseStrategy extends Strategy{
-    private Long id;
-    private Long courseOneId;
-    private Long courseTwoId;
+    private List<Long> courseIds;
 
     @Override
     public boolean checkValid(Team team) {
-        boolean containCourseOne=false;
-        List<Student> students=team.getMember();
-        for(Student student:students){
-            if(student.getCourseIds().contains(courseOneId)){
-                containCourseOne=true;
+        int conflict=0;
+        for(Long courseId:courseIds){
+            for(Student student:team.getMember()){
+                if(student.getCourseIds().contains(courseId)){
+                    conflict++;
+                    if(conflict>=2)
+                    {
+                        return false;
+                    }
+                    break;
+                }
             }
         }
-
-        boolean containCourseTwo=false;
-        for(Student student:students){
-            if(student.getCourseIds().contains(courseTwoId)){
-                containCourseTwo=true;
-            }
-        }
-
-        if(containCourseOne==true&&containCourseTwo==true){
-            return false;
-        }
-        return true;
+       return true;
     }
 }

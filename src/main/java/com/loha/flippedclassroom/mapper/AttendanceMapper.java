@@ -81,4 +81,11 @@ public interface AttendanceMapper {
      * @throws Exception
      */
     void deleteRegisterRecord(Attendance attendance) throws Exception;
+
+    /**
+     * 修改小组展示状态
+     * @param attendance Object
+     * @throws Exception
+     */
+    void updateIsPresent(Attendance attendance) throws Exception;
 }

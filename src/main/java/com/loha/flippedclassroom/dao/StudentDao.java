@@ -115,10 +115,6 @@ public class StudentDao {
         List<Student> studentInTeam= studentMapper.selectStudentInTeamByCourseId(courseId);
         List<Student> studentsInCourse=studentMapper.selectStudentByCourseId(courseId);
 
-        log.info("已经组队的学生");
-        for(Student s1:studentInTeam){
-            log.info(s1.getStudentName());
-        }
 
         List<Student> notInTeam=new LinkedList<>();
         boolean inTeam;
@@ -133,10 +129,6 @@ public class StudentDao {
             if (!inTeam){
                 notInTeam.add(studentOne);
             }
-        }
-        log.info("没组队的学生");
-        for(Student s2:notInTeam){
-            log.info(s2.getStudentName());
         }
         return notInTeam;
     }

@@ -1,7 +1,9 @@
 package com.loha.flippedclassroom.controller;
 
 import com.loha.flippedclassroom.entity.*;
+import com.loha.flippedclassroom.pojo.RoundSettingDTO;
 import com.loha.flippedclassroom.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 教师移动端controller
@@ -21,6 +26,7 @@ import java.text.SimpleDateFormat;
 @Controller
 @RequestMapping(value = "/teacher")
 @SessionAttributes("curTeacherId")
+@Slf4j
 public class TeacherController {
 
     private final TeacherService teacherService;
@@ -233,14 +239,15 @@ public class TeacherController {
     @GetMapping(value = "/seminar")
     public String chooseCourse(@ModelAttribute("curTeacherId")Long teacherId,Model model) throws Exception{
         model.addAttribute("courseList",teacherService.getTeacherCourses(teacherId));
-        return "teacher/chooseCourse";
+        return "teacher/seminar/chooseCourse";
     }
 
     @PostMapping(value = "/seminar/courseSeminar")
     public String getCourseSeminar(Long courseId,Model model) throws Exception{
         model.addAttribute("roundAndSeminarList",studentService.getRoundAndSeminars(courseId));
         model.addAttribute("klassList",studentService.getKlassByCourseId(courseId));
-        return "teacher/courseSeminarPage";
+        model.addAttribute("courseId",courseId);
+        return "teacher/seminar/courseSeminarPage";
     }
 
     @PostMapping(value = "/seminar/info")
@@ -251,12 +258,127 @@ public class TeacherController {
         model.addAttribute("status",status);
         model.addAttribute("seminar",seminar);
         model.addAttribute("round",teacherService.getRoundById(seminar.getRoundId()));
-        return "teacher/seminarStatus";
+        return "teacher/seminar/seminarStatus";
     }
 
+    //正在进行的讨论课，还没渲染页面,报名列表为空应该抛出异常
+    @GetMapping(value = "/seminar/info/progressing")
+    public String enterSeminar(Long klassId,Long seminarId,Model model) throws Exception{
+        model.addAttribute("klassSeminarId",studentService.getKlassSeminar(klassId,seminarId).getId());
+        model.addAttribute("enrollList",teamService.getEnrollList(klassId, seminarId));
+        return "teacher/seminar/underwaySeminar";
+    }
 
+    @PostMapping(value = "/seminar/info/start")
+    @ResponseBody
+    public ResponseEntity startSeminar(Long klassId,Long seminarId) throws Exception{
+        KlassSeminar klassSeminar=new KlassSeminar();
+        klassSeminar.setKlassId(klassId);
+        klassSeminar.setSeminarId(seminarId);
+        klassSeminar.setStatus(1);
+        teacherService.updateKlassSeminarStatus(klassSeminar);
 
+        List<Attendance> attendanceList=teamService.getEnrollList(klassId, seminarId);
+        for(Attendance attendance:attendanceList){
+            if(attendance.getId()!=null){
+                attendance.setIsPresent(1);
+                teacherService.updateIsPresentStatus(attendance);
+                break;
+            }
+        }
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
 
+    @PostMapping(value = "/seminar/info/registerInfo")
+    public String getRegisterTeamPpt(Long klassId,Long seminarId,Model model) throws Exception{
+        model.addAttribute("klass",studentService.getKlassById(klassId));
+        model.addAttribute("enrollList",teamService.getEnrollList(klassId,seminarId));
+        return "teacher/seminar/enrollListPPT";
+    }
 
+    @PostMapping(value = "/seminar/info/registerInfo/download")
+    @ResponseBody
+    public ResponseEntity downloadPowerPoint(Long attendanceId, HttpServletResponse httpServletResponse) throws Exception{
+        fileService.teamDownloadPowerPoint(httpServletResponse,attendanceId);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+    //某一次讨论课的成绩页面，还没有渲染页面
+    @PostMapping(value = "/seminar/info/score")
+    public String seminarScoreInfo(Long klassId,Long seminarId,Model model) throws Exception{
+        model.addAttribute("klass",studentService.getKlassById(klassId));
+        model.addAttribute("scoreList",teacherService.getAllTeamOneSeminarScore(klassId, seminarId));
+        return "teacher/seminar/oneSeminarScore";
+    }
+
+    @PostMapping(value = "seminar/courseSeminar/roundSetting")
+    public String roundSettingPage(Long roundId,Long courseId,Model model)throws Exception{
+        model.addAttribute("round",studentService.getRoundById(roundId));
+        model.addAttribute("klassList",studentService.getKlassByCourseId(courseId));
+        return "teacher/roundSetting";
+    }
+
+    @PostMapping(value = "seminar/courseSeminar/roundSetting/modify")
+    @ResponseBody
+    public ResponseEntity modifyRoundSetting(@RequestBody RoundSettingDTO roundSettingDTO) throws Exception{
+        Round round=new Round();
+        round.setId(roundSettingDTO.getRoundId());
+        round.setPreScoreMethod(roundSettingDTO.getPresentationMethod());
+        round.setQuestionScoreMethod(roundSettingDTO.getQuestionMethod());
+        round.setReportScoreMethod(roundSettingDTO.getReportMethod());
+
+        teacherService.modifyRoundScoreMethod(round);
+        teacherService.modifyKlassStudent(roundSettingDTO.getMap(),roundSettingDTO.getRoundId());
+
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/seminar/create")
+    public String createSeminarPage(Long courseId,Model model) throws Exception{
+        model.addAttribute("courseId",courseId);
+        model.addAttribute("roundList",teacherService.getRoundAndSeminar(courseId));
+        return "teacher/seminar/createSeminar";
+    }
+
+    //修改讨论课页面，修改功能还未实现
+    @PostMapping(value = "/seminar/info/modify")
+    public String modifySeminarPage(Long courseId,Long seminarId,Model model) throws Exception{
+        model.addAttribute("seminar",teacherService.getSeminarById(seminarId));
+        model.addAttribute("roundList",teacherService.getRoundAndSeminar(courseId));
+        model.addAttribute("klassList",studentService.getKlassByCourseId(courseId));
+        return "teacher/seminar/modifySeminar";
+    }
+
+    @PutMapping(value = "/seminar/create")
+    @ResponseBody
+    public ResponseEntity createSeminar(@RequestBody Map<String,String> map) throws Exception{
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Seminar seminar=new Seminar();
+        seminar.setCourseId(Long.parseLong(map.get("courseId")));
+        //roundID=-1还要创建轮
+        seminar.setRoundId(Long.parseLong(map.get("roundId")));
+        seminar.setSeminarName(map.get("seminarName"));
+        seminar.setIntroduction(map.get("introduction"));
+        seminar.setTeamLimit(Integer.parseInt(map.get("teamLimit")));
+        if(map.get("isVisible").equals("0")){
+            seminar.setVisible(false);
+        }
+        else {
+            seminar.setVisible(true);
+        }
+        seminar.setSeminarSerial(Integer.parseInt(map.get("seminarSerial")));
+        seminar.setEnrollStartTime(sdf.parse(map.get("enrollStartTime")));
+        seminar.setEnrollEndTime(sdf.parse(map.get("enrollEndTime")));
+        teacherService.newSeminar(seminar);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+    //书面报告打分页面，没渲染页面
+    @PostMapping(value = "/seminar/info/report")
+    public String getTeamReport(Long klassId,Long seminarId,Model model) throws Exception{
+        model.addAttribute("enrollList",teamService.getEnrollList(klassId,seminarId));
+        model.addAttribute("klass",studentService.getKlassById(klassId));
+        return "teacher/seminar/teamReport";
+    }
 
 }

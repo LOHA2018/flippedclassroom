@@ -167,6 +167,17 @@ public class StudentController {
         }
     }
 
+    @PostMapping(value = "/seminar/progressing")
+    public String enterSeminar(@ModelAttribute("curStudentId") Long studentId,Long klassId,Long courseId,Long seminarId,Model model) throws Exception{
+        Long teamId=studentService.getMyTeamUnderCourse(courseId,studentId).getId();
+        model.addAttribute("myTeamId",teamId);
+        model.addAttribute("studentId",studentId);
+        model.addAttribute("seminar",studentService.getSeminarById(seminarId));
+        model.addAttribute("enrollList",teamService.getEnrollList(klassId,seminarId));
+        model.addAttribute("klassSeminarId",studentService.getKlassSeminar(klassId, seminarId).getId());
+        return "student/seminar/presentation";
+    }
+
     @PostMapping(value = "/seminar/enrollList")
     public String getEnrollListPage(@ModelAttribute("curStudentId") Long studentId,Long klassId,Long courseId,Long seminarId,Model model) throws Exception{
         Klass klass=studentService.getKlassById(klassId);
@@ -268,6 +279,7 @@ public class StudentController {
     public String getMyTeamInfoPage(@ModelAttribute("curStudentId") Long studentId,Long teamId,Long courseId,Model model)throws Exception{
         Team team=teamService.getMyTeamUnderCourse(teamId);
         model.addAttribute("team",team);
+        model.addAttribute("courseId",courseId);
         if(team.getLeader().getId().equals(studentId)){
             model.addAttribute("studentList",teamService.getStudentsNotInTeamByCourseId(courseId));
             return "student/team/myTeamInfoLeader";
@@ -280,21 +292,21 @@ public class StudentController {
 
     @DeleteMapping(value = "/course/team/myteam/{id}")
     @ResponseBody
-    public ResponseEntity deleteMember(@PathVariable("id") Long studentId,@RequestParam("teamId") Long teamId) throws Exception{
+    public ResponseEntity deleteMember(@PathVariable("id") Long studentId,@RequestParam("teamId") Long teamId,@RequestParam("courseId") Long courseId) throws Exception{
         Map<String,Long> map=new HashMap<>();
         map.put("teamId",teamId);
         map.put("studentId",studentId);
-        teamService.deleteStudentInTeam(map);
+        teamService.deleteStudentInTeam(map,courseId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @PutMapping(value = "/course/team/myteam/{id}")
     @ResponseBody
-    public ResponseEntity addMember(@PathVariable("id") Long studentId,@RequestParam("teamId") Long teamId) throws Exception{
+    public ResponseEntity addMember(@PathVariable("id") Long studentId,@RequestParam("teamId") Long teamId,@RequestParam("courseId") Long courseId) throws Exception{
         Map<String,Long> map=new HashMap<>();
         map.put("studentId",studentId);
         map.put("teamId",teamId);
-        teamService.addStudentInTeam(map);
+        teamService.addStudentInTeam(map,courseId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 

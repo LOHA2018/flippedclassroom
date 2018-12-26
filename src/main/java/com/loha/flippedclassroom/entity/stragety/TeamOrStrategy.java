@@ -4,6 +4,8 @@ import com.loha.flippedclassroom.entity.Team;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * 或策略
  *
@@ -13,17 +15,16 @@ import lombok.Setter;
 @Setter
 @Getter
 public class TeamOrStrategy extends Strategy{
-    private Long id;
-    private String strategyOneName;
-    private Long strategyOneId;
-    private String strategyTwoName;
-    private Long strategyTwoId;
-
-    private Strategy strategyOne;
-    private Strategy strategyTwo;
+    List<StrategyInfo> strategyInfos;
+    List<Strategy> strategies;
 
     @Override
     public boolean checkValid(Team team) {
-        return strategyOne.checkValid(team)||strategyTwo.checkValid(team);
+        for (Strategy strategy:strategies){
+            if(strategy.checkValid(team)){
+                return true;
+            }
+        }
+        return false;
     }
 }

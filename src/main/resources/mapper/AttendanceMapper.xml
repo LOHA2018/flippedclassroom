@@ -59,5 +59,10 @@
         where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}
     </delete>
 
+    <update id="updateIsPresent" parameterType="Attendance">
+        update attendance
+        set is_present=#{isPresent}
+        where id=#{id}
+    </update>
 
 </mapper>

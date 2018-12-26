@@ -8,6 +8,7 @@ import com.loha.flippedclassroom.entity.*;
 import com.loha.flippedclassroom.entity.stragety.Strategy;
 import com.loha.flippedclassroom.entity.stragety.TeamStrategy;
 import com.loha.flippedclassroom.util.SortEnrollList;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ import java.util.Map;
  * @date 2018/12/16
  */
 @Service
+@Slf4j
 public class TeamService {
 
     private final TeamDao teamDao;
@@ -110,17 +112,20 @@ public class TeamService {
         return SortEnrollList.sort(enrollList,teamLimit);
     }
 
+
     /**
      * 判断某个队伍是否符合策略模式
      */
     public boolean teamIsValid(Long teamId,Long courseId) throws Exception{
         //先用team的id查出team对象
-        Team team=null;
+        Team team=teamDao.getTeamAndMembers(teamId);
 
         //某个班的策略
         Strategy strategy=strategyDao.getCourseStrategy(courseId);
 
-        TeamStrategy teamStrategy=new TeamStrategy(strategy);
+        TeamStrategy teamStrategy=new TeamStrategy();
+        teamStrategy.setStrategy(strategy);
+
         return teamStrategy.checkValid(team);
     }
 
@@ -177,15 +182,22 @@ public class TeamService {
     /**
      * 删除队伍中的一个学生
      */
-    public void deleteStudentInTeam(Map<String,Long> map) throws Exception{
+    public void deleteStudentInTeam(Map<String,Long> map,Long courseId) throws Exception{
         teamDao.deleteStudentInTeam(map);
+
+        boolean isValid=teamIsValid(map.get("teamId"),courseId);
+        log.info("是否合法？"+isValid);
+
     }
 
     /**
      * 添加队伍中的一个学生
      */
-    public void addStudentInTeam(Map<String,Long> map) throws Exception{
+    public void addStudentInTeam(Map<String,Long> map,Long courseId) throws Exception{
         teamDao.addStudentInTeam(map);
+
+        boolean isValid=teamIsValid(map.get("teamId"),courseId);
+        log.info("是否合法？"+isValid);
     }
 
     /**

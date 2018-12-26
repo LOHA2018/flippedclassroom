@@ -202,7 +202,8 @@
                 url: "/student/course/team/myteam/" + memberId,
                 method: "delete",
                 data: {
-                    "teamId": ${team.id}
+                    "teamId": ${team.id},
+                    "courseId":${courseId}
                 },
                 success: function () {
                     alert("删除成功");
@@ -243,7 +244,8 @@
             url: "/student/course/team/myteam/"+studentId,
             method: "put",
             data: {
-                "teamId":${team.id}
+                "teamId":${team.id},
+                "courseId":${courseId}
             },
             success: function () {
                 alert("添加成功");

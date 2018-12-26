@@ -39,6 +39,13 @@ public class TeamDao {
     }
 
     /**
+     * 修改小组展示状态
+     */
+    public void updateIsPresentStatus(Attendance attendance) throws Exception{
+        attendanceMapper.updateIsPresent(attendance);
+    }
+
+   /**
      * 根据teamId和klassSeminarId从attendance表取出相应记录，可能为空
      */
     public Attendance attendSeminar(Long teamId,Long klassSeminarId) throws Exception{
@@ -194,4 +201,5 @@ public class TeamDao {
          teamMapper.insertOneTeam(team);
          return team.getId();
     }
+
 }

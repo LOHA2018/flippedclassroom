@@ -1,11 +1,11 @@
 package com.loha.flippedclassroom.dao;
 
-import com.loha.flippedclassroom.entity.stragety.Strategy;
-import com.loha.flippedclassroom.entity.stragety.TeamAndStrategy;
-import com.loha.flippedclassroom.entity.stragety.TeamOrStrategy;
-import com.loha.flippedclassroom.entity.stragety.TeamStrategy;
+import com.loha.flippedclassroom.entity.stragety.*;
 import com.loha.flippedclassroom.mapper.StrategyMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 与策略相关的dao
@@ -23,20 +23,29 @@ public class StrategyDao {
 
     private Strategy findStrategyByTableName(String strategyTableName, Long strategyId) throws Exception {
         switch (strategyTableName) {
-            case "team_and_strategy": {
-                return strategyMapper.selectTeamAndStrategyById(strategyId);
+            case "TeamAndStrategy": {
+                List<StrategyInfo> strategyInfos=strategyMapper.selectTeamAndStrategy(strategyId);
+                TeamAndStrategy teamAndStrategy=new TeamAndStrategy();
+                teamAndStrategy.setStrategyInfos(strategyInfos);
+                return teamAndStrategy;
             }
-            case "team_or_strategy": {
-                return strategyMapper.selectTeamOrStrategyById(strategyId);
+            case "TeamOrStrategy": {
+                List<StrategyInfo> strategyInfos=strategyMapper.selectTeamOrStrategy(strategyId);
+                TeamOrStrategy teamOrStrategy=new TeamOrStrategy();
+                teamOrStrategy.setStrategyInfos(strategyInfos);
+                return teamOrStrategy;
             }
-            case "course_member_limit_strategy": {
+            case "CourseMemberLimitStrategy": {
                 return strategyMapper.selectCourseMemberLimitStrategyById(strategyId);
             }
-            case "member_limit_strategy": {
+            case "MemberLimitStrategy": {
                 return strategyMapper.selectMemberLimitStrategyById(strategyId);
             }
-            case "conflict_course_strategy": {
-                return strategyMapper.selectConflictCourseStrategyById(strategyId);
+            case "ConflictCourseStrategy": {
+                List<Long> courseIds=strategyMapper.selectConflictCourseId(strategyId);
+                ConflictCourseStrategy conflictCourseStrategy=new ConflictCourseStrategy();
+                conflictCourseStrategy.setCourseIds(courseIds);
+                return conflictCourseStrategy;
             }
             default:
                 return null;
@@ -44,56 +53,41 @@ public class StrategyDao {
     }
 
     private void setSubStrategy(Strategy strategy) throws Exception {
-        //两个子策略
-        Strategy strategyOne;
-        Strategy strategyTwo;
+        //子策略列表
+        List<Strategy> strategies=new LinkedList<>();
+        List<StrategyInfo> strategyInfos;
+        Strategy subStrategy;
 
-        if (strategy instanceof TeamAndStrategy) {
-            TeamAndStrategy teamAndStrategy = (TeamAndStrategy) strategy;
-
-            String strategyOneName = teamAndStrategy.getStrategyOneName();
-            Long strategyOneId = teamAndStrategy.getStrategyOneId();
-
-            strategyOne = findStrategyByTableName(strategyOneName, strategyOneId);
-            if (strategyOne instanceof TeamAndStrategy || strategyOne instanceof TeamOrStrategy) {
-                setSubStrategy(strategyOne);
+        if(strategy instanceof TeamAndStrategy){
+            strategyInfos=((TeamAndStrategy) strategy).getStrategyInfos();
+            for (StrategyInfo strategyInfo:strategyInfos){
+                subStrategy=findStrategyByTableName(strategyInfo.getStrategyName(),strategyInfo.getStrategyId());
+                if(subStrategy instanceof TeamAndStrategy||subStrategy instanceof TeamOrStrategy){
+                    setSubStrategy(subStrategy);
+                }
+                strategies.add(subStrategy);
             }
-            ((TeamAndStrategy) strategy).setStrategyOne(strategyOne);
-
-
-            String strategyTwoName = teamAndStrategy.getStrategyTwoName();
-            Long strategyTwoId = teamAndStrategy.getStrategyTwoId();
-            strategyTwo = findStrategyByTableName(strategyTwoName, strategyTwoId);
-            if (strategyTwo instanceof TeamAndStrategy || strategyTwo instanceof TeamOrStrategy) {
-                setSubStrategy(strategyTwo);
-            }
-            ((TeamAndStrategy) strategy).setStrategyTwo(strategyTwo);
-
+            ((TeamAndStrategy) strategy).setStrategies(strategies);
+            return;
         }
 
 
-        if (strategy instanceof TeamOrStrategy) {
-            TeamOrStrategy teamOrStrategy = (TeamOrStrategy) strategy;
-
-            String strategyOneName = teamOrStrategy.getStrategyOneName();
-            Long strategyOneId = teamOrStrategy.getStrategyOneId();
-
-            strategyOne = findStrategyByTableName(strategyOneName, strategyOneId);
-            if (strategyOne instanceof TeamAndStrategy || strategyOne instanceof TeamOrStrategy) {
-                setSubStrategy(strategyOne);
+        if(strategy instanceof TeamOrStrategy){
+            strategyInfos=((TeamOrStrategy) strategy).getStrategyInfos();
+            for (StrategyInfo strategyInfo:strategyInfos){
+                subStrategy=findStrategyByTableName(strategyInfo.getStrategyName(),strategyInfo.getStrategyId());
+                if(subStrategy instanceof TeamAndStrategy||subStrategy instanceof TeamOrStrategy){
+                    setSubStrategy(subStrategy);
+                }
+                strategies.add(subStrategy);
             }
-            ((TeamOrStrategy) strategy).setStrategyOne(strategyOne);
-
-
-            String strategyTwoName = teamOrStrategy.getStrategyTwoName();
-            Long strategyTwoId = teamOrStrategy.getStrategyTwoId();
-
-            strategyTwo = findStrategyByTableName(strategyTwoName, strategyTwoId);
-            if (strategyTwo instanceof TeamAndStrategy || strategyTwo instanceof TeamOrStrategy) {
-                setSubStrategy(strategyTwo);
-            }
-            ((TeamOrStrategy) strategy).setStrategyTwo(strategyTwo);
+            ((TeamOrStrategy) strategy).setStrategies(strategies);
+            return;
         }
+
+
+
+
     }
 
     /**

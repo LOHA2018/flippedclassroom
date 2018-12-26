@@ -21,4 +21,18 @@
         select * from round where id=#{value}
     </select>
 
+    <update id="updateScoreMethodById" parameterType="Round">
+        update round set
+        presentation_score_method=#{preScoreMethod},
+        report_score_method=#{reportScoreMethod},
+        question_score_method=#{questionScoreMethod}
+        where id=#{id}
+    </update>
+
+    <update id="updateKlassRound" parameterType="Map">
+        update klass_round
+        set enroll_number=#{enrollNumber}
+        where klass_id=#{klassId} and round_id=#{roundId}
+    </update>
+
 </mapper>

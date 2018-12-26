@@ -28,6 +28,8 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
+
+
 </head>
 
 
@@ -42,9 +44,7 @@
             <div class="container">
                 <div class="">
                     <div class="pull-left">
-                        <form action="/student/seminar" method="post">
-                            <input type="hidden" name="klassId" value="${klass.id}">
-                            <input type="hidden" name="courseId" value="${seminar.courseId}">
+                        <form action="/student/course/seminarList" method="get">
                             <button class="button-menu-mobile">
                                 <div class="glyphicon glyphicon-menu-left"></div>
                             </button>
@@ -52,7 +52,7 @@
                     </div>
                     <div class="pull-left">
                         <div class="button-menu-mobile">
-                        ${klass.course.courseName}—讨论课
+                            ${seminar.course.courseName}-讨论课
                         </div>
                     </div>
                     <ul class="nav navbar-nav navbar-right pull-right">
@@ -60,9 +60,9 @@
                             <a href="" class="dropdown-toggle profile" data-toggle="dropdown" aria-expanded="true"><img
                                     src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
-                                <li><a href="/student/index"><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
-                                <li><a href="/student/chooseCourse"><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a>
-                                </li>
+                                <li><a><h4><i class="md md-info"></i>&nbsp;待办</h4></a></li>
+                                <li><a href="/teacher/index"><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
+                                <li><a href="/teacher/seminar"><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -105,59 +105,102 @@
                                 <tr>
                                     <td><p>要求：${seminar.introduction}</p></td>
                                 </tr>
+
+
                                 <tr>
                                     <td>
-                                        <p>报名：${klass.grade}—(${klass.klassSerial}) 第${attendance.teamOrder}组</p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td><p>课程情况：正在进行</p>
+                                        <#if status==0>
+                                        <p>课程情况:未开始
+                                            <#elseif status==1>
+                                        <p>课程情况:正在进行
+                                        <#else >
+                                        <p>课程情况:已完成
+                                        </#if>
+
                                         <form action="/student/seminar/info/registerInfo" method="post">
-                                            <input type="hidden" name="klassId" value=${klass.id}>
+                                            <input type="hidden" name="klassId" value=${klassId}>
                                             <input type="hidden" name="seminarId" value=${seminar.id}>
-                                            <button class="md-trigger btn btn-primary waves-effect waves-light pull-right"
-                                                    type="submit">
+                                            <button class="md-trigger btn btn-primary waves-effect waves-light pull-right">
                                                 报名情况
                                             </button>
                                         </form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="col-xs-6 col-sm-6"> PPT：<#if attendance.pptName??>已提交<#else>未提交</#if></div>
-                                        <div class="col-xs-6 col-sm-6">
-                                    <#if attendance.pptName??>
-                                        ${attendance.pptName}
-                                    </#if></div>
+                                        </p>
+
+
                                     </td>
                                 </tr>
 
+
                                 <tr>
                                     <td>
-                                        <div class="col-xs-6 col-sm-6"><input id="file" type="file" name="file"></div>
-
-                                        <div class="col-xs-6 col-sm-6">
-                                            <button id="submitPPT"
-                                                    class="md-trigger btn btn-default waves-effect waves-light pull-right no-border"
-                                                    onclick="submitFile()">
-                                                PPT提交
-                                            </button>
-                                        </div>
+                                        <p>报名开始时间：${seminar.enrollStartTime?datetime}</p>
+                                        <p>报名截止时间：${seminar.enrollEndTime?datetime}</p>
                                     </td>
-
                                 </tr>
+
+
+                                <#if status==0>
+                                    <tr>
+                                        <td>
+                                                <button class="btn btn-lg btn-default btn-block waves-effect waves-light " onclick="startSeminar()">
+                                                    开始讨论课
+                                                </button>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <form action="/teacher/seminar/info/modify" method="post">
+                                                <input type="hidden" name="seminarId" value=${seminar.id}>
+                                                <input type="hidden" name="courseId" value=${seminar.courseId}>
+                                                <button class="btn btn-lg btn-default btn-block waves-effect waves-light ">
+                                                    修改讨论课
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+
+                                    <#elseif status==1>
+                                    <tr>
+                                        <td>
+                                            <form action="/teacher/seminar/info/progressing" method="get">
+                                                <input type="hidden" name="seminarId" value=${seminar.id}>
+                                                <input type="hidden" name="klassId" value=${klassId}>
+                                                <button class="btn btn-lg btn-default btn-block waves-effect waves-light ">
+                                                    进入讨论课
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                <#else >
                                 <tr>
                                     <td>
-                                        <form action="/student/seminar/progressing" method="post">
+                                        <form action="/teacher/seminar/info/report" method="post">
                                             <input type="hidden" name="seminarId" value=${seminar.id}>
-                                            <input type="hidden" name="klassId" value=${klass.id}>
-                                            <input type="hidden" name="courseId" value=${klass.courseId}>
+                                            <input type="hidden" name="klassId" value=${klassId}>
                                             <button class="btn btn-lg btn-default btn-block waves-effect waves-light ">
-                                                进入讨论课
+                                                书面报告
                                             </button>
                                         </form>
                                     </td>
                                 </tr>
+
+                                <tr>
+                                    <td>
+                                        <form action="/teacher/seminar/info/score" method="post">
+                                            <input type="hidden" name="seminarId" value=${seminar.id}>
+                                            <input type="hidden" name="klassId" value=${klassId}>
+                                            <button class="btn btn-lg btn-default btn-block waves-effect waves-light ">
+                                                查看成绩
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                </#if>
+
+
+
+
                                 </tbody>
                             </table>
                         </div>
@@ -178,35 +221,24 @@
 <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
+
 <script>
-    function submitFile() {
-        var fileObj = document.getElementById("file").files[0];
-
-        if (!fileObj) {
-            alert("请选择文件!");
-            return false;
-        }
-        else {
-
-
-            var formData = new FormData();
-
-            formData.append('file', fileObj);
-            formData.append('attendanceId', ${attendance.id});
-
-
+    function startSeminar() {
+        var msg=confirm("确认开始讨论课?");
+        if(msg==true)
+        {
             $.ajax({
-                url: "/student/seminar/info/submitppt",
-                type: "POST",
-                data: formData,
-                cache: false,
-                processData: false,
-                contentType: false,
-                success: function (data, status) {
-                    alert("提交成功");
+                url:"/teacher/seminar/info/start",
+                method:"post",
+                data:{
+                    "klassId":${klassId},
+                    "seminarId":${seminar.id}
                 },
-                error: function (data, status) {
-                    alert("提交失败");
+                success:function () {
+                    window.location.href="/teacher/seminar/info/progressing?klassId=${klassId}&seminarId=${seminar.id}";
+                },
+                error:function () {
+                    alert("请求失败");
                 }
             });
         }

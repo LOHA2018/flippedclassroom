@@ -124,7 +124,11 @@
                                                         <a data-toggle="collapse" data-parent="#accordion-test1"
                                                            href="#seminar${seminarScoreList.seminar.id}"
                                                            class="collapsed">
-                                                            <label>${seminarScoreList.seminar.seminarName} 本次总成绩:${seminarScoreList.totalScore}</label>
+                                                            <label>${seminarScoreList.seminar.seminarName}
+                                                                <#if seminarScoreList.totalScore??>
+                                                                本次总成绩:${seminarScoreList.totalScore}
+                                                                </#if>
+                                                            </label>
                                                         </a>
                                                     </h4>
                                                 </div>
@@ -134,12 +138,19 @@
 
                                                     <div class="panel-body">
                                                         <div class="row">
+                                                            <#if seminarScoreList.presentationScore??>
                                                             <div class="col-xs-4 col-md-1.3">
                                                                 展示:${seminarScoreList.presentationScore}</div>
+                                                            </#if>
+
+                                             <#if seminarScoreList.questionScore??>
                                                             <div class="col-xs-4 col-md-1.3">
                                                                 提问:${seminarScoreList.questionScore}</div>
+                                             </#if>
+                                             <#if seminarScoreList.reportScore??>
                                                             <div class="col-xs-4 col-md-1.3">
                                                                 报告:${seminarScoreList.reportScore}</div>
+                                             </#if>
                                                         </div>
 
                                                     </div>

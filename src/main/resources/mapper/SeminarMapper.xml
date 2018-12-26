@@ -16,12 +16,20 @@
     </resultMap>
 
     <select id="selectSeminarByRoundId" parameterType="Long" resultMap="seminarMap">
-        select * from seminar where round_id=#{value}
+        select * from seminar where round_id=#{value} and is_visible=true
     </select>
 
     <select id="selectSeminarById" parameterType="Long" resultMap="seminarMap">
         select * from seminar where id=#{value}
     </select>
+
+    <insert id="insertSeminar" parameterType="Seminar">
+        <selectKey keyProperty="id" order="AFTER" resultType="Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into seminar(course_id,round_id,seminar_name,introduction,max_team,is_visible,seminar_serial,enroll_start_time,enroll_end_time)
+        values (#{courseId},#{roundId},#{seminarName},#{introduction},#{teamLimit},#{isVisible},#{seminarSerial},#{enrollStartTime},#{enrollEndTime})
+    </insert>
 
 
 </mapper>

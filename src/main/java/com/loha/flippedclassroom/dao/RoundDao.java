@@ -5,6 +5,7 @@ import com.loha.flippedclassroom.mapper.RoundMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 与轮相关的dao
@@ -33,5 +34,19 @@ public class RoundDao {
      */
     public List<Round> getRoundAndSeminar(Long courseId) throws Exception{
         return roundMapper.selectRoundByCourseId(courseId);
+    }
+
+    /**
+     * 根据轮id修改轮的成绩计算方法
+     */
+    public void modifyRoundScoreMethod(Round round) throws Exception{
+        roundMapper.updateScoreMethodById(round);
+    }
+
+    /**
+     * 根据klass_round表
+     */
+    public void modifyKlassRound(Map<String,Long> map) throws Exception{
+        roundMapper.updateKlassRound(map);
     }
 }

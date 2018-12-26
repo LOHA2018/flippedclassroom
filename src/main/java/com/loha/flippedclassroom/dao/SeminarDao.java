@@ -44,4 +44,23 @@ public class SeminarDao {
     public Seminar getSeminarById(Long seminarId) throws Exception{
         return seminarMapper.selectSeminarById(seminarId);
     }
+
+    /**
+     * 新建讨论课
+     */
+    public Long insertSeminar(Seminar seminar) throws Exception{
+        seminarMapper.insertSeminar(seminar);
+        return seminar.getId();
+    }
+
+    /**
+     * 新建讨论课之后向klass_seminar表中插入相应记录
+     */
+    public void insertKlassSeminar(KlassSeminar klassSeminar) throws Exception{
+        klassSeminarMapper.insertKlassSeminar(klassSeminar);
+    }
+
+    public void updateKlassSeminarStatus(KlassSeminar klassSeminar) throws Exception{
+        klassSeminarMapper.updateKlassSeminarStatus(klassSeminar);
+    }
 }

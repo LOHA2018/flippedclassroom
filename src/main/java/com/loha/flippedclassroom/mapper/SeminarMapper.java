@@ -29,4 +29,11 @@ public interface SeminarMapper {
      * @throws Exception
      */
     Seminar selectSeminarByRoundId(Long roundId) throws Exception;
+
+    /**
+     * 新建讨论课
+     * @param seminar Object
+     * @throws Exception
+     */
+    void insertSeminar(Seminar seminar) throws Exception;
 }
