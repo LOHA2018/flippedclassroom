@@ -35,7 +35,28 @@ public class TeamStrategyDao {
     final String sn = "strategyName";
     final String sid = "strategyId";
 
-    public List<TeamStrategy> getTeamStrategyByTeamId(Long teamId) throws Exception {
+    /**
+     * @Author: birden
+     * @Description: 策略及序號
+     * @Date: 2018/12/27 16:54
+     */
+    public List<Map<String, Object>> getTeamStrategyByCourseId(Long courseId) {
+        List<Map<String, Object>> mapList = teamStrategyMapper.getTeamStrategy(courseId);
+        if (mapList == null) {
+            return null;
+        }
+        for (Map<String, Object> map : mapList) {
+            map.put("strategy", instantiateStrategy(map));
+        }
+        return mapList;
+    }
+    
+    /**
+     * @Author: birden
+     * @Description: 通过teamid直接找到策略
+     * @Date: 2018/12/27 16:54
+     */
+    public List<Map<String,Object>> getTeamStrategyByTeamId(Long teamId) throws Exception {
         Team team = teamMapper.selectTeamById(teamId);
         return getTeamStrategyByCourseId(team.getCourseId());
     }
@@ -45,17 +66,17 @@ public class TeamStrategyDao {
      * @Description: 获取课程下组队策略
      * @Date: 2018/12/25 13:23
      */
-    public List<TeamStrategy> getTeamStrategyByCourseId(Long courseId) {
-        List<Map<String, Object>> mapList = teamStrategyMapper.getTeamStrategy(courseId);
-        if (mapList == null) {
-            return null;
-        }
-        List<TeamStrategy> teamStrategyList = new ArrayList<>();
-        for (Map<String, Object> map : mapList) {
-            teamStrategyList.add(instantiateStrategy(map));
-        }
-        return teamStrategyList;
-    }
+//    public List<TeamStrategy> getTeamStrategyByCourseId(Long courseId) {
+//        List<Map<String, Object>> mapList = teamStrategyMapper.getTeamStrategy(courseId);
+//        if (mapList == null) {
+//            return null;
+//        }
+//        List<TeamStrategy> teamStrategyList = new ArrayList<>();
+//        for (Map<String, Object> map : mapList) {
+//            teamStrategyList.add(instantiateStrategy(map));
+//        }
+//        return teamStrategyList;
+//    }
 
     /**
      * @Author: birden

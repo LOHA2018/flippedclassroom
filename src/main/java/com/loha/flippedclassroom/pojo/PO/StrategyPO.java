@@ -17,7 +17,7 @@ public class StrategyPO {
         this.strategyName=strategyName;
         this.strategyId=strategyId;
     }
-
+    
     public Long getId() {
         return id;
     }

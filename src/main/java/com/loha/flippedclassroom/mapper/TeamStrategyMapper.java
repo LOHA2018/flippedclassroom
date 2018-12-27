@@ -1,9 +1,6 @@
 package com.loha.flippedclassroom.mapper;
 
-import com.loha.flippedclassroom.entity.teamstrategy.ConflictCourseStrategy;
-import com.loha.flippedclassroom.entity.teamstrategy.ConflictCourseSubStrategy;
-import com.loha.flippedclassroom.entity.teamstrategy.CourseMemberLimitStrategy;
-import com.loha.flippedclassroom.entity.teamstrategy.MemberLimitStrategy;
+import com.loha.flippedclassroom.entity.teamstrategy.*;
 import com.loha.flippedclassroom.pojo.PO.StrategyPO;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +24,15 @@ public interface TeamStrategyMapper {
      */
     List<Map<String, Object>> getTeamStrategy(Long id);
 
+    /**
+     *fetch data by 
+     *
+     * @param
+     * @return
+     * @throws Exception
+     */
+//    Map<String,Object> getTeamStrategyByCourseIdAndSerial(Long courseId, Long serial);
+    
     /**
      * fetch data by
      *

@@ -29,8 +29,8 @@ public class FlippedclassroomApplicationTests {
     @Test
     public void contextLoads() {
         try {
-            scoreService.calculateRoundScore(10L);
-
+//            scoreService.calculateRoundScore(10L);
+                teamService.getTeamStrategy(16L);
 
 //            CompositeAndStrategy cas = new CompositeAndStrategy();
 //            MemberLimitStrategy mls = new MemberLimitStrategy();

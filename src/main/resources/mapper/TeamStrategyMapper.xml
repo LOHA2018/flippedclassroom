@@ -5,7 +5,7 @@
         <id property="id" column="id"/>
         <result property="courseId" column="courseId"/>
         <collection property="courseStudentList" javaType="ArrayList" column="courseId" ofType="Long"
-                    select="selectStudentId" fetchType="eager"/>
+                    select="selectStudentId"/>
     </resultMap>
 
     <resultMap id="courseMemberLimitResultMap" type="CourseMemberLimitStrategy">
@@ -14,7 +14,7 @@
         <result property="minMember" javaType="Integer" column="minMember"/>
         <result property="maxMember" javaType="Integer" column="maxMember"/>
         <collection property="courseStudentList" javaType="ArrayList" column="courseId" ofType="Long"
-                    select="selectStudentId" fetchType="eager"/>
+                    select="selectStudentId"/>
     </resultMap>
 
     <select id="getMemberLimitStrategy" resultType="MemberLimitStrategy">
