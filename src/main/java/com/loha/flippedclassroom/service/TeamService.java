@@ -3,13 +3,14 @@ package com.loha.flippedclassroom.service;
 import com.loha.flippedclassroom.dao.TeamDao;
 import com.loha.flippedclassroom.dao.TeamStrategyDao;
 import com.loha.flippedclassroom.entity.Team;
-import com.loha.flippedclassroom.entity.teamstrategy.CompositeAndStrategy;
-import com.loha.flippedclassroom.entity.teamstrategy.TeamStrategy;
+import com.loha.flippedclassroom.entity.teamstrategy.*;
 import com.loha.flippedclassroom.mapper.TeamMapper;
+import com.loha.flippedclassroom.pojo.PO.StrategyPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: birden
@@ -54,8 +55,23 @@ public class TeamService {
      * @Description: 创建组队策略
      * @Date: 2018/12/25 21:39
      */
-    public void fundamentalLimitStrategy(CompositeAndStrategy cas)
+    public void createFundamentalStrategy(Long courseId, Integer serial, MemberLimitStrategy memberLimitStrategy, List<CourseMemberLimitStrategy> courseMemberLimitStrategyList)
     {
+        CompositeAndStrategy compositeAndStrategy=new CompositeAndStrategy();
+        compositeAndStrategy.addStrategy(memberLimitStrategy);
+        CompositeOrStrategy compositeOrStrategy=new CompositeOrStrategy();
+        for (CourseMemberLimitStrategy courseMemberLimitStrategy:courseMemberLimitStrategyList)
+        {
+            compositeOrStrategy.addStrategy(courseMemberLimitStrategy);
+        }
+        compositeAndStrategy.addStrategy(compositeOrStrategy);
+        teamStrategyDao.insertTeamStrategy(courseId,serial,compositeAndStrategy);
+    }
 
+    public void createConflictCourseStrategy(List<ConflictCourseStrategy> conflictCourseStrategyList){
+        for (ConflictCourseStrategy conflictCourseStrategy:conflictCourseStrategyList)
+        {
+            teamStrategyDao.insertConflictCourseStrategy(conflictCourseStrategy);
+        }
     }
 }

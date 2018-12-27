@@ -2,6 +2,7 @@ package com.loha.flippedclassroom.entity.teamstrategy;
 
 import com.loha.flippedclassroom.entity.Team;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CompositeOrStrategy implements TeamStrategy{
@@ -18,6 +19,10 @@ public class CompositeOrStrategy implements TeamStrategy{
 
     public void addStrategy(TeamStrategy teamStrategy)
     {
+        if (teamStrategyList==null)
+        {
+            teamStrategyList=new ArrayList<>();
+        }
         teamStrategyList.add(teamStrategy);
     }
 

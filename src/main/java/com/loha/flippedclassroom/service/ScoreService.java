@@ -103,6 +103,10 @@ public class ScoreService {
     public void calculateSeminarScore(Long teamId, Long klassSeminarId) throws Exception {
         SeminarScore seminarScore = scoreDao.getSeminarScore(teamId, klassSeminarId);
         Course course = courseDao.getCourseByKlassSeminarId(klassSeminarId);
+        if (course.getSeminarMainCourseId()!=null)
+        {
+            course=courseDao.getCourseById(course.getSeminarMainCourseId());
+        }
         seminarScore.setTotalScore(new BigDecimal(course.getFinalScore(seminarScore.getPresentationScore(), seminarScore.getQuestionScore(),
                 seminarScore.getReportScore())));
         System.out.println(seminarScore.getTotalScore());
@@ -117,6 +121,10 @@ public class ScoreService {
     public void calculateKlassSeminarScore(Long klassSeminarId) throws Exception {
         List<SeminarScore> seminarScoreList = scoreDao.getSeminarScoreByKlassSeminarId(klassSeminarId);
         Course course = courseDao.getCourseByKlassSeminarId(klassSeminarId);
+        if (course.getSeminarMainCourseId()!=null)
+        {
+            course=courseDao.getCourseById(course.getSeminarMainCourseId());
+        }
         for (SeminarScore seminarScore : seminarScoreList) {
             seminarScore.setTotalScore(new BigDecimal(course.getFinalScore(seminarScore.getPresentationScore(), seminarScore.getQuestionScore(),
                     seminarScore.getReportScore())));
@@ -135,6 +143,10 @@ public class ScoreService {
         Round round = roundDao.getRoundById(klassSeminar.getSeminar().getRoundId());
         Long klassId = klassSeminar.getKlassId();
         Course course = courseDao.getCourseByKlassSeminarId(klassSeminarId);
+        if (course.getSeminarMainCourseId()!=null)
+        {
+            course=courseDao.getCourseById(course.getSeminarMainCourseId());
+        }
         List<KlassSeminar> klassSeminarList = new ArrayList<>();
         Integer enrollNumber = roundDao.getRoundEnrollNumber(klassId, round.getId());
 
@@ -151,9 +163,7 @@ public class ScoreService {
                 }
             }
             if (seminarScoreList.size() != 0) {
-                roundScore.setPresentationScore(BigDecimal.valueOf(getRoundPresentationScore(seminarScoreList, round.getPreScoreMethod(), enrollNumber)));
-                roundScore.setQuestionScore(BigDecimal.valueOf(getRoundQuestionScore(seminarScoreList, round.getPreScoreMethod())));
-                roundScore.setReportScore(BigDecimal.valueOf(getRoundReportScore(seminarScoreList, round.getPreScoreMethod(), enrollNumber)));
+               getRoundProportionScore(roundScore,seminarScoreList,round,enrollNumber);
                 roundScore.setTotalScore(new BigDecimal(course.getFinalScore(roundScore.getPresentationScore(), roundScore.getQuestionScore(),
                         roundScore.getReportScore())));
                 scoreDao.saveRoundScore(roundScore);
@@ -163,84 +173,84 @@ public class ScoreService {
 
     /**
      * @Author: birden
-     * @Description: 轮次展示成绩
+     * @Description: 轮次各部分成绩
      * @Date: 2018/12/25 3:27
      */
-    public double getRoundPresentationScore(List<SeminarScore> seminarScoreList, Integer method, Integer time) {
-        if (method == 0) {
-            double sum = 0;
-            for (SeminarScore seminarScore : seminarScoreList) {
+    public void getRoundProportionScore(RoundScore roundScore, List<SeminarScore> seminarScoreList, Round round, Integer time) {
+        double presentationScore=0;
+        double questionScore=0;
+        double reportScore=0;
+        int presentationValid=0;
+        int reportValid=0;
+        for (SeminarScore seminarScore:seminarScoreList)
+        {
+            if (round.getPreScoreMethod()==0){
                 if (seminarScore.getPresentationScore() != null) {
-                    sum += seminarScore.getPresentationScore().doubleValue();
+                     presentationScore += seminarScore.getPresentationScore().doubleValue();
                 }
             }
-            return sum / time;
-        } else {
-            double max = 0;
-            for (SeminarScore seminarScore : seminarScoreList) {
+            else{
                 if (seminarScore.getPresentationScore() != null) {
-                    if (max < seminarScore.getPresentationScore().doubleValue()) {
-                        max = seminarScore.getPresentationScore().doubleValue();
+                    presentationValid++;
+                    if (presentationScore < seminarScore.getPresentationScore().doubleValue()) {
+                        presentationScore = seminarScore.getPresentationScore().doubleValue();
                     }
                 }
             }
-            return max;
-        }
-    }
-
-    /**
-     * @Author: birden
-     * @Description: 轮次提问成绩
-     * @Date: 2018/12/25 3:28
-     */
-    public double getRoundQuestionScore(List<SeminarScore> seminarScoreList, Integer method) {
-        if (method == 0) {
-            double sum = 0;
-            for (SeminarScore seminarScore : seminarScoreList) {
+            if (round.getQuestionScoreMethod()==0){
                 if (seminarScore.getQuestionScore() != null) {
-                    sum += seminarScore.getQuestionScore().doubleValue();
+                    questionScore += seminarScore.getQuestionScore().doubleValue();
                 }
             }
-            return sum / seminarScoreList.size();
-        } else {
-            double max = 0;
-            for (SeminarScore seminarScore : seminarScoreList) {
+            else{
                 if (seminarScore.getQuestionScore() != null) {
-                    double score = seminarScore.getQuestionScore().doubleValue();
-                    if (max < score) {
-                        max = score;
+                    if (questionScore < seminarScore.getQuestionScore().doubleValue()) {
+                        questionScore = seminarScore.getQuestionScore().doubleValue();
                     }
                 }
             }
-            return max;
-        }
-    }
-
-    /**
-     * @Author: birden
-     * @Description: 轮次报告分数
-     * @Date: 2018/12/25 3:29
-     */
-    public double getRoundReportScore(List<SeminarScore> seminarScoreList, Integer method, Integer time) {
-        if (method == 0) {
-            double sum = 0;
-            for (SeminarScore seminarScore : seminarScoreList) {
+            if (round.getReportScoreMethod()==0){
                 if (seminarScore.getReportScore() != null) {
-                    sum += seminarScore.getReportScore().doubleValue();
+                    reportScore += seminarScore.getReportScore().doubleValue();
                 }
             }
-            return sum / time;
-        } else {
-            double max = 0;
-            for (SeminarScore seminarScore : seminarScoreList) {
+            else{
                 if (seminarScore.getReportScore() != null) {
-                    double score = seminarScore.getReportScore().doubleValue();
-                    if (max < score) {
-                        max = score;
+                    reportValid++;
+                    if (reportScore < seminarScore.getReportScore().doubleValue()) {
+                        reportScore = seminarScore.getReportScore().doubleValue();
                     }
                 }
             }
-            return max;
         }
+        if (round.getPreScoreMethod()==0)
+        {
+            presentationScore/=time;
+        }
+        else{
+            if (presentationValid==0)
+            {
+                presentationScore*=presentationValid;
+            }
+            presentationScore/=time;
+        }
+        if (round.getQuestionScoreMethod()==0)
+        {
+            questionScore/=seminarScoreList.size();
+        }
+        if (round.getReportScoreMethod()==0)
+        {
+            reportScore/=time;
+        }
+        else{
+            if (reportValid==0)
+            {
+                reportScore*=reportValid;
+            }
+            reportScore/=time;
+        }
+        roundScore.setPresentationScore(new BigDecimal(presentationScore));
+        roundScore.setQuestionScore(new BigDecimal(questionScore));
+        roundScore.setReportScore(new BigDecimal(reportScore));
     }
 }

@@ -21,6 +21,14 @@ public class ConflictCourseStrategy implements TeamStrategy{
         this.conflictCourseSubStrategyList = conflictCourseSubStrategyList;
     }
 
+    public void addStrategy(ConflictCourseSubStrategy conflictCourseSubStrategy)
+    {
+        if (conflictCourseSubStrategyList==null)
+        {
+            conflictCourseSubStrategyList=new ArrayList<>();
+        }
+        conflictCourseSubStrategyList.add(conflictCourseSubStrategy);
+    }
     @Override
     public boolean isGroupValid(Team team) {
         int count=0;

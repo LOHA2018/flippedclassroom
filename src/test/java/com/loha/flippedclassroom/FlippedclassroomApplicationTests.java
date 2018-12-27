@@ -24,31 +24,57 @@ public class FlippedclassroomApplicationTests {
     @Autowired
     TeamService teamService;
     @Autowired
-    TeamStrategyDao teamStrategyDao;
+    ScoreService scoreService;
 
     @Test
     public void contextLoads() {
         try {
-            CompositeAndStrategy cas=new CompositeAndStrategy();
-            MemberLimitStrategy mls=new MemberLimitStrategy();
-            mls.setMinMember(3);
-            mls.setMaxMember(5);
-            CompositeOrStrategy cos=new CompositeOrStrategy();
-            CourseMemberLimitStrategy cmls=new CourseMemberLimitStrategy();
-            cmls.setCourseId(20L);
-            cmls.setMinMember(3);
-            cmls.setMaxMember(4);
-            CourseMemberLimitStrategy cmls2=new CourseMemberLimitStrategy();
-            cmls2.setCourseId(21L);
-            cmls2.setMinMember(2);
-            cmls2.setMaxMember(5);
-            cos.setTeamStrategyList(new ArrayList<TeamStrategy>());
-            cos.addStrategy(cmls);
-            cos.addStrategy(cmls2);
-            cas.setTeamStrategyList(new ArrayList<>());
-            cas.addStrategy(mls);
-            cas.addStrategy(cos);
-            teamStrategyDao.insertTeamStrategy(16L,4,cas);
+            scoreService.calculateRoundScore(10L);
+
+
+//            CompositeAndStrategy cas = new CompositeAndStrategy();
+//            MemberLimitStrategy mls = new MemberLimitStrategy();
+//            mls.setMinMember(3);
+//            mls.setMaxMember(5);
+//            CompositeOrStrategy cos = new CompositeOrStrategy();
+//            CourseMemberLimitStrategy cmls = new CourseMemberLimitStrategy();
+//            cmls.setCourseId(20L);
+//            cmls.setMinMember(3);
+//            cmls.setMaxMember(4);
+//            CourseMemberLimitStrategy cmls2 = new CourseMemberLimitStrategy();
+//            cmls2.setCourseId(21L);
+//            cmls2.setMinMember(2);
+//            cmls2.setMaxMember(5);
+//            cos.setTeamStrategyList(new ArrayList<TeamStrategy>());
+//            cos.addStrategy(cmls);
+//            cos.addStrategy(cmls2);
+//            cas.setTeamStrategyList(new ArrayList<>());
+//            cas.addStrategy(mls);
+//            cas.addStrategy(cos);
+//            List<CourseMemberLimitStrategy> a = new ArrayList<>();
+//            a.add(cmls);
+//            a.add(cmls2);
+////            teamService.createFundamentalStrategy(17L,2,mls,a);
+//
+//
+//            List<ConflictCourseStrategy> conflictCourseStrategyList = new ArrayList<>();
+//            conflictCourseStrategyList.add(new ConflictCourseStrategy());
+//            conflictCourseStrategyList.add(new ConflictCourseStrategy());
+//            ConflictCourseSubStrategy m = new ConflictCourseSubStrategy();
+//            ConflictCourseSubStrategy m1 = new ConflictCourseSubStrategy();
+//            m.setCourseId(5L);
+//            m1.setCourseId(6L);
+//            conflictCourseStrategyList.get(0).addStrategy(m);
+//            conflictCourseStrategyList.get(0).addStrategy(m1);
+//            ConflictCourseSubStrategy m2 = new ConflictCourseSubStrategy();
+//            ConflictCourseSubStrategy m3 = new ConflictCourseSubStrategy();
+//            m2.setCourseId(8L);
+//            m3.setCourseId(9L);
+//            conflictCourseStrategyList.get(1).addStrategy(m2);
+//            conflictCourseStrategyList.get(1).addStrategy(m3);
+//
+//            teamService.createConflictCourseStrategy(conflictCourseStrategyList);
+
 
 //            System.out.println(teamService.isTeamValid(3L));
 //            List<ConflictCourseSubStrategy> conflictCourseSubStrategyList=new ArrayList<>();
@@ -59,9 +85,7 @@ public class FlippedclassroomApplicationTests {
 //            ConflictCourseStrategy conflictCourseStrategy=new ConflictCourseStrategy();
 //            conflictCourseStrategy.setConflictCourseSubStrategyList(conflictCourseSubStrategyList);
 //            System.out.println(teamStrategyDao.insertConflictCourseStrategy(conflictCourseStrategy));
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
