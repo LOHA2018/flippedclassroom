@@ -264,6 +264,7 @@ public class TeacherController {
     //正在进行的讨论课，还没渲染页面,报名列表为空应该抛出异常
     @GetMapping(value = "/seminar/info/progressing")
     public String enterSeminar(Long klassId,Long seminarId,Model model) throws Exception{
+        model.addAttribute("course",studentService.getKlassById(klassId).getCourse());
         model.addAttribute("klassSeminarId",studentService.getKlassSeminar(klassId,seminarId).getId());
         model.addAttribute("enrollList",teamService.getEnrollList(klassId, seminarId));
         return "teacher/seminar/underwaySeminar";

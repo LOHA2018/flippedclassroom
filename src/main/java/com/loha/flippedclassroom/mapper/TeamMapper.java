@@ -1,6 +1,7 @@
 package com.loha.flippedclassroom.mapper;
 
 import com.loha.flippedclassroom.entity.Team;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -68,4 +69,11 @@ public interface TeamMapper {
      * @throws Exception
      */
     void insertOneTeam(Team team) throws Exception;
+
+    /**
+     * 修改队伍合法性
+     * @param team Object
+     * @throws Exception
+     */
+    void updateTeamValide(Team team) throws Exception;
 }

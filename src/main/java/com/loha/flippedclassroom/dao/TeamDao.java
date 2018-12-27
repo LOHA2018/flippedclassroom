@@ -202,4 +202,11 @@ public class TeamDao {
          return team.getId();
     }
 
+    /**
+     * 修改小组状态
+     */
+    public void modifyTeamValid(Team team) throws Exception{
+        teamMapper.updateTeamValide(team);
+    }
+
 }

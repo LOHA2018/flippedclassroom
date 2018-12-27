@@ -133,7 +133,8 @@
                 url: "/student/course/team/myteam/"+${studentId},
                 type: "delete",
                 data: {
-                    "teamId": ${team.id}
+                    "teamId": ${team.id},
+                    "courseId":${team.courseId}
                 },
                 success: function (data, status) {
 

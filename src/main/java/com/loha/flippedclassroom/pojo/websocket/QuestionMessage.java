@@ -7,11 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class WebSocketMessage {
-    //1举手，2下一组展示
+public class QuestionMessage {
     private String status;
-    private String teamOrder;
-    private String attendanceId;
-    private Student student;
-    private Question question;
+    private Long questionId;
+    private String name;
+    private String teamSerial;
 }

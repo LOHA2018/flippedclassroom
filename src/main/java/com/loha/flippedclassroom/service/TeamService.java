@@ -123,10 +123,7 @@ public class TeamService {
         //某个班的策略
         Strategy strategy=strategyDao.getCourseStrategy(courseId);
 
-        TeamStrategy teamStrategy=new TeamStrategy();
-        teamStrategy.setStrategy(strategy);
-
-        return teamStrategy.checkValid(team);
+        return strategy.checkValid(team);
     }
 
     /**
@@ -185,8 +182,16 @@ public class TeamService {
     public void deleteStudentInTeam(Map<String,Long> map,Long courseId) throws Exception{
         teamDao.deleteStudentInTeam(map);
 
+        Team team=new Team();
+        team.setId(map.get("teamId"));
+        boolean valid=teamIsValid(map.get("teamId"),courseId);
         boolean isValid=teamIsValid(map.get("teamId"),courseId);
-        log.info("是否合法？"+isValid);
+        if(valid){
+            team.setStatus(1);
+        }else {
+            team.setStatus(0);
+        }
+        teamDao.modifyTeamValid(team);
 
     }
 
@@ -196,8 +201,16 @@ public class TeamService {
     public void addStudentInTeam(Map<String,Long> map,Long courseId) throws Exception{
         teamDao.addStudentInTeam(map);
 
-        boolean isValid=teamIsValid(map.get("teamId"),courseId);
-        log.info("是否合法？"+isValid);
+        Team team=new Team();
+        team.setId(map.get("teamId"));
+        boolean valid=teamIsValid(map.get("teamId"),courseId);
+        if(valid){
+            team.setStatus(1);
+        }else {
+            team.setStatus(0);
+        }
+        teamDao.modifyTeamValid(team);
+
     }
 
     /**
@@ -222,8 +235,8 @@ public class TeamService {
     /**
      * 创建小组
      */
-    public  void createTeam(Team team,String[] memberAccount) throws Exception{
-        //判断下team是否合法，这里先默认不合法了
+    public  void createTeam(Team team,String[] memberAccount,Long courseId) throws Exception{
+        //先默认不合法
         team.setStatus(0);
 
         int number=teamDao.getAllTeamsByKlassId(team.getKlassId()).size();
@@ -240,6 +253,16 @@ public class TeamService {
         }
         map.put("studentId",team.getLeaderId());
         teamDao.addStudentInTeam(map);
+
+        boolean valid=teamIsValid(teamId,courseId);
+        Team temp=new Team();
+        temp.setId(teamId);
+        if(valid){
+            temp.setStatus(1);
+        }else {
+            temp.setStatus(0);
+        }
+        teamDao.modifyTeamValid(team);
 
     }
 

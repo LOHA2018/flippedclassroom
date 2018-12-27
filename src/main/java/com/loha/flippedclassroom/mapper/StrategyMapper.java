@@ -21,7 +21,7 @@ public interface StrategyMapper {
      * @return TeamStrategy 可以获取策略表的名字和策略id
      * @throws Exception
      */
-    TeamStrategy selectTeamStrategyByCourseId(Long courseId) throws Exception;
+    List<TeamStrategyInfo> selectTeamStrategyByCourseId(Long courseId) throws Exception;
 
     /**
      * 根据TeamAndStrategy的id找到对应的策略

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.loha.flippedclassroom.mapper.StrategyMapper">
-    <resultMap id="teamStrategyMap" type="TeamStrategy">
+    <resultMap id="teamStrategyMap" type="TeamStrategyInfo">
         <result column="course_id" property="courseId"/>
         <result column="strategy_serial" property="strategySerial"/>
         <result column="strategy_id" property="strategyId"/>
@@ -74,7 +74,7 @@
     </select>
 
     <select id="selectTeamStrategyByCourseId" parameterType="Long" resultMap="teamStrategyMap">
-        select * from team_strategy where course_id=#{value} where strategy_serial=1
+        select * from team_strategy where course_id=#{value}
     </select>
 
 

@@ -61,8 +61,8 @@
                                     src="/img/avatar-1.jpg" alt="user-img" class="img-circle"> </a>
                             <ul class="dropdown-menu dropdown-menu-lg">
                                 <li><a><h4><i class="md md-home"></i>&nbsp;待办</h4></a></li>
-                                <li><a href="/teacher/index"><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
-                                <li><a href="/teacher/seminar"><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
+                                <li><a><h4><i class="md md-home"></i>&nbsp;个人页</h4></a></li>
+                                <li><a><h4><i class="md md-layers"></i>&nbsp;讨论课</h4></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -133,7 +133,12 @@
 
 
                             <hr/>
-                            <label>小组人数</label>
+
+
+                            <label>组员基本要求</label>
+                            <br/>
+
+                            <label>小组总人数</label>
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6">
                                     <input id="minMember" type="text" class="form-control" placeholder="下限"/>
@@ -143,15 +148,26 @@
                                 </div>
 
                             </div>
-                            <hr/>
-                            <label>组队开始时间</label>
-                            <input id="teamStartTime" type='text' class="form-control"/>
+
+                            <label>组内选修课程人数</label>
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6">
+                                    <input type="text" class="form-control" placeholder="下限"/>
+                                </div>
+                                <div class="col-xs-6 col-sm-6">
+                                    <input type="text" class="form-control" placeholder="上限"/>
+                                </div>
+
+                            </div>
 
 
-                            <label>组队截止时间</label>
-                            <input id="teamEndTime" type="text" class="form-control"/>
+
+                            <button class="btn  btn-primary  waves-effect waves-light pull-right">新增
+                            </button>
 
 
+                            <br/>
+                            <br/>
                             <hr/>
                             <label>冲突课程</label>
                             <div class="form-group">
@@ -161,24 +177,41 @@
                                     </select>
                                 </div>
                             </div>
-                            <button class="btn  btn-primary  waves-effect waves-light pull-right">新增对象
+                            <button class="btn  btn-primary  waves-effect waves-light pull-right">新增
                             </button>
                             <br/>
                             <br/>
-                            <br/>
+                            <hr/>
+
+
+
+
+
+                            <label>组队开始时间</label>
+                            <input id="teamStartTime" type='text' class="form-control"/>
+
+
+                            <label>组队截止时间</label>
+                            <input id="teamEndTime" type="text" class="form-control"/>
+
+
+                            <hr/>
                             <button class="btn btn-lg btn-default btn-block waves-effect waves-light "
                                     onclick="publishCourse()">发布
                             </button>
 
                         </div>
+
+
                     </div>
                 </div>
-            </div> <!-- col -->
+            </div>
+        </div> <!-- col -->
 
 
-        </div> <!-- End row -->
+    </div> <!-- End row -->
 
-    </div>
+</div>
 
 </div>
 <!-- END wrapper -->
@@ -201,45 +234,43 @@
         var endDate = document.getElementById("teamEndTime").value;
         var courseName = document.getElementById("courseName").value;
         var introduction = document.getElementById("introduction").value;
-        var maxNum=document.getElementById("maxMember").value;
-        var minNum=document.getElementById("minMember").value;
+        var maxNum = document.getElementById("maxMember").value;
+        var minNum = document.getElementById("minMember").value;
         var presentationPercentage = document.getElementById("presentationPercentage").value;
         var questionPercentage = document.getElementById("questionPercentage").value;
         var reportPercentage = document.getElementById("reportPercentage").value;
-        var sum=parseInt(presentationPercentage)+parseInt(questionPercentage)+parseInt(reportPercentage);
-        var numReg=/^(0|[1-9]\d*)\b/;
+        var sum = parseInt(presentationPercentage) + parseInt(questionPercentage) + parseInt(reportPercentage);
+        var numReg = /^(0|[1-9]\d*)\b/;
 
-        if (!startDate||!endDate||!courseName || !presentationPercentage||
-            !questionPercentage||!reportPercentage) {
+        if (!startDate || !endDate || !courseName || !presentationPercentage ||
+                !questionPercentage || !reportPercentage) {
             alert("字段不能为空!");
-        }else if (sum!=100){
+        } else if (sum != 100) {
             alert("成绩计算和不为100!");
-        }else if(!numReg.test(maxNum)||!numReg.test(minNum)||maxNum<minNum)
-        {
+        } else if (!numReg.test(maxNum) || !numReg.test(minNum) || maxNum < minNum) {
             alert("人数限制不正确!")
-        }else
-        {
+        } else {
             $.ajax({
-                url:"/teacher/course/create/save",
-                method:"post",
-                data:{
-                    "startDate":startDate,
-                    "endDate":endDate,
-                    "courseName":courseName,
-                    "introduction":introduction,
+                url: "/teacher/course/create/save",
+                method: "post",
+                data: {
+                    "startDate": startDate,
+                    "endDate": endDate,
+                    "courseName": courseName,
+                    "introduction": introduction,
                     //"maxNum":maxNum,
                     //"minNum":minNum,
-                    "presentationPercentage":presentationPercentage,
-                    "questionPercentage":questionPercentage,
-                    "reportPercentage":reportPercentage,
+                    "presentationPercentage": presentationPercentage,
+                    "questionPercentage": questionPercentage,
+                    "reportPercentage": reportPercentage,
 
                     //"sum": sum
                 },
-                success:function () {
+                success: function () {
                     alert("创建课程成功!");
-                    window.location.href="/teacher/course";
+                    window.location.href = "/teacher/course";
                 },
-                error:function () {
+                error: function () {
                     alert("创建课程失败!");
 
                 }

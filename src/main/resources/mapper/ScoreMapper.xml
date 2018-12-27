@@ -5,7 +5,7 @@
         <id column="klass_seminar_id" property="klassSeminarId"/>
         <id column="team_id" property="teamId"/>
         <result column="total_score" property="totalScore"/>
-        <result column="presentaton_score" property="presentationScore"/>
+        <result column="presentation_score" property="presentationScore"/>
         <result column="question_score" property="questionScore"/>
         <result column="report_score" property="reportScore"/>
         <association property="team" select="com.loha.flippedclassroom.mapper.TeamMapper.selectTeamById" column="team_id"></association>
@@ -32,6 +32,27 @@
         where klass_id=#{klassId} and seminar_id=#{seminarId}
         and id=klass_seminar_id and team_id=#{teamId}
     </select>
+
+    <select id="selectSeminarScoreByKey" parameterType="SeminarScore" resultMap="seminarScoreMap">
+        select * from seminar_score where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}
+    </select>
+
+    <update id="updateTeamPreScore" parameterType="SeminarScore">
+        update seminar_score
+        set presentation_score=#{presentationScore}
+        where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}
+    </update>
+
+    <insert id="insertSeminarScore" parameterType="SeminarScore">
+        insert into seminar_score(klass_seminar_id,team_id)
+        values (#{klassSeminarId},#{teamId})
+    </insert>
+
+    <update id="updateTeamQuestionScore" parameterType="SeminarScore">
+        update seminar_score
+        set question_score=#{questionScore}
+        where klass_seminar_id=#{klassSeminarId} and team_id=#{teamId}
+    </update>
 
 
 </mapper>

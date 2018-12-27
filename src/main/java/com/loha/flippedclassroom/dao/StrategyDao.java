@@ -94,15 +94,22 @@ public class StrategyDao {
      * 获取某个课程的策略对象
      */
     public Strategy getCourseStrategy(Long courseId) throws Exception {
-        TeamStrategy teamStrategy = strategyMapper.selectTeamStrategyByCourseId(courseId);
-        String strategyTableName = teamStrategy.getStrategyTableName();
-        Long strategyId = teamStrategy.getStrategyId();
+        List<TeamStrategyInfo> teamStrategyInfos=strategyMapper.selectTeamStrategyByCourseId(courseId);
 
-        Strategy curStrategy = findStrategyByTableName(strategyTableName, strategyId);
-        if (curStrategy instanceof TeamAndStrategy || curStrategy instanceof TeamOrStrategy) {
-            setSubStrategy(curStrategy);
+        TeamStrategy teamStrategy=new TeamStrategy();
+        List<Strategy> strategies=new LinkedList<>();
+
+        for(TeamStrategyInfo teamStrategyInfo:teamStrategyInfos){
+            String strategyTableName = teamStrategyInfo.getStrategyTableName();
+            Long strategyId = teamStrategyInfo.getStrategyId();
+            Strategy curStrategy = findStrategyByTableName(strategyTableName, strategyId);
+            if (curStrategy instanceof TeamAndStrategy || curStrategy instanceof TeamOrStrategy) {
+                setSubStrategy(curStrategy);
+            }
+            strategies.add(curStrategy);
         }
-        return curStrategy;
+        teamStrategy.setStrategies(strategies);
+        return teamStrategy;
     }
 
 }

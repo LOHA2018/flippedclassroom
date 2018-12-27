@@ -87,11 +87,11 @@
                             <h3 class="panel-title">
 
                                 <div class="row">
-                                    <div class="col-xs-6 col-sm-6">展示小组：</div>
-                                    <div id="curPreTeam" class="col-xs-6 col-sm-6"></div>
+                                    <div class="col-xs-12 col-sm-12">讨论课:${seminar.seminarName}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xs-12 col-sm-12">${seminar.seminarName}</div>
+                                    <div class="col-xs-6 col-sm-6">展示小组：</div>
+                                    <div id="curPreTeam" class="col-xs-6 col-sm-6"></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-6 col-sm-6">提问同学数：</div>
@@ -121,7 +121,7 @@
                                     <#if attendance.id??>
                                     <td><p class="pull-right">${attendance.team.klass.klassSerial}—${attendance.team.teamSerial}</p></td>
                                     <#else >
-                                    <td><p class="pull-right">11111</p></td>
+                                    <td><p class="pull-right">—</p></td>
                                     </#if>
                                 </tr>
                                     <#assign x++>
@@ -162,17 +162,20 @@
 <script src="https://cdn.bootcss.com/sockjs-client/1.3.0/sockjs.min.js"></script>
 <script src="https://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
 <script>
+    var attendanceId;
     var x=1;
     <#list enrollList as list>
     <#if list.id??>
         <#if list.isPresent==1>
             x=${list.teamOrder}
+            attendanceId=${list.id}
+            <#break>
         </#if>
     </#if>
     </#list>
     var curQueNum = 0; //当前提问数量
     document.getElementById("curQueNum").innerText = curQueNum;
-    document.getElementById("curPreTeam").innerText = x;
+    document.getElementById("curPreTeam").innerText = "第"+x+"组";
     var curPre = "attendance" + x;
     document.getElementById(curPre).style = "color:red"; //设置当前小组的颜色为红
     //var canQuestion = 1;  //该名学生能够提问
@@ -189,22 +192,33 @@
                     //2.下一组展示，红字颜色改变，提示提问
                     //3.老师按提问，弹出提示框提示某位学生提问
                     //4.老师按结束讨论，提示学生讨论课结束
-                    var tmp=JSON.parse(response.body).message;
-                    console.log(tmp);
+                    var tmp=JSON.parse(response.body).status;
+
+                    var temp=JSON.parse(response.body);
+                    if(temp.teamOrder!=null)
+                    {
+                        var teamOrder=temp.teamOrder;
+                    }
+                    if(temp.attendanceId!=null)
+                    {
+                        attendanceId=temp.attendanceId;
+                    }
+                        var name=temp.name;
+                        var teamSerial=temp.teamSerial;
+                        console.log(name);
+
                     if (tmp == 1) {
                         curQueNum++;
                         document.getElementById("curQueNum").innerText = curQueNum;
                     } else if (tmp == 2) {
                         document.getElementById(curPre).style = "color:black";
-                        x++;
-                        curPre = "attendance" + x;
-                        document.getElementById("curPreTeam").innerText="第"+x+"组";
+                        curPre = "attendance" + teamOrder;
+                        document.getElementById("curPreTeam").innerText="第"+teamOrder+"组";
                         document.getElementById(curPre).style = "color:red";
                         curQueNum = 0;
                         document.getElementById("curQueNum").innerText = curQueNum;
-                        canQuestion = 1;
                     } else if (tmp== 3) {
-                        var questionStu = "请" + response.classSerial + "-" + response.teamSerial + response.studentName + "同学提问";
+                        var questionStu = "请"+ teamSerial +"小组"+ name + "同学提问";
                         alert(questionStu);
                     } else {
                         alert("该门讨论课结束!");
@@ -223,28 +237,15 @@
 
 
     function Question(teamId, studentId) {
-        if (canQuestion == 1) {
-            $.ajax({
-                url: "/student/course/seminar/question",
-                method: "post",
-                data: {
-                    "teamId": teamId,
-                    "studentId": studentId,
-                    <#--"klassSeminarId":${enrollList[0].klassSeminarId}-->
-                },
-                success: function (data, status) {
-                    alert("提问成功!");
-                    canQuestion = 0;
-                },
-                error: function () {
-                    alert("提问失败!");
-                }
+            var obj={
+              "klassSeminarId":${klassSeminarId},
+              "attendanceId":attendanceId,
+              "teamId":${myTeamId},
+              "studentId":${studentId}
+            };
 
-            });
-        } else {
-            alert("本次展示你已经提问!");
-            return false;
-        }
+        stomp.send("/app/student/question", {},
+                JSON.stringify(obj));
     }
 
 </script>

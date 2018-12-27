@@ -122,8 +122,14 @@
 
                                 <tr>
                                     <td>
-                                        <button class="btn btn-lg btn-default btn-block waves-effect waves-light ">进入讨论课
-                                        </button>
+                                        <form action="/student/seminar/progressing" method="post">
+                                            <input type="hidden" name="seminarId" value=${seminar.id}>
+                                            <input type="hidden" name="klassId" value=${klass.id}>
+                                            <input type="hidden" name="courseId" value=${klass.courseId}>
+                                            <button class="btn btn-lg btn-default btn-block waves-effect waves-light ">
+                                                进入讨论课
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
 

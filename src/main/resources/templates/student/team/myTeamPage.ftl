@@ -96,6 +96,7 @@
                                             <#if myTeam??>
                                             <#if myTeam.id==team.id>(我的小组)</#if>
                                             </#if>
+                                            <#if team.status==0>inValid</#if>
                                         </a>
                                     </h4>
                                 </div>

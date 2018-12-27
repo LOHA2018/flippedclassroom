@@ -86,4 +86,24 @@ public class ScoreDao {
         map.put("teamId",teamId);
         return scoreMapper.selectSeminarScore(map);
     }
+
+    /**
+     *修改小组的展示成绩
+     */
+    public void modifyTeamPreScore(SeminarScore seminarScore) throws Exception{
+        if(scoreMapper.selectSeminarScoreByKey(seminarScore)==null){
+            scoreMapper.insertSeminarScore(seminarScore);
+        }
+        scoreMapper.updateTeamPreScore(seminarScore);
+    }
+
+    /**
+     *修改小组提问成绩
+     */
+    public void modifyTeamQuestionScore(SeminarScore seminarScore) throws Exception{
+        if(scoreMapper.selectSeminarScoreByKey(seminarScore)==null){
+            scoreMapper.insertSeminarScore(seminarScore);
+        }
+        scoreMapper.updateTeamQuestionScore(seminarScore);
+    }
 }

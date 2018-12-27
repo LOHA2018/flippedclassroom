@@ -199,4 +199,18 @@ public class TeacherService {
         teamDao.updateIsPresentStatus(attendance);
     }
 
+    /**
+     *修改小组展示成绩
+     */
+    public void modifyTeamPreScore(SeminarScore seminarScore) throws Exception{
+        scoreDao.modifyTeamPreScore(seminarScore);
+    }
+
+    /**
+     *修改小组提问成绩
+     */
+    public void modifyTeamQuestionScore(SeminarScore seminarScore) throws Exception{
+        scoreDao.modifyTeamQuestionScore(seminarScore);
+    }
+
 }

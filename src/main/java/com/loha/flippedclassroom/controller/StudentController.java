@@ -335,7 +335,7 @@ public class StudentController {
         team.setCourseId(courseId);
         team.setLeaderId(studentId);
         team.setTeamName(teamName);
-        teamService.createTeam(team,memberList);
+        teamService.createTeam(team,memberList,courseId);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
